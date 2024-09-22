@@ -12,11 +12,13 @@ module.exports = {
         'void': '#031314',
         'light-blue': '#6DB6FE',
         'vivid-blue': '#3299FF',
-        'ocean-blue': '#0068FF'
+        'ocean-blue': '#0068FF',
+        'main-layout': '#093030'
       },
 
       fontFamily: {
-        'poppins': ['Poppins']
+        'poppins': ['Poppins'],
+        'league-spartan': ['League Spartan']
       }
     },
   },

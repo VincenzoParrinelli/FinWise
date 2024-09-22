@@ -1,0 +1,13 @@
+<div class="h-screen flex justify-between flex-col text-center">
+  <div class="flex justify-center text-center items-center min-h-64">
+    <p class="text-light-green text-3xl font-semibold font-league-spartan w-60">
+      <ng-content select="top-content" />
+    </p>
+  </div>
+
+  <div
+    class="flex justify-center items-center w-screen h-full bg-main-layout u-border-radius-top-xl overflow-auto"
+  >
+    <ng-content select="bottom-content" />
+  </div>
+</div>
