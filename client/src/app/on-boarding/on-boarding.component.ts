@@ -1,4 +1,6 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CircleComponent } from '../svg/circle/circle.component';
 
@@ -12,4 +14,13 @@ import { CircleComponent } from '../svg/circle/circle.component';
 export class OnBoardingComponent {
   currentStep = signal(1);
   steps = input([1, 2]);
+  router = inject(Router);
+
+  handleStep() {
+    this.currentStep.update((prevStep) => (prevStep += 1));
+
+    if (this.currentStep() === 3) {
+      this.router.navigate(['/login']);
+    }
+  }
 }

@@ -1,6 +1,12 @@
 <div class="h-screen flex justify-between flex-col text-center">
-  <div class="flex justify-center text-center items-center min-h-64">
-    <p class="text-light-green text-3xl font-semibold font-league-spartan w-60">
+  <div
+    class="flex justify-center text-center items-center"
+    [class.min-h-40]="screenMode() === 'full'"
+    [class.min-h-64]="screenMode() !== 'full'"
+  >
+    <p
+      class="text-light-green text-3xl font-semibold font-league-spartan w-60 mt-6"
+    >
       <ng-content select="top-content" />
     </p>
   </div>

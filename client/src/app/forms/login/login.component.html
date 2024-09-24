@@ -1,0 +1,58 @@
+<app-main-layout [screenMode]="'full'">
+  <div ngProjectAs="top-content">
+    <p class="text-light-green text-3xl font-semibold font-league-spartan">
+      Welcome
+    </p>
+  </div>
+  <div ngProjectAs="bottom-content">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-72">
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="email"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+        >
+          Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="example@example.com"
+        />
+      </div>
+      <div class="flex flex-col text-left">
+        <label
+          for="password"
+          class="text-light-green text-sm font-league-spartan text-left translate-x-3 mb-1"
+        >
+          Password
+        </label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="●●●●●●●●"
+        />
+      </div>
+
+      <div class="flex flex-col justify-evenly items-center">
+        <button
+          type="submit"
+          class="bg-caribbean-green text-cyprus rounded-full py-1.5 text-lg font-bold mt-11 min-w-44"
+        >
+          Log in
+        </button>
+
+        <p>Forgot password?</p>
+
+        <button
+          class="bg-light-green text-cyprus rounded-full py-1.5 text-lg font-bold min-w-44"
+        >
+          Sign up
+        </button>
+      </div>
+    </form>
+  </div>
+</app-main-layout>
