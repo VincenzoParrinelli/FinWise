@@ -1,29 +1,51 @@
-<app-main>
+<app-main-layout>
   <div ngProjectAs="top-content">
     <p class="text-light-green text-3xl font-semibold font-league-spartan">
-      Welcome to Expense Manager
+      {{
+        currentStep() === 1
+          ? " Welcome to Expense Manager"
+          : "Are you ready to take control of your finances?"
+      }}
     </p>
   </div>
 
   <div ngProjectAs="bottom-content">
     <div class="flex justify-center items-center">
+      @if (currentStep() === 1) {
       <app-circle />
       <img
         src="assets/images/handMoney.png"
         alt="Hand with Money"
         class="w-52 h-52 flex justify-center absolute -translate-y-2"
       />
+      }@else {
+      <app-circle />
+      <img
+        src="assets/images/bankCardMobilePhone.png"
+        alt="Bank Card Mobile Phone"
+        class="w-52 h-52 flex justify-center absolute -translate-x-2 -translate-y-6"
+      />
+      }
     </div>
 
     <p
       class="text-light-green text-2xl font-semibold font-league-spartan mt-10"
+      (click)="this.currentStep.set(2)"
     >
       Next
     </p>
 
     <div class="flex justify-center gap-3 mt-3">
-      <input type="radio" value="1" name="1" />
-      <input type="radio" value="2" name="1" />
+      <div
+        class="w-2.5 h-2.5 bg-transparent rounded-full border-2"
+        [class.bg-white]="currentStep() === 1"
+        (click)="currentStep.set(1)"
+      ></div>
+      <div
+        class="w-2.5 h-2.5 bg-transparent rounded-full border-2"
+        [class.bg-white]="currentStep() === 2"
+        (click)="currentStep.set(2)"
+      ></div>
     </div>
   </div>
-</app-main>
+</app-main-layout>
