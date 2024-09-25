@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { VectorComponent } from '../svg/vector/vector.component';
+
+import { RouterService } from '../router.service';
 
 @Component({
   selector: 'app-launch',
@@ -8,4 +10,6 @@ import { VectorComponent } from '../svg/vector/vector.component';
   templateUrl: './launch.component.html',
   styleUrl: './launch.component.scss',
 })
-export class LaunchComponent {}
+export class LaunchComponent {
+  routerService = inject(RouterService);
+}

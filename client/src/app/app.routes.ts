@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LaunchComponent } from './launch/launch.component';
 import { OnBoardingComponent } from './on-boarding/on-boarding.component';
 import { LoginComponent } from './forms/login/login.component';
+import { SignupComponent } from './forms/signup/signup.component';
 
 export const routes: Routes = [
   {
@@ -20,5 +21,9 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
   },
 ];

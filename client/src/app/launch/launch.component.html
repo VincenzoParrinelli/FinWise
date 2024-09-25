@@ -8,12 +8,16 @@
     <button
       class="bg-caribbean-green text-cyprus rounded-full py-2 text-xl font-bold"
     >
-      <p class="-translate-y-px">Log In</p>
+      <p class="-translate-y-px" (click)="routerService.navigateToLogin()">
+        Log In
+      </p>
     </button>
     <button
       class="bg-light-green text-cyprus rounded-full py-2 text-xl font-bold"
     >
-      <p class="-translate-y-px">Sign Up</p>
+      <p class="-translate-y-px" (click)="routerService.navigateToSignup()">
+        Sign Up
+      </p>
     </button>
   </div>
 

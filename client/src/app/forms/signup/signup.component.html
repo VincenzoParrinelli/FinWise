@@ -1,0 +1,153 @@
+<app-main-layout [screenMode]="'full'">
+  <div ngProjectAs="top-content">
+    <p class="text-light-green text-3xl font-semibold font-league-spartan">
+      Create Account
+    </p>
+  </div>
+  <div
+    ngProjectAs="bottom-content"
+    class="flex flex-col justify-center items-center"
+  >
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-72 mt-24">
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="fullname"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+        >
+          Full Name
+        </label>
+        <input
+          id="fullname"
+          type="fullname"
+          formControlName="fullName"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="John Smith"
+        />
+      </div>
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="email"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+        >
+          Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="example@example.com"
+        />
+      </div>
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="phone"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+        >
+          Mobile Number
+        </label>
+        <input
+          id="phone"
+          type="phone"
+          formControlName="phone"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="+123 456 789"
+        />
+      </div>
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="dateOfBirth"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+        >
+          Date Of Birth
+        </label>
+        <input
+          id="dateOfBirth"
+          type="dateOfBirth"
+          formControlName="dateOfBirth"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="DD / MM / YYY"
+        />
+      </div>
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="password"
+          class="text-light-green text-sm font-league-spartan text-left translate-x-3 mb-1"
+        >
+          Password
+        </label>
+        <input
+          id="password"
+          [type]="isPasswordVisible ? 'text' : 'password'"
+          formControlName="password"
+          class="rounded-full bg-light-green outline-none p-1 px-6 pr-14 text-main-layout"
+          placeholder="● ● ● ● ● ● ● ●"
+        />
+
+        @if (isPasswordVisible) {
+        <app-eye-open
+          class="self-end -translate-x-7 -translate-y-7 w-1 h-1"
+          (click)="isPasswordVisible = !isPasswordVisible"
+        />
+        } @else {
+        <app-eye-closed
+          class="self-end -translate-x-7 -translate-y-5 w-1 h-1"
+          (click)="isPasswordVisible = !isPasswordVisible"
+        />
+        }
+      </div>
+
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="confirmPassword"
+          class="text-light-green text-sm font-league-spartan text-left translate-x-3 mb-1"
+        >
+          Confirm Password
+        </label>
+        <input
+          id="confirmPassword"
+          [type]="isConfirmPasswordVisible ? 'text' : 'password'"
+          formControlName="confirmPassword"
+          class="rounded-full bg-light-green outline-none p-1 px-6 pr-14 text-main-layout"
+          placeholder="● ● ● ● ● ● ● ●"
+        />
+
+        @if (isConfirmPasswordVisible) {
+        <app-eye-open
+          class="self-end -translate-x-7 -translate-y-7 w-1 h-1"
+          (click)="isConfirmPasswordVisible = !isConfirmPasswordVisible"
+        />
+        } @else {
+        <app-eye-closed
+          class="self-end -translate-x-7 -translate-y-5 w-1 h-1"
+          (click)="isConfirmPasswordVisible = !isConfirmPasswordVisible"
+        />
+        }
+      </div>
+    </form>
+
+    <p class="text-xs font-thin text-light-green w-44 mt-1">
+      By continuing, you agree to<br />
+      <span class="font-semibold">Terms of Use</span> and
+      <span class="font-semibold">Privacy Policy.</span>
+    </p>
+
+    <button
+      type="submit"
+      class="bg-caribbean-green text-cyprus rounded-full py-1.5 text-lg font-bold mt-3 min-w-44"
+    >
+      Sign Up
+    </button>
+
+    <p class="text-xs m-6 font-thin text-light-green opacity-80">
+      Already have an account?
+
+      <span
+        class="text-caribbean-green"
+        (click)="routerService.navigateToLogin()"
+      >
+        Log In
+      </span>
+    </p>
+  </div>
+</app-main-layout>

@@ -3,6 +3,12 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 
+import { RouterService } from './router.service';
+
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    RouterService,
+  ],
 };

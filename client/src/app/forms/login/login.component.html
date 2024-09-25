@@ -41,7 +41,6 @@
           class="self-end -translate-x-3 -translate-y-7"
           (click)="isPasswordVisible = !isPasswordVisible"
         />
-
         } @else {
         <app-eye-closed
           class="self-end -translate-x-4 -translate-y-5"
@@ -63,6 +62,7 @@
 
       <button
         class="bg-light-green text-cyprus rounded-full py-1.5 text-lg font-bold min-w-44"
+        (click)="routerService.navigateToSignup()"
       >
         Sign Up
       </button>
@@ -84,7 +84,12 @@
     <p class="text-xs mt-3 font-thin text-light-green opacity-80">
       Don’t have an account?
 
-      <span class="text-caribbean-green">Sign Up</span>
+      <span
+        class="text-caribbean-green"
+        (click)="routerService.navigateToSignup()"
+      >
+        Sign Up
+      </span>
     </p>
   </div>
 </app-main-layout>
