@@ -5,7 +5,7 @@
     </p>
   </div>
   <div ngProjectAs="bottom-content">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-72">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-72 h-28">
       <div class="flex flex-col text-left mb-4">
         <label
           for="email"
@@ -30,29 +30,61 @@
         </label>
         <input
           id="password"
-          type="password"
+          [type]="isPasswordVisible ? 'text' : 'password'"
           formControlName="password"
-          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
-          placeholder="●●●●●●●●"
+          class="rounded-full bg-light-green outline-none p-1 px-6 pr-14 text-main-layout"
+          placeholder="● ● ● ● ● ● ● ●"
         />
-      </div>
 
-      <div class="flex flex-col justify-evenly items-center">
-        <button
-          type="submit"
-          class="bg-caribbean-green text-cyprus rounded-full py-1.5 text-lg font-bold mt-11 min-w-44"
-        >
-          Log in
-        </button>
+        @if (isPasswordVisible) {
+        <app-eye-open
+          class="self-end -translate-x-3 -translate-y-7"
+          (click)="isPasswordVisible = !isPasswordVisible"
+        />
 
-        <p>Forgot password?</p>
-
-        <button
-          class="bg-light-green text-cyprus rounded-full py-1.5 text-lg font-bold min-w-44"
-        >
-          Sign up
-        </button>
+        } @else {
+        <app-eye-closed
+          class="self-end -translate-x-4 -translate-y-5"
+          (click)="isPasswordVisible = !isPasswordVisible"
+        />
+        }
       </div>
     </form>
+
+    <div class="flex flex-col justify-evenly items-center mt-6 mb-5">
+      <button
+        type="submit"
+        class="bg-caribbean-green text-cyprus rounded-full py-1.5 text-lg font-bold mt-11 min-w-44"
+      >
+        Log In
+      </button>
+
+      <p class="m-2.5 text-xs font-league-spartan">Forgot Password?</p>
+
+      <button
+        class="bg-light-green text-cyprus rounded-full py-1.5 text-lg font-bold min-w-44"
+      >
+        Sign Up
+      </button>
+    </div>
+
+    <p class="text-sm font-semibold">
+      Use <span class="text-caribbean-green">Fingerprint</span> To Access
+    </p>
+
+    <p class="text-xs mt-6 font-thin text-light-green opacity-80">
+      or sign up with
+    </p>
+
+    <div class="flex justify-center gap-3 mt-4">
+      <app-facebook />
+      <app-google />
+    </div>
+
+    <p class="text-xs mt-3 font-thin text-light-green opacity-80">
+      Don’t have an account?
+
+      <span class="text-caribbean-green">Sign Up</span>
+    </p>
   </div>
 </app-main-layout>

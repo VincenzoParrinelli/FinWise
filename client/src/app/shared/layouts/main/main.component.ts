@@ -9,8 +9,4 @@ import { Component, input } from '@angular/core';
 })
 export class MainLayoutComponent {
   screenMode = input<'full' | 'half'>();
-
-  ngOnInit() {
-    console.log(this.screenMode());
-  }
 }
