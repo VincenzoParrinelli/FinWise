@@ -6,7 +6,9 @@ dotenv.config();
 const connectDb = async (): Promise<void> => {
   try {
     await mongoose.connect(process.env.MONGO_URI || "");
-  } catch {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export default connectDb;
