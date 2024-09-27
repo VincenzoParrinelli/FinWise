@@ -43,7 +43,11 @@ export class SignupComponent {
       validators: [Validators.required, this.dateValidator()],
     }),
     password: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(8)],
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        this.passwordPatternValidator(),
+      ],
     }),
     confirmPassword: new FormControl('', {
       validators: [Validators.required, this.passwordMatchValidator()],
@@ -57,6 +61,23 @@ export class SignupComponent {
       const dateOfBirth = new Date(control.value);
 
       return isNaN(dateOfBirth.getTime()) ? { invalidDate: true } : null;
+    };
+  }
+
+  private passwordPatternValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const password = control.value;
+
+      if (!this.signupForm || !password) return null;
+
+      const hasUpperCase = /[A-Z]/.test(password);
+      const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+      if (!hasUpperCase || !hasSpecialCharacter) {
+        return { passwordPatternMismatch: true };
+      }
+
+      return null;
     };
   }
 
@@ -109,6 +130,13 @@ export class SignupComponent {
   get isPasswordRequired() {
     return (
       this.signupForm.controls.password.hasError('required') &&
+      this.formIsSubmitted()
+    );
+  }
+
+  get isPasswordPatternMismatched() {
+    return (
+      this.signupForm.controls.password.hasError('passwordPatternMismatch') &&
       this.formIsSubmitted()
     );
   }

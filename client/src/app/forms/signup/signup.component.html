@@ -97,12 +97,19 @@
         <label
           for="password"
           class="text-light-green text-sm font-league-spartan text-left translate-x-3 mb-1"
-          [class.text-red-400]="isPasswordRequired"
+          [class.text-red-400]="
+            isPasswordRequired || isPasswordPatternMismatched
+          "
         >
           <span>Password</span>
 
           @if (isPasswordRequired) {
           <span> - field required </span>
+          } @if (isPasswordPatternMismatched) {
+          <span>
+            - password must contain a special character and one upper case
+            character
+          </span>
           }
         </label>
         <input
