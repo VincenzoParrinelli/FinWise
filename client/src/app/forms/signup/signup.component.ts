@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { isEmail, isDate } from 'validator';
 
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
 import { EyeOpenComponent } from '../../svg/eye-open/eye-open.component';
@@ -60,7 +61,9 @@ export class SignupComponent {
 
       const dateOfBirth = new Date(control.value);
 
-      return isNaN(dateOfBirth.getTime()) ? { invalidDate: true } : null;
+      return !isDate(control.value, { format: 'DD/MM/YYYY' })
+        ? { invalidDate: true }
+        : null;
     };
   }
 
