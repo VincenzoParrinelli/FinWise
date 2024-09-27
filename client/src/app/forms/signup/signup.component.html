@@ -13,8 +13,17 @@
         <label
           for="fullname"
           class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="
+            isFullNameRequired || isFullNameMaxLengthExceeded
+          "
         >
-          Full Name
+          <span>Full Name</span>
+
+          @if (isFullNameRequired) {
+          <span> - field required </span>
+          } @if (isFullNameMaxLengthExceeded) {
+          <span> - max length exceeded </span>
+          }
         </label>
         <input
           id="fullname"
@@ -28,8 +37,13 @@
         <label
           for="email"
           class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="isEmailRequired"
         >
-          Email
+          <span>Email</span>
+
+          @if (isEmailRequired) {
+          <span> - field required </span>
+          }
         </label>
         <input
           id="email"
@@ -43,12 +57,17 @@
         <label
           for="phone"
           class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="isPhoneRequired"
         >
-          Mobile Number
+          <span>Mobile Number</span>
+
+          @if (isPhoneRequired) {
+          <span> - field required </span>
+          }
         </label>
         <input
           id="phone"
-          type="phone"
+          type="tel"
           formControlName="phone"
           class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
           placeholder="+123 456 789"
@@ -58,12 +77,17 @@
         <label
           for="dateOfBirth"
           class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="isDateOfBirthRequired"
         >
-          Date Of Birth
+          <span>Date Of Birth</span>
+
+          @if (isDateOfBirthRequired) {
+          <span> - field required </span>
+          }
         </label>
         <input
           id="dateOfBirth"
-          type="dateOfBirth"
+          type="text"
           formControlName="dateOfBirth"
           class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
           placeholder="DD / MM / YYY"
@@ -73,8 +97,13 @@
         <label
           for="password"
           class="text-light-green text-sm font-league-spartan text-left translate-x-3 mb-1"
+          [class.text-red-400]="isPasswordRequired"
         >
-          Password
+          <span>Password</span>
+
+          @if (isPasswordRequired) {
+          <span> - field required </span>
+          }
         </label>
         <input
           id="password"
@@ -101,8 +130,17 @@
         <label
           for="confirmPassword"
           class="text-light-green text-sm font-league-spartan text-left translate-x-3 mb-1"
+          [class.text-red-400]="
+            isConfirmPasswordRequired || isConfirmPasswordMismatched
+          "
         >
-          Confirm Password
+          <span>Confirm Password</span>
+
+          @if (isConfirmPasswordRequired) {
+          <span> - field required </span>
+          } @if (isConfirmPasswordMismatched) {
+          <span> - password mismatch </span>
+          }
         </label>
         <input
           id="confirmPassword"
@@ -124,20 +162,20 @@
         />
         }
       </div>
+
+      <p class="text-xs font-thin text-light-green w-full mt-1">
+        By continuing, you agree to<br />
+        <span class="font-semibold">Terms of Use</span> and
+        <span class="font-semibold">Privacy Policy.</span>
+      </p>
+
+      <button
+        type="submit"
+        class="bg-caribbean-green text-cyprus rounded-full py-1.5 text-lg font-bold mt-3 min-w-44"
+      >
+        Sign Up
+      </button>
     </form>
-
-    <p class="text-xs font-thin text-light-green w-44 mt-1">
-      By continuing, you agree to<br />
-      <span class="font-semibold">Terms of Use</span> and
-      <span class="font-semibold">Privacy Policy.</span>
-    </p>
-
-    <button
-      type="submit"
-      class="bg-caribbean-green text-cyprus rounded-full py-1.5 text-lg font-bold mt-3 min-w-44"
-    >
-      Sign Up
-    </button>
 
     <p class="text-xs m-6 font-thin text-light-green opacity-80">
       Already have an account?
