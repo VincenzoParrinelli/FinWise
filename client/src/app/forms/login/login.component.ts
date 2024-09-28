@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
+import { CustomBtnComponent } from '../../shared/custom-btn/custom-btn.component';
+
 import { FacebookComponent } from '../../svg/facebook/facebook.component';
 import { GoogleComponent } from '../../svg/google/google.component';
 import { EyeOpenComponent } from '../../svg/eye-open/eye-open.component';
@@ -24,6 +26,7 @@ import { RouterService } from '../../router.service';
     GoogleComponent,
     EyeOpenComponent,
     EyeClosedComponent,
+    CustomBtnComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

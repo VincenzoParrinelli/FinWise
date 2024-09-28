@@ -12,6 +12,8 @@ import { HttpClient } from '@angular/common/http';
 import { isDate, isStrongPassword } from 'validator';
 
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
+import { CustomBtnComponent } from '../../shared/custom-btn/custom-btn.component';
+
 import { EyeOpenComponent } from '../../svg/eye-open/eye-open.component';
 import { EyeClosedComponent } from '../../svg/eye-closed/eye-closed.component';
 
@@ -25,6 +27,7 @@ import { RouterService } from '../../router.service';
     ReactiveFormsModule,
     EyeOpenComponent,
     EyeClosedComponent,
+    CustomBtnComponent,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',

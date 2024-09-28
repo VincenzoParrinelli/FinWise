@@ -1,0 +1,11 @@
+<button
+  class="rounded-full text-cyprus py-1.5"
+  [type]="type()"
+  [attr.form]="form()"
+  [class.bg-caribbean-green]="bgColor() === 'primary'"
+  [class.bg-light-green]="bgColor() === 'secondary'"
+  [class.w-full]="width() === 'full'"
+  [class.min-w-44]="width() === 'half'"
+>
+  {{ text() }}
+</button>

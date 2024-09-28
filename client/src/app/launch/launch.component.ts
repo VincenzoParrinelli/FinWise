@@ -1,4 +1,7 @@
 import { Component, inject } from '@angular/core';
+
+import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
+
 import { VectorComponent } from '../svg/vector/vector.component';
 
 import { RouterService } from '../router.service';
@@ -6,7 +9,7 @@ import { RouterService } from '../router.service';
 @Component({
   selector: 'app-launch',
   standalone: true,
-  imports: [VectorComponent],
+  imports: [VectorComponent, CustomBtnComponent],
   templateUrl: './launch.component.html',
   styleUrl: './launch.component.scss',
 })

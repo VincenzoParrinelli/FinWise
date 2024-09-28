@@ -51,21 +51,20 @@
     </form>
 
     <div class="flex flex-col justify-evenly items-center mt-6 mb-5">
-      <button
-        type="submit"
-        class="bg-caribbean-green text-cyprus rounded-full py-1.5 text-lg font-bold mt-11 min-w-44"
-      >
-        Log In
-      </button>
+      <app-custom-btn
+        bgColor="primary"
+        text="Log In"
+        class="mt-11 font-bold text-lg min-w-44"
+      />
 
       <p class="m-2.5 text-xs font-league-spartan">Forgot Password?</p>
 
-      <button
-        class="bg-light-green text-cyprus rounded-full py-1.5 text-lg font-bold min-w-44"
+      <app-custom-btn
+        bgColor="secondary"
+        text="Sign up"
+        class="font-bold text-lg min-w-44"
         (click)="routerService.navigateToSignup()"
-      >
-        Sign Up
-      </button>
+      />
     </div>
 
     <p class="text-sm font-semibold">

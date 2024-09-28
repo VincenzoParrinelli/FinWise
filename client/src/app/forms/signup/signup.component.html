@@ -8,7 +8,12 @@
     ngProjectAs="bottom-content"
     class="flex flex-col justify-center items-center"
   >
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-72 mt-24">
+    <form
+      [formGroup]="signupForm"
+      (ngSubmit)="onSubmit()"
+      id="signupForm"
+      class="w-72 mt-24"
+    >
       <div class="flex flex-col text-left mb-4">
         <label
           for="fullname"
@@ -175,14 +180,16 @@
         <span class="font-semibold">Terms of Use</span> and
         <span class="font-semibold">Privacy Policy.</span>
       </p>
-
-      <button
-        type="submit"
-        class="bg-caribbean-green text-cyprus rounded-full py-1.5 text-lg font-bold mt-3 min-w-44"
-      >
-        Sign Up
-      </button>
     </form>
+
+    <app-custom-btn
+      bgColor="primary"
+      text="Sign Up"
+      type="submit"
+      form="signupForm"
+      width="half"
+      class="text-lg font-bold mt-3"
+    />
 
     <p class="text-xs m-6 font-thin text-light-green opacity-80">
       Already have an account?
