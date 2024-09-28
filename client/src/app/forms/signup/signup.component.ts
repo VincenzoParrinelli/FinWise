@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { isEmail, isDate } from 'validator';
+import { isDate, isStrongPassword } from 'validator';
 
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
 import { EyeOpenComponent } from '../../svg/eye-open/eye-open.component';
@@ -59,8 +59,6 @@ export class SignupComponent {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!this.signupForm) return null;
 
-      const dateOfBirth = new Date(control.value);
-
       return !isDate(control.value, { format: 'DD/MM/YYYY' })
         ? { invalidDate: true }
         : null;
@@ -73,14 +71,9 @@ export class SignupComponent {
 
       if (!this.signupForm || !password) return null;
 
-      const hasUpperCase = /[A-Z]/.test(password);
-      const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-      if (!hasUpperCase || !hasSpecialCharacter) {
-        return { passwordPatternMismatch: true };
-      }
-
-      return null;
+      return !isStrongPassword(password)
+        ? { passwordPatternMismatch: true }
+        : null;
     };
   }
 
