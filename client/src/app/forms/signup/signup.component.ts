@@ -8,7 +8,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import { isDate, isStrongPassword } from 'validator';
 
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
@@ -18,6 +18,10 @@ import { EyeOpenComponent } from '../../svg/eye-open/eye-open.component';
 import { EyeClosedComponent } from '../../svg/eye-closed/eye-closed.component';
 
 import { RouterService } from '../../router.service';
+
+import { NewUserFormData } from '../../store/user/user.model';
+import * as UserActions from '../../store/user/user.actions';
+import { UserState } from '../../store/user/user.reducer';
 
 @Component({
   selector: 'app-signup',
@@ -157,8 +161,8 @@ export class SignupComponent {
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
   routerService = inject(RouterService);
-  private httpClient = inject(HttpClient);
   private formIsSubmitted = signal<boolean>(false);
+  private store = inject(Store<UserState>);
 
   onSubmit() {
     this.formIsSubmitted.set(true);
@@ -168,11 +172,17 @@ export class SignupComponent {
       return;
     }
 
-    this.httpClient
-      .post(
-        'http://localhost:5000/api/users/create-user',
-        this.signupForm.value
-      )
-      .subscribe();
+    const { fullName, email, password, phone, dateOfBirth } = this.signupForm
+      .value as NewUserFormData;
+
+    const newUser: NewUserFormData = {
+      fullName,
+      email,
+      password,
+      phone,
+      dateOfBirth,
+    };
+
+    this.store.dispatch(UserActions.createUser({ user: newUser }));
   }
 }
