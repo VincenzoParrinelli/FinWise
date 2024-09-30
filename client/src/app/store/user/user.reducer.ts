@@ -22,9 +22,5 @@ export const userReducer = createReducer(
     ...state,
     user,
     error: null,
-  })),
-  on(UserActions.createUserFailure, (state, { error }) => ({
-    ...state,
-    error,
   }))
 );

@@ -10,8 +10,3 @@ export const createUserSuccess = createAction(
   '[User] Create User Success',
   props<{ user: User }>()
 );
-
-export const createUserFailure = createAction(
-  '[User] Create User Failure',
-  props<{ error: string }>()
-);
