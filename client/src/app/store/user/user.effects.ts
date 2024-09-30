@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { User } from './user.model';
 import * as UserActions from './user.actions';
+import * as AppActions from '../app/app.actions';
 
 export class UserEffects {
   private actions$ = inject(Actions);
@@ -16,9 +17,10 @@ export class UserEffects {
         this.http
           .post<User>('http://localhost:5000/api/users/create-user', user)
           .pipe(
-            map((createdUser) =>
-              UserActions.createUserSuccess({ user: createdUser })
-            ),
+            map((createdUser) => {
+              AppActions.setLoading({ loading: false });
+              return UserActions.createUserSuccess({ user: createdUser });
+            }),
             catchError((error) =>
               of(UserActions.createUserFailure({ error: error.message }))
             )
