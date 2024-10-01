@@ -3,7 +3,6 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
-
 import { RouterService } from './router.service';
 
 import { provideStore } from '@ngrx/store';

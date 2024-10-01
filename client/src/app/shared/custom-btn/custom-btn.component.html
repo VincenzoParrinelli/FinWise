@@ -1,5 +1,5 @@
 <button
-  class="rounded-full text-cyprus py-1.5"
+  class="rounded-full text-cyprus py-1.5 flex justify-center"
   [type]="type()"
   [attr.form]="form()"
   [class.bg-caribbean-green]="bgColor() === 'primary'"
@@ -7,5 +7,9 @@
   [class.w-full]="width() === 'full'"
   [class.min-w-44]="width() === 'half'"
 >
+  @if (!loading()) {
   {{ text() }}
+  }@else {
+  <app-spinner />
+  }
 </button>
