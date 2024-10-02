@@ -7,9 +7,9 @@
   [class.w-full]="width() === 'full'"
   [class.min-w-44]="width() === 'half'"
 >
-  @if (!loading()) {
-  {{ text() }}
-  }@else {
+  @if (loading()) {
   <app-spinner />
+  }@else {
+  {{ text() }}
   }
 </button>
