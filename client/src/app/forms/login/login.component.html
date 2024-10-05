@@ -5,7 +5,12 @@
     </p>
   </div>
   <div ngProjectAs="bottom-content">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-72 h-28">
+    <form
+      [formGroup]="loginForm"
+      id="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="w-72 h-28"
+    >
       <div class="flex flex-col text-left mb-4">
         <label
           for="email"
@@ -55,6 +60,8 @@
         bgColor="primary"
         text="Log In"
         class="mt-11 font-bold text-lg min-w-44"
+        type="submit"
+        form="loginForm"
       />
 
       <p class="m-2.5 text-xs font-league-spartan">Forgot Password?</p>

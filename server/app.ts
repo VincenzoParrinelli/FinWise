@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8000;
 
 connectDb();
 
-app.use(cors());
+app.use(cors({ origin: ["http://localhost:4200"], credentials: true }));
 app.use(bodyparser.json());
 
 app.use("/api/users", userRoutes);

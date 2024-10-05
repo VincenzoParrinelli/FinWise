@@ -5,6 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import * as UserActions from '../../store/user/user.actions';
 
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../../shared/custom-btn/custom-btn.component';
@@ -43,11 +45,12 @@ export class LoginComponent {
 
   isPasswordVisible: boolean = false;
   routerService = inject(RouterService);
+  private store = inject(Store);
 
   onSubmit() {
-    const enteredEmail = this.loginForm.value.email;
-    const enteredPassword = this.loginForm.value.password;
+    const email = this.loginForm.value.email as string;
+    const password = this.loginForm.value.password as string;
 
-    console.log(enteredEmail);
+    this.store.dispatch(UserActions.loginUser({ email, password }));
   }
 }

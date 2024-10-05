@@ -24,5 +24,16 @@ export const userReducer = createReducer(
     ...state,
     user,
     error: null,
+    isAuthenticated: true,
+  })),
+  on(UserActions.loginUser, (state) => ({
+    ...state,
+    error: null,
+  })),
+  on(UserActions.loginUserSuccess, (state, { user }) => ({
+    ...state,
+    user,
+    isAuthenticated: true,
+    error: null,
   }))
 );
