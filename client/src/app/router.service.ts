@@ -11,4 +11,8 @@ export class RouterService {
   navigateToSignup() {
     this.router.navigate(['/signup']);
   }
+
+  navigateToHome() {
+    this.router.navigate(['/home']);
+  }
 }

@@ -5,11 +5,13 @@ import * as UserActions from './user.actions';
 export interface UserState {
   user: User | null;
   error: string | null;
+  isAuthenticated: boolean;
 }
 
 export const initialState: UserState = {
   user: null,
   error: null,
+  isAuthenticated: false,
 };
 
 export const userReducer = createReducer(

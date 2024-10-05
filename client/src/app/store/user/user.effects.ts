@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { RouterService } from '../../router.service';
 
 import { User } from './user.model';
 import { Store } from '@ngrx/store';
@@ -15,6 +16,7 @@ export class UserEffects {
   private http = inject(HttpClient);
   private store = inject(Store);
   private apiUrl = environment.apiUrl;
+  private routerService = inject(RouterService);
 
   createUser$ = createEffect(() =>
     this.actions$.pipe(
@@ -23,9 +25,12 @@ export class UserEffects {
       mergeMap(({ user }) =>
         this.http.post<User>(`${this.apiUrl}/users/create-user`, user).pipe(
           map((createdUser) => {
-            this.store.dispatch(AppActions.setLoading({ loading: false }));
             return UserActions.createUserSuccess({ user: createdUser });
           }),
+          tap(() =>
+            this.store.dispatch(AppActions.setLoading({ loading: false }))
+          ),
+          tap(() => this.routerService.navigateToHome()),
           catchError((error) => {
             this.store.dispatch(AppActions.setLoading({ loading: false }));
             return of();

@@ -3,6 +3,7 @@ import { LaunchComponent } from './launch/launch.component';
 import { OnBoardingComponent } from './on-boarding/on-boarding.component';
 import { LoginComponent } from './forms/login/login.component';
 import { SignupComponent } from './forms/signup/signup.component';
+import { AuthGuard } from './store/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -25,5 +26,11 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent,
+  },
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./home/home.component').then((m) => m.HomeComponent),
+    canActivate: [AuthGuard],
   },
 ];
