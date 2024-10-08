@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -47,9 +47,31 @@ export class LoginComponent {
   isPasswordVisible: boolean = false;
   routerService = inject(RouterService);
   private store = inject(Store);
+  private formIsSubmitted = signal<boolean>(false);
   loading = this.store.selectSignal(selectLoading);
 
+  get isEmailRequired() {
+    return (
+      this.loginForm.controls.email.hasError('required') &&
+      this.formIsSubmitted()
+    );
+  }
+
+  get isPasswordRequired() {
+    return (
+      this.loginForm.controls.password.hasError('required') &&
+      this.formIsSubmitted()
+    );
+  }
+
   onSubmit() {
+    this.formIsSubmitted.set(true);
+
+    if (!this.loginForm.valid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
     const email = this.loginForm.value.email as string;
     const password = this.loginForm.value.password as string;
 

@@ -15,8 +15,13 @@
         <label
           for="email"
           class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="isEmailRequired"
         >
-          Email
+          <span>Email</span>
+
+          @if (isEmailRequired) {
+          <span> - field required </span>
+          }
         </label>
         <input
           id="email"
@@ -30,8 +35,13 @@
         <label
           for="password"
           class="text-light-green text-sm font-league-spartan text-left translate-x-3 mb-1"
+          [class.text-red-400]="isPasswordRequired"
         >
-          Password
+          <span>Password</span>
+
+          @if (isPasswordRequired) {
+          <span> - field required </span>
+          }
         </label>
         <input
           id="password"
