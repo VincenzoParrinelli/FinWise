@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as UserActions from '../../store/user/user.actions';
+import { selectLoading } from '../../store/app/app.selectors';
 
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../../shared/custom-btn/custom-btn.component';
@@ -46,6 +47,7 @@ export class LoginComponent {
   isPasswordVisible: boolean = false;
   routerService = inject(RouterService);
   private store = inject(Store);
+  loading = this.store.selectSignal(selectLoading);
 
   onSubmit() {
     const email = this.loginForm.value.email as string;

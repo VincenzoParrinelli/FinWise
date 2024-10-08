@@ -6,8 +6,9 @@
   [class.bg-light-green]="bgColor() === 'secondary'"
   [class.w-full]="width() === 'full'"
   [class.min-w-44]="width() === 'half'"
+  [disabled]="loading()"
 >
-  @if (loading()) {
+  @if (loading() ) {
   <app-spinner />
   }@else {
   {{ text() }}
