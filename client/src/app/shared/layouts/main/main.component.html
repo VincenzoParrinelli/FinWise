@@ -5,14 +5,14 @@
     [class.min-h-64]="screenMode() !== 'full'"
   >
     <p
-      class="text-light-green text-3xl font-semibold font-league-spartan w-60 mt-6"
+      class="text-light-green text-3xl font-semibold font-league-spartan w-full mt-6"
     >
       <ng-content select="top-content" />
     </p>
   </div>
 
   <div
-    class="flex justify-center items-center w-screen h-full bg-main-layout u-border-radius-top-xl overflow-auto"
+    class="flex justify-center items-center h-full bg-main-layout u-border-radius-top-xl overflow-auto overflow-x-hidden"
   >
     <ng-content select="bottom-content" />
   </div>

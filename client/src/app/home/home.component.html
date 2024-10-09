@@ -1,1 +1,44 @@
-<pre>{{ userData }}</pre>
+<app-main-layout>
+  <div ngProjectAs="top-content" class="flex flex-col justify-between p-6">
+    <div class="flex justify-between w-full">
+      <div class="flex flex-col items-start">
+        <p class="text-2xl">Hi, Welcome Back</p>
+        <p class="text-sm font-thin -translate-y-1.5">Good Morning</p>
+      </div>
+
+      <app-bell />
+    </div>
+
+    <div class="flex justify-between px-5 py-12">
+      <div class="flex flex-col items-start">
+        <p class="text-sm font-thin">Total Balance</p>
+        <p class="text-2xl font-bold">$7,783.00</p>
+      </div>
+
+      <div class="border-l-2 h-11"></div>
+
+      <div class="flex flex-col items-start">
+        <p class="text-sm font-thin">Total Expense</p>
+        <p class="text-2xl text-vivid-blue">-$1.187.40</p>
+      </div>
+    </div>
+  </div>
+
+  <div ngProjectAs="bottom-content" class="px-8">
+    <div class="flex justify-between rounded-3xl bg-cyprus py-1.5 px-3">
+      @for (data of btnsData(); track $index) {
+
+      <app-custom-btn
+        [text]="data.text"
+        [width]="btnsShared().width"
+        [bgColor]="btnsShared().bgColor"
+        [textColor]="btnsShared().textColor"
+        [selected]="data.selected"
+        rounded="md"
+        width="min"
+        (click)="selectedBtnToggle($index)"
+      />
+      }
+    </div>
+  </div>
+</app-main-layout>
