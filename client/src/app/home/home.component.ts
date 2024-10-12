@@ -8,22 +8,26 @@ import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { BellComponent } from '../svg/bell/bell.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 import { BtnBgColor, BtnWidth } from '../shared/custom-btn/custom-btn.model';
+import { MoneyComponent } from '../svg/money/money.component';
+import { SilverwareComponent } from '../svg/silverware/silverware.component';
+import { CarComponent } from '../svg/car/car.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MainLayoutComponent, BellComponent, CustomBtnComponent],
+  imports: [
+    MainLayoutComponent,
+    BellComponent,
+    CustomBtnComponent,
+    MoneyComponent,
+    SilverwareComponent,
+    CarComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   private store = inject(Store);
-
-  btnsShared = signal({
-    bgColor: 'cyprus' as BtnBgColor,
-    width: 'full' as BtnWidth,
-    textColor: 'white',
-  });
 
   btnsData = signal([
     {

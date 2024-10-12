@@ -1,22 +1,23 @@
 <button
-  class="rounded-full text-cyprus py-1.5 flex justify-center w-24"
+  class="rounded-full text-cyprus py-1.5 flex justify-center"
+  [class]="getCustomWidth()"
   [type]="type()"
   [attr.form]="form()"
   [class.bg-caribbean-green]="bgColor() === 'primary' || selected()"
   [class.bg-light-green]="bgColor() === 'secondary'"
   [class.bg-cyprus]="bgColor() === 'cyprus' && !selected()"
-  [class.text-white]="textColor() === 'white'"
-  [class.text-black]="selected()"
+  [class.text-white]="textColor() === 'white' && !selected()"
+  [class.text-main-layout]="textColor() !== 'white' && selected()"
   [class.w-full]="width() === 'full'"
   [class.min-w-44]="width() === 'half'"
-  [class.px-6]="width() === 'full'"
-  [class.py-3]="width() === 'full'"
-  [class.rounded-2xl]="rounded() === 'md'"
+  [class.px-6]="width() !== 'half'"
+  [class.py-3]="width() !== 'half'"
+  [class.u-border-radius-md]="rounded() === 'md'"
   [disabled]="loading()"
 >
   @if (loading() ) {
   <app-spinner />
   }@else {
-  {{ text() }}
+  <span>{{ text() }}</span>
   }
 </button>

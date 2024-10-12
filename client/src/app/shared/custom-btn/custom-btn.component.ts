@@ -19,4 +19,12 @@ export class CustomBtnComponent {
   loading = input<boolean>(false);
   selected = input<boolean>(false);
   rounded = input<'none' | 'md' | 'full'>('full');
+
+  getCustomWidth(): string {
+    if (!isNaN(Number(this.width()))) {
+      return `w-${this.width()}`;
+    } else {
+      return 'w-24';
+    }
+  }
 }
