@@ -9,7 +9,7 @@
       <app-bell />
     </div>
 
-    <div class="flex justify-between px-5 py-12">
+    <div class="flex justify-between px-5 py-8">
       <div class="flex flex-col items-start">
         <p class="text-sm font-thin">Total Balance</p>
         <p class="text-2xl font-bold">$7,783.00</p>
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div ngProjectAs="bottom-content" class="mt-6">
+  <div ngProjectAs="bottom-content" class="mt-6 mx-6">
     <div
       class="flex items-center justify-between rounded-3xl py-1.5 bg-caribbean-green text-main-layout"
     >
@@ -52,7 +52,7 @@
 
       <div class="flex flex-col justify-between p-4 leading-4">
         <div class="flex items-center">
-          <app-money />
+          <app-money strokeColor="stroke-main-layout" />
 
           <div class="flex flex-col items-start ml-3">
             <span class="text-sm">Revenue last week</span>
@@ -63,7 +63,7 @@
         <hr class="w-40 bg-white my-2.5" />
 
         <div class="flex items-center">
-          <app-silverware class="translate-x-1" />
+          <app-silverware />
 
           <div class="flex flex-col items-start ml-3">
             <span class="text-sm">Food Last Week</span>
@@ -74,7 +74,7 @@
     </div>
 
     <div
-      class="flex items-center justify-between rounded-2xl bg-cyprus py-1 px-2.5 my-4"
+      class="flex items-center justify-between rounded-2xl bg-cyprus py-1 px-2.5 my-5"
     >
       @for (data of btnsData(); track $index) {
 
@@ -88,6 +88,27 @@
         (click)="selectedBtnToggle($index)"
       />
       }
+    </div>
+
+    <div class="flex items-center">
+      <div class="p-2.5 px-3 bg-light-blue rounded-2xl">
+        <app-money />
+      </div>
+
+      <div class="flex flex-col items-start mx-3.5">
+        <span>Salary</span>
+        <span class="text-xs text-vivid-blue font-semibold"
+          >18:27 - April 30</span
+        >
+      </div>
+
+      <div class="border-l-2 h-8 border-caribbean-green"></div>
+
+      <span class="mx-4 text-sm text-honeydew font-thin">Monthly</span>
+
+      <div class="border-l-2 h-8 border-caribbean-green"></div>
+
+      <span class="text-sm ml-2.5 text-honeydew">$4.000,00</span>
     </div>
   </div>
 </app-main-layout>

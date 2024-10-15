@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-money',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './money.component.svg',
 })
-export class MoneyComponent {}
+export class MoneyComponent {
+  strokeColor = input<string>('stroke-honeydew');
+}
