@@ -16,4 +16,8 @@
   >
     <ng-content select="bottom-content" />
   </div>
+
+  @if (router.url === '/home') {
+  <app-nav />
+  }
 </div>
