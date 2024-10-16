@@ -1,7 +1,46 @@
-<div class="flex justify-center items-center w-full bg-cyprus">
-  <app-svg-home />
-  <app-svg-analysis />
-  <app-svg-transaction />
-  <app-svg-category />
-  <app-svg-profile />
-</div>
+<nav
+  class="flex justify-evenly items-center w-full p-8 bg-cyprus absolute -bottom-7 u-nav-border-radius"
+>
+  <div class="flex justify-evenly w-full items-center -translate-y-3">
+    <app-svg-home
+      [strokeColor]="
+        selectedSvg() === 0 ? 'stroke-fence-green' : 'stroke-light-green'
+      "
+      (click)="selectedSvg.set(0)"
+      class="px-3.5 rounded-2xl"
+      [class.bg-caribbean-green]="selectedSvg() === 0"
+    />
+    <app-svg-analysis
+      [strokeColor]="
+        selectedSvg() === 1 ? 'stroke-fence-green' : 'stroke-light-green'
+      "
+      (click)="selectedSvg.set(1)"
+      class="px-3.5 rounded-2xl"
+      [class.bg-caribbean-green]="selectedSvg() === 1"
+    />
+    <app-svg-transaction
+      [strokeColor]="
+        selectedSvg() === 2 ? 'stroke-fence-green' : 'stroke-light-green'
+      "
+      (click)="selectedSvg.set(2)"
+      class="px-3.5 rounded-2xl"
+      [class.bg-caribbean-green]="selectedSvg() === 2"
+    />
+    <app-svg-category
+      [strokeColor]="
+        selectedSvg() === 3 ? 'stroke-fence-green' : 'stroke-light-green'
+      "
+      (click)="selectedSvg.set(3)"
+      class="px-3.5 rounded-2xl"
+      [class.bg-caribbean-green]="selectedSvg() === 3"
+    />
+    <app-svg-profile
+      [strokeColor]="
+        selectedSvg() === 4 ? 'stroke-fence-green' : 'stroke-light-green'
+      "
+      (click)="selectedSvg.set(4)"
+      class="px-3.5 rounded-2xl"
+      [class.bg-caribbean-green]="selectedSvg() === 4"
+    />
+  </div>
+</nav>

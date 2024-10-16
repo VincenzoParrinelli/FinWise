@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-svg-analysis',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './analysis.component.svg',
 })
-export class AnalysisSvgComponent {}
+export class AnalysisSvgComponent {
+  strokeColor = input<string>('stroke-light-green');
+}
