@@ -15,4 +15,8 @@ export class RouterService {
   navigateToHome() {
     this.router.navigate(['/home']);
   }
+
+  navigateToAnalysis() {
+    this.router.navigate(['/analysis']);
+  }
 }

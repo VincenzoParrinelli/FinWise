@@ -1,3 +1,4 @@
+@if (showNaw()) {
 <nav
   class="flex justify-evenly items-center w-full p-8 bg-cyprus absolute -bottom-7 u-nav-border-radius"
 >
@@ -9,6 +10,7 @@
       (click)="selectedSvg.set(0)"
       class="px-3.5 rounded-2xl"
       [class.bg-caribbean-green]="selectedSvg() === 0"
+      (click)="routerService.navigateToHome()"
     />
     <app-svg-analysis
       [strokeColor]="
@@ -17,6 +19,7 @@
       (click)="selectedSvg.set(1)"
       class="px-3.5 rounded-2xl"
       [class.bg-caribbean-green]="selectedSvg() === 1"
+      (click)="routerService.navigateToAnalysis()"
     />
     <app-svg-transaction
       [strokeColor]="
@@ -44,3 +47,5 @@
     />
   </div>
 </nav>
+
+}
