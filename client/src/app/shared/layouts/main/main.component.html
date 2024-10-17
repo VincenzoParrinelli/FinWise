@@ -1,6 +1,10 @@
 <div
   class="h-screen flex justify-between flex-col text-center font-league-spartan"
 >
+  @if (showBackArrow()) {
+  <app-back-arrow class="ml-6 translate-y-6" (click)="navigateBack()" />
+  }
+
   <div
     class="flex justify-center text-center items-center"
     [class.min-h-32]="screenMode() === 'full'"

@@ -3,7 +3,6 @@ import { LaunchComponent } from './launch/launch.component';
 import { OnBoardingComponent } from './on-boarding/on-boarding.component';
 import { LoginComponent } from './forms/login/login.component';
 import { SignupComponent } from './forms/signup/signup.component';
-import { AnalysisComponent } from './analysis/analysis.component';
 import { AuthGuard } from './store/auth/auth.guard';
 
 export const routes: Routes = [
@@ -36,6 +35,8 @@ export const routes: Routes = [
   },
   {
     path: 'analysis',
-    component: AnalysisComponent,
+    loadComponent: () =>
+      import('./analysis/analysis.component').then((m) => m.AnalysisComponent),
+    // canActivate: [AuthGuard],
   },
 ];

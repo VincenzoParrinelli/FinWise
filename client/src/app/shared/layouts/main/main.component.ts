@@ -1,15 +1,24 @@
 import { Component, inject, input } from '@angular/core';
+import { Location } from '@angular/common';
+
 import { NavComponent } from '../../nav/nav.component';
-import { Router } from '@angular/router';
+import { BackArrowComponent } from '../../../svg/back-arrow/back-arrow.component';
+import { RouterService } from '../../../router.service';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [NavComponent],
+  imports: [NavComponent, BackArrowComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
 export class MainLayoutComponent {
   screenMode = input<'full' | 'half'>();
-  router = inject(Router);
+  routerService = inject(RouterService);
+  location = inject(Location);
+  showBackArrow = this.routerService.showBackArrow;
+
+  navigateBack() {
+    this.location.back();
+  }
 }

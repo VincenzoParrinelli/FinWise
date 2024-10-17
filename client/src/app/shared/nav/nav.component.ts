@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgComponentOutlet } from '@angular/common';
 import { RouterService } from '../../router.service';
@@ -23,22 +23,13 @@ import { ProfileSvgComponent } from '../../svg/nav/profile/profile.component';
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss',
 })
-export class NavComponent implements OnInit {
+export class NavComponent {
   selectedSvg = signal<number>(0);
   routerService = inject(RouterService);
   router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-
-  showNaw = signal<boolean>(true);
-  private hideNavRoutes: string[] = ['/launch', '/login', '/signup'];
+  showNaw = this.routerService.showNaw;
 
   ngOnInit() {
-    const subscription = this.router.events.subscribe((event) => {
-      if (!event) return;
-
-      this.showNaw.set(!this.hideNavRoutes.includes(this.router.url));
-    });
-
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    this.routerService.subscribe();
   }
 }

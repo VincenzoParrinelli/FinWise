@@ -11,6 +11,7 @@ import { BtnBgColor, BtnWidth } from '../shared/custom-btn/custom-btn.model';
 import { MoneyComponent } from '../svg/money/money.component';
 import { SilverwareComponent } from '../svg/silverware/silverware.component';
 import { CarComponent } from '../svg/car/car.component';
+import { BackArrowComponent } from '../svg/back-arrow/back-arrow.component';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ import { CarComponent } from '../svg/car/car.component';
     MoneyComponent,
     SilverwareComponent,
     CarComponent,
+    BackArrowComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
