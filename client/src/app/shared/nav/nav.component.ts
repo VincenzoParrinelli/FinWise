@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgComponentOutlet } from '@angular/common';
 import { RouterService } from '../../router.service';
 
@@ -26,10 +25,10 @@ import { ProfileSvgComponent } from '../../svg/nav/profile/profile.component';
 export class NavComponent {
   selectedSvg = signal<number>(0);
   routerService = inject(RouterService);
-  router = inject(Router);
-  showNaw = this.routerService.showNaw;
+  router = this.routerService.router;
+  showNav = this.routerService.showNaw;
 
   ngOnInit() {
-    this.routerService.subscribe();
+    this.routerService.subscribeEvents();
   }
 }

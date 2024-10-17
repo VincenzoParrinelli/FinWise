@@ -30,7 +30,7 @@ export class RouterService {
     this.router.navigate(['/analysis']);
   }
 
-  subscribe() {
+  subscribeEvents() {
     const subscription = this.router.events.subscribe((event) => {
       if (!event) return;
 
