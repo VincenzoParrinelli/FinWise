@@ -28,6 +28,7 @@
       (click)="selectedSvg.set(2)"
       class="px-3.5 rounded-2xl"
       [class.bg-caribbean-green]="selectedSvg() === 2"
+      (click)="routerService.navigateToTransactions()"
     />
     <app-svg-category
       [strokeColor]="

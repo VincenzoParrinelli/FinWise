@@ -30,6 +30,10 @@ export class RouterService {
     this.router.navigate(['/analysis']);
   }
 
+  navigateToTransactions() {
+    this.router.navigate(['/transactions']);
+  }
+
   subscribeEvents() {
     const subscription = this.router.events.subscribe((event) => {
       if (!event) return;

@@ -39,4 +39,12 @@ export const routes: Routes = [
       import('./analysis/analysis.component').then((m) => m.AnalysisComponent),
     // canActivate: [AuthGuard],
   },
+  {
+    path: 'transactions',
+    loadComponent: () =>
+      import('./transactions/transactions.component').then(
+        (m) => m.TransactionsComponent
+      ),
+    // canActivate: [AuthGuard],
+  },
 ];
