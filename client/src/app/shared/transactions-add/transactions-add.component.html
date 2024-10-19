@@ -1,0 +1,66 @@
+<app-main-layout screenMode="full">
+  <span ngProjectAs="header-content">Add Transactions</span>
+
+  <div ngProjectAs="bottom-content" class="flex flex-col items-center">
+    <form
+      [formGroup]="transactionsAddForm"
+      (ngSubmit)="onSubmit()"
+      id="transactionsAddForm"
+      class="w-72 mt-8 mb-4"
+    >
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="amount"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="isAmountRequired"
+        >
+          <span>Amount</span>
+
+          @if (isAmountRequired) {
+          <span> - field required </span>
+          }
+        </label>
+        <input
+          id="amount"
+          type="number"
+          formControlName="amount"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="€10,00"
+        />
+      </div>
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="amount"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="isCategoryRequired"
+        >
+          <span>Category</span>
+
+          @if (isCategoryRequired) {
+          <span> - field required </span>
+          }
+        </label>
+        <select
+          id="category"
+          formControlName="category"
+          class="rounded-full bg-light-green outline-none p-1 py-2 px-6 text-main-layout"
+          form="transactionsAddForm"
+        >
+          <option value="">Select the category</option>
+
+          @for (category of categoryService.getAllCategories(); track
+          category.id) {
+          <option [value]="category.id">{{ category.name }}</option>
+          }
+        </select>
+      </div>
+    </form>
+
+    <app-custom-btn
+      form="transactionsAddForm"
+      type="submit"
+      width="half"
+      text="Save"
+    />
+  </div>
+</app-main-layout>
