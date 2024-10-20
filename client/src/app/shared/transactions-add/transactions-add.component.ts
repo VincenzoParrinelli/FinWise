@@ -12,8 +12,8 @@ import { CustomBtnComponent } from '../custom-btn/custom-btn.component';
 import { CategoryService } from '../../category.service';
 
 import { Store } from '@ngrx/store';
+import { UserState } from '../../store/user/user.model';
 import { selectLoading } from '../../store/app/app.selectors';
-import { UserState } from '../../store/user/user.reducer';
 
 @Component({
   selector: 'app-transactions-add',

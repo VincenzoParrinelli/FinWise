@@ -1,3 +1,9 @@
+export interface UserState {
+  user: User | null;
+  error: string | null;
+  isAuthenticated: boolean;
+}
+
 export interface User {
   _id: string | null;
   fullName: string;

@@ -1,12 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { User } from './user.model';
+import { UserState } from './user.model';
 import * as UserActions from './user.actions';
-
-export interface UserState {
-  user: User | null;
-  error: string | null;
-  isAuthenticated: boolean;
-}
 
 export const initialState: UserState = {
   user: null,
