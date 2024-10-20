@@ -19,10 +19,10 @@ import { EyeClosedComponent } from '../../svg/eye-closed/eye-closed.component';
 import { RouterService } from '../../router.service';
 
 import { Store } from '@ngrx/store';
+import { UserState } from '../../store/user/user.model';
 import { selectLoading } from '../../store/app/app.selectors';
 import { NewUserFormData } from '../../store/user/user.model';
 import * as UserActions from '../../store/user/user.actions';
-import { UserState } from '../../store/user/user.reducer';
 
 @Component({
   selector: 'app-signup',
