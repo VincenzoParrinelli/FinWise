@@ -20,6 +20,9 @@ import { CategoryService } from '../../category.service';
 })
 export class TransactionsAddComponent {
   transactionsAddForm = new FormGroup({
+    date: new FormControl('', {
+      validators: [Validators.required],
+    }),
     amount: new FormControl('', {
       validators: [Validators.required],
     }),
@@ -30,6 +33,13 @@ export class TransactionsAddComponent {
 
   categoryService = inject(CategoryService);
   private formIsSubmitted = signal<boolean>(false);
+
+  get isDateRequired() {
+    return (
+      this.transactionsAddForm.controls.date.hasError('required') &&
+      this.formIsSubmitted()
+    );
+  }
 
   get isAmountRequired() {
     return (
