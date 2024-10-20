@@ -8,7 +8,6 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { isDate, isStrongPassword } from 'validator';
 
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
@@ -19,6 +18,8 @@ import { EyeClosedComponent } from '../../svg/eye-closed/eye-closed.component';
 
 import { RouterService } from '../../router.service';
 
+import { Store } from '@ngrx/store';
+import { selectLoading } from '../../store/app/app.selectors';
 import { NewUserFormData } from '../../store/user/user.model';
 import * as UserActions from '../../store/user/user.actions';
 import { UserState } from '../../store/user/user.reducer';
@@ -163,6 +164,7 @@ export class SignupComponent {
   routerService = inject(RouterService);
   private formIsSubmitted = signal<boolean>(false);
   private store = inject(Store<UserState>);
+  loading = this.store.selectSignal(selectLoading);
 
   onSubmit() {
     this.formIsSubmitted.set(true);

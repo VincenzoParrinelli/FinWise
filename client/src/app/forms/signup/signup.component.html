@@ -1,4 +1,4 @@
-<app-main-layout [screenMode]="'full'">
+<app-main-layout screenMode="full">
   <div ngProjectAs="top-content">
     <p class="text-light-green text-3xl font-semibold font-league-spartan">
       Create Account
@@ -189,6 +189,7 @@
       form="signupForm"
       width="half"
       class="text-lg font-bold mt-3"
+      [loading]="loading()"
     />
 
     <p class="text-xs m-3 mb-6 font-thin text-light-green opacity-80">

@@ -11,6 +11,10 @@ import { CustomBtnComponent } from '../custom-btn/custom-btn.component';
 
 import { CategoryService } from '../../category.service';
 
+import { Store } from '@ngrx/store';
+import { selectLoading } from '../../store/app/app.selectors';
+import { UserState } from '../../store/user/user.reducer';
+
 @Component({
   selector: 'app-transactions-add',
   standalone: true,
@@ -33,6 +37,8 @@ export class TransactionsAddComponent {
 
   categoryService = inject(CategoryService);
   private formIsSubmitted = signal<boolean>(false);
+  private store = inject(Store<UserState>);
+  loading = this.store.selectSignal(selectLoading);
 
   get isDateRequired() {
     return (
