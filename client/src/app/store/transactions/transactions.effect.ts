@@ -30,7 +30,7 @@ export class TransactionsEffects {
         this.http
           .post<Transaction>(
             `${this.apiUrl}/transactions/create`,
-            { transaction, userId: _id },
+            { ...transaction, userId: _id },
             {
               withCredentials: true,
             }

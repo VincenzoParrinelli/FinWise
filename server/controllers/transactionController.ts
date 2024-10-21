@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import Transaction, { ITransaction } from "../models/transactionModel";
-import User, { IUser } from "../models/userModel";
+import User from "../models/userModel";
 
 export const createTransaction = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const transaction = req.body.transaction;
-  const date = new Date(req.body.transaction.date);
+  const transaction = req.body;
+  const date = new Date(req.body.date);
   const userId = req.body.userId;
 
   try {
@@ -16,14 +16,17 @@ export const createTransaction = async (
       return;
     }
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).lean();
 
     if (!user) {
       res.status(404).send({ message: "User not found" });
       return;
     }
 
-    const newTransaction: ITransaction = new Transaction(transaction);
+    const newTransaction: ITransaction = new Transaction({
+      ...transaction,
+      userId,
+    });
     newTransaction.save();
 
     res.status(201).json(newTransaction);
