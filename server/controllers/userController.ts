@@ -19,12 +19,14 @@ export const createUser = async (
       !isDate(dateOfBirth, { format: "DD/MM/YYYY" })
     ) {
       res.status(400).json({ message: "Invalid Data" });
+      return;
     }
 
     const userAlreadyExistent = await User.findOne({ email }).lean();
 
     if (userAlreadyExistent) {
       res.status(409).json({ message: "User already exists" });
+      return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
