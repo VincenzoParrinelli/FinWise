@@ -6,8 +6,13 @@ export const initialState: TransactionsState = {
   transactions: [],
 };
 
-export const TransactionsReducer = createReducer(
+export const transactionsReducer = createReducer(
   initialState,
+
+  on(TransactionsActions.getTransactionsSuccess, (state, { transactions }) => ({
+    ...state,
+    transactions,
+  })),
   on(TransactionsActions.createTransaction, (state) => ({
     ...state,
   })),

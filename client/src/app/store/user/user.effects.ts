@@ -60,9 +60,6 @@ export class UserEffects {
             map((loggedInUserData) =>
               UserActions.loginUserSuccess({ user: loggedInUserData })
             ),
-            tap(() =>
-              this.store.dispatch(AppActions.setLoading({ loading: false }))
-            ),
             tap(() => this.routerService.navigateToHome()),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));

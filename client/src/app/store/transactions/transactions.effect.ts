@@ -8,6 +8,7 @@ import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { RouterService } from '../../router.service';
 
 import * as TransactionsActions from './transactions.actions';
+import * as UserActions from '../user/user.actions';
 import * as AppActions from '../app/app.actions';
 
 import { Transaction } from './transactions.model';
@@ -20,6 +21,33 @@ export class TransactionsEffects {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
   private routerService = inject(RouterService);
+
+  getTransactions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.loginUserSuccess),
+      mergeMap((action) =>
+        this.http
+          .get<Transaction[]>(
+            `${this.apiUrl}/transactions/${action.user._id}`,
+            {
+              withCredentials: true,
+            }
+          )
+          .pipe(
+            map((transactions) =>
+              TransactionsActions.getTransactionsSuccess({ transactions })
+            ),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return of();
+            })
+          )
+      )
+    )
+  );
 
   createTransaction$ = createEffect(() =>
     this.actions$.pipe(

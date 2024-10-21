@@ -10,7 +10,7 @@ import { provideEffects } from '@ngrx/effects';
 
 import { appReducer } from './store/app/app.reducer';
 import { userReducer } from './store/user/user.reducer';
-import { TransactionsReducer } from './store/transactions/transactions.reducer';
+import { transactionsReducer } from './store/transactions/transactions.reducer';
 
 import { UserEffects } from './store/user/user.effects';
 import { TransactionsEffects } from './store/transactions/transactions.effect';
@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       app: appReducer,
       user: userReducer,
-      transactions: TransactionsReducer,
+      transactions: transactionsReducer,
     }),
     provideEffects([UserEffects, TransactionsEffects]),
   ],

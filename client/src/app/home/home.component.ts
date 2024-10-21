@@ -5,13 +5,14 @@ import { Store } from '@ngrx/store';
 import { selectUserState } from '../store/user/user.selectors';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
-import { BellComponent } from '../svg/bell/bell.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 import { BtnBgColor, BtnWidth } from '../shared/custom-btn/custom-btn.model';
+import { BellComponent } from '../svg/bell/bell.component';
 import { MoneyComponent } from '../svg/money/money.component';
 import { SilverwareComponent } from '../svg/silverware/silverware.component';
 import { CarComponent } from '../svg/car/car.component';
 import { BackArrowComponent } from '../svg/back-arrow/back-arrow.component';
+import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,7 @@ import { BackArrowComponent } from '../svg/back-arrow/back-arrow.component';
     SilverwareComponent,
     CarComponent,
     BackArrowComponent,
+    TransactionsListComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
