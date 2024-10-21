@@ -38,8 +38,6 @@ export const createUser = async (
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
   }
-
-  console.log(req.body);
 };
 
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
@@ -81,7 +79,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     // Exclude password from userData in response
     const { password: _, ...userWithoutPassword } = userData;
 
-    res.status(200).json({ user: userWithoutPassword });
+    res.status(200).json(userWithoutPassword);
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
   }
