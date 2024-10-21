@@ -5,12 +5,11 @@ import { Store } from '@ngrx/store';
 import { CategoryService } from '../../category.service';
 
 import { selectTransactions } from '../../store/transactions/transactions.selectors';
-import { RentComponent } from '../../svg/categories/rent/rent.component';
 
 @Component({
   selector: 'app-transactions-list',
   standalone: true,
-  imports: [DatePipe, CurrencyPipe, NgComponentOutlet, RentComponent],
+  imports: [DatePipe, CurrencyPipe, NgComponentOutlet],
   templateUrl: './transactions-list.component.html',
   styleUrl: './transactions-list.component.scss',
 })

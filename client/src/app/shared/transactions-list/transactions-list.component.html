@@ -1,7 +1,6 @@
 @for (transaction of transactions(); track transaction._id) {
   <div class="flex items-center">
     <div class="p-2.5 px-3 bg-light-blue rounded-2xl">
-      <
       @for (category of categories; track $index) {
         @if (transaction.category === category.name) {
           <ng-container *ngComponentOutlet="category.svgComponent">
