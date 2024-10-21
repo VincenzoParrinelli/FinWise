@@ -7,3 +7,8 @@ export const selectIsUserAuthenticated = createSelector(
   selectUserState,
   (state: UserState) => state.isAuthenticated
 );
+
+export const selectUserId = createSelector(
+  selectUserState,
+  (state: UserState) => state.user?._id
+);

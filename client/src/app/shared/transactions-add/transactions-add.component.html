@@ -73,6 +73,29 @@
           }
         </select>
       </div>
+
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="message"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="messageMaxLengthExceeded"
+        >
+          <span>Message</span>
+          @if (messageMaxLengthExceeded) {
+          <span class="translate-x-3 mb-1 text-sm">
+            - max length of 50 characters exceeded
+          </span>
+          }
+        </label>
+
+        <textarea
+          id="message"
+          class="rounded-xl bg-light-green outline-none px-7 py-3 p-1 text-main-layout h-24 leading-3 resize-none"
+          placeholder="..."
+          formControlName="message"
+        >
+        </textarea>
+      </div>
     </form>
 
     <app-custom-btn

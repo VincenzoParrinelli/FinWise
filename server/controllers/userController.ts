@@ -34,9 +34,7 @@ export const createUser = async (
     const newUser: IUser = new User({ ...userData, password: hashedPassword });
     newUser.save();
 
-    res
-      .status(201)
-      .json({ User: newUser, message: "User created successfully" });
+    res.status(201).json(newUser);
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
   }

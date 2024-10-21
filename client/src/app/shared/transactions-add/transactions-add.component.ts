@@ -12,8 +12,12 @@ import { CustomBtnComponent } from '../custom-btn/custom-btn.component';
 import { CategoryService } from '../../category.service';
 
 import { Store } from '@ngrx/store';
-import { UserState } from '../../store/user/user.model';
 import { selectLoading } from '../../store/app/app.selectors';
+import {
+  NewTransactionFormData,
+  TransactionsState,
+} from '../../store/transactions/transactions.model';
+import * as TransactionsActions from '../../store/transactions/transactions.actions';
 
 @Component({
   selector: 'app-transactions-add',
@@ -33,11 +37,14 @@ export class TransactionsAddComponent {
     category: new FormControl('', {
       validators: [Validators.required],
     }),
+    message: new FormControl('', {
+      validators: [Validators.maxLength(50)],
+    }),
   });
 
   categoryService = inject(CategoryService);
   private formIsSubmitted = signal<boolean>(false);
-  private store = inject(Store<UserState>);
+  private store = inject(Store<TransactionsState>);
   loading = this.store.selectSignal(selectLoading);
 
   get isDateRequired() {
@@ -61,6 +68,13 @@ export class TransactionsAddComponent {
     );
   }
 
+  get messageMaxLengthExceeded() {
+    return (
+      this.transactionsAddForm.controls.message.hasError('maxlength') &&
+      this.formIsSubmitted()
+    );
+  }
+
   onSubmit() {
     this.formIsSubmitted.set(true);
 
@@ -69,6 +83,12 @@ export class TransactionsAddComponent {
       return;
     }
 
-    console.log(this.transactionsAddForm.value);
+    this.store.dispatch(
+      TransactionsActions.createTransaction({
+        transaction: {
+          ...(this.transactionsAddForm.value as NewTransactionFormData),
+        },
+      })
+    );
   }
 }

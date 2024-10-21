@@ -7,9 +7,13 @@ import { RouterService } from './router.service';
 
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+
 import { appReducer } from './store/app/app.reducer';
 import { userReducer } from './store/user/user.reducer';
+import { TransactionsReducer } from './store/transactions/transactions.reducer';
+
 import { UserEffects } from './store/user/user.effects';
+import { TransactionsEffects } from './store/transactions/transactions.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +21,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     RouterService,
-    provideStore({ app: appReducer, user: userReducer }),
-    provideEffects([UserEffects]),
+    provideStore({
+      app: appReducer,
+      user: userReducer,
+      transactions: TransactionsReducer,
+    }),
+    provideEffects([UserEffects, TransactionsEffects]),
   ],
 };

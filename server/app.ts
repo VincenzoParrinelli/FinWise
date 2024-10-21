@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDb from "./config/db";
 import userRoutes from "./routes/userRoutes";
+import transactionRoutes from "./routes/transactionRoutes";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors({ origin: ["http://localhost:4200"], credentials: true }));
 app.use(bodyparser.json());
 
 app.use("/api/users", userRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

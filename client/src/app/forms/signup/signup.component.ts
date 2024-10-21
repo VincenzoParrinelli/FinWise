@@ -174,17 +174,8 @@ export class SignupComponent {
       return;
     }
 
-    const { fullName, email, password, phone, dateOfBirth } = this.signupForm
-      .value as NewUserFormData;
-
-    const newUser: NewUserFormData = {
-      fullName,
-      email,
-      password,
-      phone,
-      dateOfBirth,
-    };
-
-    this.store.dispatch(UserActions.createUser({ user: newUser }));
+    this.store.dispatch(
+      UserActions.createUser({ user: this.signupForm.value as NewUserFormData })
+    );
   }
 }
