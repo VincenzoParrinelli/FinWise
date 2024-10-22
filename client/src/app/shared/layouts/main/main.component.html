@@ -1,21 +1,22 @@
 <div
-  class="h-screen flex justify-between flex-col text-center font-league-spartan"
+  class="h-screen flex flex-col justify-between text-center font-league-spartan"
 >
   <div
     class="flex flex-col text-center items-center"
+    [class.justify-center]="!showBackArrow()"
     [class.min-h-32]="screenMode() === 'full'"
     [class.min-h-64]="screenMode() !== 'full'"
   >
     @if (showBackArrow()) {
-    <div
-      class="flex justify-between items-center w-full px-8 mt-8 text-2xl font-semibold"
-    >
-      <app-back-arrow class="" (click)="navigateBack()" />
+      <div
+        class="flex justify-between items-center w-full px-8 mt-8 text-2xl font-semibold"
+      >
+        <app-back-arrow (click)="navigateBack()" />
 
-      <ng-content select="header-content" />
+        <ng-content select="header-content" />
 
-      <app-bell />
-    </div>
+        <app-bell />
+      </div>
     }
     <div class="text-light-green text-3xl font-semibold w-full">
       <ng-content select="top-content" />

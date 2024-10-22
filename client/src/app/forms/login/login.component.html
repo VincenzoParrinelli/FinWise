@@ -20,7 +20,7 @@
           <span>Email</span>
 
           @if (isEmailRequired) {
-          <span> - field required </span>
+            <span> - field required </span>
           }
         </label>
         <input
@@ -40,7 +40,7 @@
           <span>Password</span>
 
           @if (isPasswordRequired) {
-          <span> - field required </span>
+            <span> - field required </span>
           }
         </label>
         <input
@@ -52,15 +52,15 @@
         />
 
         @if (isPasswordVisible) {
-        <app-eye-open
-          class="self-end -translate-x-3 -translate-y-7"
-          (click)="isPasswordVisible = !isPasswordVisible"
-        />
+          <app-eye-open
+            class="self-end -translate-x-3 -translate-y-7"
+            (click)="isPasswordVisible = !isPasswordVisible"
+          />
         } @else {
-        <app-eye-closed
-          class="self-end -translate-x-4 -translate-y-5"
-          (click)="isPasswordVisible = !isPasswordVisible"
-        />
+          <app-eye-closed
+            class="self-end -translate-x-4 -translate-y-5"
+            (click)="isPasswordVisible = !isPasswordVisible"
+          />
         }
       </div>
     </form>
