@@ -17,7 +17,8 @@ const transactionSchema = new Schema<ITransaction>({
     type: String,
     required: true,
     enum: [
-      "Silverware",
+      "Salary",
+      "Food",
       "Transport",
       "Groceries",
       "Rent",

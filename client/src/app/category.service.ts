@@ -28,7 +28,7 @@ export class CategoryService {
     },
     {
       id: 1,
-      name: 'Silverware',
+      name: 'Food',
       svgComponent: SilverwareComponent,
     },
     {
