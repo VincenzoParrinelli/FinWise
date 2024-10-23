@@ -41,10 +41,12 @@
         </label>
         <input
           id="amount"
-          type="number"
+          type="text"
           formControlName="amount"
           class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
-          placeholder="€10,00"
+          placeholder="€10.00"
+          (mouseleave)="formatAmountOnLeave()"
+          (mouseenter)="formatAmountOnEnter()"
         />
       </div>
       <div class="flex flex-col text-left mb-4">
@@ -62,7 +64,7 @@
         <select
           id="category"
           formControlName="category"
-          class="rounded-full bg-light-green outline-none p-1 py-2 px-6 text-main-layout"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout appearance-none"
           form="transactionsAddForm"
         >
           <option value="">Select the category</option>

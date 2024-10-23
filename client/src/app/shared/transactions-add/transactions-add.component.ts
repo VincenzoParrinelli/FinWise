@@ -45,7 +45,7 @@ export class TransactionsAddComponent {
   categoryService = inject(CategoryService);
   private formIsSubmitted = signal<boolean>(false);
   private store = inject(Store<TransactionsState>);
-  loading = this.store.selectSignal(selectLoading);
+  loading = this.store.selectSignal<boolean>(selectLoading);
 
   get isDateRequired() {
     return (
@@ -73,6 +73,24 @@ export class TransactionsAddComponent {
       this.transactionsAddForm.controls.message.hasError('maxlength') &&
       this.formIsSubmitted()
     );
+  }
+
+  formatAmountOnEnter(): void {
+    const amountControl = this.transactionsAddForm.get('amount');
+
+    if (!amountControl || !amountControl.value) return;
+
+    amountControl.setValue(amountControl.value.replace(/[^0-9.]/g, ''));
+  }
+
+  formatAmountOnLeave(): void {
+    const amountControl = this.transactionsAddForm.get('amount');
+
+    if (!amountControl || !amountControl.value) return;
+
+    const toNegative = parseFloat(amountControl.value).toFixed(2);
+
+    amountControl.setValue(`-$${toNegative}`);
   }
 
   onSubmit() {
