@@ -51,7 +51,7 @@
       </div>
       <div class="flex flex-col text-left mb-4">
         <label
-          for="amount"
+          for="category"
           class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
           [class.text-red-400]="isCategoryRequired"
         >
@@ -61,21 +61,41 @@
             <span> - field required </span>
           }
         </label>
-        <select
-          id="category"
-          formControlName="category"
-          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout appearance-none"
-          form="transactionsAddForm"
-        >
-          <option value="">Select the category</option>
 
-          @for (
-            category of categoryService.getAllCategories();
-            track category.id
-          ) {
-            <option [value]="category.name">{{ category.name }}</option>
+        <div
+          id="category"
+          class="rounded-full bg-light-green p-1 px-6 text-main-layout z-10"
+          form="transactionsAddForm"
+          (click)="toggleCategoryDropdown.set(!toggleCategoryDropdown())"
+          (mouseleave)="toggleCategoryDropdown.set(false)"
+        >
+          @if (!categoryFormValue) {
+            <span class="opacity-50">Select Category</span>
+          } @else {
+            <span>
+              {{ categoryFormValue }}
+            </span>
           }
-        </select>
+        </div>
+
+        @if (toggleCategoryDropdown()) {
+          <div
+            class="bg-light-green flex flex-col rounded-t-2xl rounded-b-2xl -translate-y-7"
+          >
+            <ul class="py-2 text-sm text-main-layout px-6 mt-4">
+              @for (
+                category of categoryService.getAllCategories();
+                track category.id
+              ) {
+                <li (click)="setCategory(category.name)">
+                  <p class="text-lg py-1" form="transactionsAddForm">
+                    {{ category.name }}
+                  </p>
+                </li>
+              }
+            </ul>
+          </div>
+        }
       </div>
 
       <div class="flex flex-col text-left mb-4">

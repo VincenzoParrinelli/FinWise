@@ -14,6 +14,7 @@ import { SilverwareComponent } from './svg/categories/silverware/silverware.comp
 import { TransportComponent } from './svg/categories/transport/transport.component';
 import { TravelComponent } from './svg/categories/travel/travel.component';
 import { WeddingComponent } from './svg/categories/wedding/wedding.component';
+import { SalaryComponent } from './svg/categories/salary/salary.component';
 
 @Injectable({
   providedIn: 'root',
@@ -22,61 +23,66 @@ export class CategoryService {
   private categories: Category[] = [
     {
       id: 0,
+      name: 'Salary',
+      svgComponent: SalaryComponent,
+    },
+    {
+      id: 1,
       name: 'Silverware',
       svgComponent: SilverwareComponent,
     },
     {
-      id: 1,
+      id: 2,
       name: 'Transport',
       svgComponent: TransportComponent,
     },
     {
-      id: 2,
+      id: 3,
       name: 'Groceries',
       svgComponent: GroceriesComponent,
     },
     {
-      id: 3,
+      id: 4,
       name: 'Rent',
       svgComponent: RentComponent,
     },
     {
-      id: 4,
+      id: 5,
       name: 'Gift',
       svgComponent: GiftComponent,
     },
     {
-      id: 5,
+      id: 6,
       name: 'Medicine',
       svgComponent: MedicineComponent,
     },
     {
-      id: 6,
+      id: 7,
       name: 'Entertainment',
       svgComponent: EntertainmentComponent,
     },
     {
-      id: 7,
+      id: 8,
       name: 'Saving',
       svgComponent: SavingComponent,
     },
     {
-      id: 8,
+      id: 9,
       name: 'Travel',
       svgComponent: TravelComponent,
     },
     {
-      id: 9,
+      id: 10,
       name: 'New Home',
       svgComponent: NewHomeComponent,
     },
     {
-      id: 10,
+      id: 11,
       name: 'Car',
       svgComponent: CarComponent,
     },
     {
-      id: 11,
+      id: 12,
       name: 'Wedding',
       svgComponent: WeddingComponent,
     },

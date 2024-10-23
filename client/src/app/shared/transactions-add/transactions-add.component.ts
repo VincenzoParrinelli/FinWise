@@ -46,6 +46,7 @@ export class TransactionsAddComponent {
   private formIsSubmitted = signal<boolean>(false);
   private store = inject(Store<TransactionsState>);
   loading = this.store.selectSignal<boolean>(selectLoading);
+  toggleCategoryDropdown = signal<boolean>(false);
 
   get isDateRequired() {
     return (
@@ -75,6 +76,10 @@ export class TransactionsAddComponent {
     );
   }
 
+  get categoryFormValue() {
+    return this.transactionsAddForm.get('category')?.value;
+  }
+
   formatAmountOnEnter(): void {
     const amountControl = this.transactionsAddForm.get('amount');
 
@@ -91,6 +96,10 @@ export class TransactionsAddComponent {
     const toNegative = parseFloat(amountControl.value).toFixed(2);
 
     amountControl.setValue(`-$${toNegative}`);
+  }
+
+  setCategory(categoryName: string): void {
+    this.transactionsAddForm.patchValue({ category: categoryName });
   }
 
   onSubmit() {
