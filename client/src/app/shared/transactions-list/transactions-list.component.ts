@@ -18,4 +18,43 @@ export class TransactionsListComponent {
   transactions = this.store.selectSignal(selectTransactions);
   categoryService = inject(CategoryService);
   categories = this.categoryService.getAllCategories();
+
+  shouldDisplayDate(
+    i: number,
+    currTransaction: any,
+    prevTransaction: any
+  ): boolean {
+    return i === 0 || currTransaction.date !== prevTransaction?.date;
+  }
+
+  getDateFormat(currTransaction: any, prevTransaction: any): string {
+    const currDate = new Date(currTransaction.date);
+    const prevDate = prevTransaction ? new Date(prevTransaction.date) : null;
+    const currYear = new Date().getFullYear();
+    const currYearMatches = currDate.getFullYear() === currYear;
+
+    if (!prevDate) {
+      return currYearMatches ? 'MMMM' : 'y';
+    }
+
+    const prevYear = prevDate.getFullYear();
+    const prevMonth = prevDate.getMonth();
+    const prevDay = prevDate.getDate();
+    const currMonth = currDate.getMonth();
+    const currDay = currDate.getDate();
+
+    if (currDate.getFullYear() !== prevYear) {
+      return currYearMatches ? 'MMMM' : 'y';
+    }
+
+    if (currMonth !== prevMonth) {
+      return 'MMMM';
+    }
+
+    if (currDay !== prevDay) {
+      return 'd';
+    }
+
+    return '';
+  }
 }

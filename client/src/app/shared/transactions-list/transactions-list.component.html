@@ -1,5 +1,14 @@
-@for (transaction of transactions(); track transaction._id) {
-  <div class="flex items-center justify-between">
+@for (transaction of transactions(); track transaction._id; let i = $index) {
+  @if (shouldDisplayDate(i, transaction, transactions()[i - 1])) {
+    <div class="flex mt-6">
+      <span class="text-sm">{{
+        transaction.date
+          | date: getDateFormat(transaction, transactions()[i - 1])
+      }}</span>
+    </div>
+  }
+
+  <div class="flex items-center justify-between mt-2">
     @for (category of categories; track $index) {
       @if (transaction.category === category.name) {
         <ng-container *ngComponentOutlet="category.svgComponent">

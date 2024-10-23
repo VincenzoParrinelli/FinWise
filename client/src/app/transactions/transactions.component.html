@@ -22,9 +22,12 @@
       </div>
     </div>
   </div>
-  <div ngProjectAs="bottom-content">
-    <div class="absolute right-8 translate-y-2">
-      <app-plus (click)="routerService.navigateToTransactionsAdd()" />
-    </div>
+  <div ngProjectAs="bottom-content" class="mt-2 mb-20 mx-6 w-80 h-full">
+    <app-plus
+      (click)="routerService.navigateToTransactionsAdd()"
+      class="fixed right-0 -translate-x-9 -translate-y-0"
+    />
+
+    <app-transactions-list />
   </div>
 </app-main-layout>

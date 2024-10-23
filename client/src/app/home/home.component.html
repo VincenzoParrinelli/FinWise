@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div ngProjectAs="bottom-content" class="mt-6 mx-6">
+  <div ngProjectAs="bottom-content" class="mt-6 mb-72 mx-6 w-80 h-full">
     <div
       class="flex items-center justify-between rounded-3xl py-1.5 bg-caribbean-green text-main-layout"
     >
@@ -77,16 +77,15 @@
       class="flex items-center justify-between rounded-2xl bg-cyprus py-1 px-2.5 my-5"
     >
       @for (data of btnsData(); track $index) {
-
-      <app-custom-btn
-        [text]="data.text"
-        width="24"
-        bgColor="cyprus"
-        [selected]="data.selected"
-        textColor="white"
-        rounded="md"
-        (click)="selectedBtnToggle($index)"
-      />
+        <app-custom-btn
+          [text]="data.text"
+          width="24"
+          bgColor="cyprus"
+          [selected]="data.selected"
+          textColor="white"
+          rounded="md"
+          (click)="selectedBtnToggle($index)"
+        />
       }
     </div>
 
