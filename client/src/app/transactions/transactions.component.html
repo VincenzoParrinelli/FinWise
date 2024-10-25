@@ -35,9 +35,9 @@
   </div>
   <div
     ngProjectAs="bottom-content"
-    [class.mb-20]="transactions().length"
+    [class.mb-24]="transactions().length"
     [class.mt-2]="transactions().length"
-    class="mx-6 w-80 h-full"
+    class="mx-6 w-80 overflow-x-hidden max-h-screen"
   >
     <app-plus
       (click)="routerService.navigateToTransactionsAdd()"

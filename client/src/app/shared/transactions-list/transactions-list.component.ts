@@ -34,7 +34,7 @@ export class TransactionsListComponent {
     const currYearMatches = currDate.getFullYear() === currYear;
 
     if (!prevDate) {
-      return currYearMatches ? 'MMMM' : 'y';
+      return currYearMatches ? 'EEEE' : 'y';
     }
 
     const prevYear = prevDate.getFullYear();
