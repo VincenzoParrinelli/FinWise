@@ -83,7 +83,7 @@ export class TransactionsAddComponent {
   formatAmountOnEnter(): void {
     const amountControl = this.transactionsAddForm.get('amount');
 
-    if (!amountControl || !amountControl.value) return;
+    if (!amountControl?.value) return;
 
     amountControl.setValue(amountControl.value.replace(/[^0-9.]/g, ''));
   }
@@ -91,7 +91,7 @@ export class TransactionsAddComponent {
   formatAmountOnLeave(): void {
     const amountControl = this.transactionsAddForm.get('amount');
 
-    if (!amountControl || !amountControl.value) return;
+    if (!amountControl?.value) return;
 
     const toNegative = parseFloat(amountControl.value).toFixed(2);
 
@@ -100,9 +100,26 @@ export class TransactionsAddComponent {
 
   setCategory(categoryName: string): void {
     this.transactionsAddForm.patchValue({ category: categoryName });
+
+    const amountControl = this.transactionsAddForm.get('amount');
+
+    if (!amountControl?.value) return;
+
+    const isNotSalary = categoryName !== 'Salary';
+    let amountValueNumeric = amountControl.value.replace(/[^0-9.]/g, '');
+
+    if (isNotSalary) {
+      amountValueNumeric = amountValueNumeric.includes('-')
+        ? amountValueNumeric
+        : `-$${amountValueNumeric}`;
+    } else {
+      amountValueNumeric = `$${amountValueNumeric}`;
+    }
+
+    amountControl.setValue(amountValueNumeric);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.formIsSubmitted.set(true);
 
     if (!this.transactionsAddForm.valid) {
@@ -110,11 +127,18 @@ export class TransactionsAddComponent {
       return;
     }
 
+    const amountWithRemovedCurrencySymbol = parseFloat(
+      this.transactionsAddForm.controls.amount.value?.replace(/[^0-9.-]/g, '')!
+    );
+
+    const transaction = {
+      ...this.transactionsAddForm.value,
+      amount: amountWithRemovedCurrencySymbol,
+    } as NewTransactionFormData;
+
     this.store.dispatch(
       TransactionsActions.createTransaction({
-        transaction: {
-          ...(this.transactionsAddForm.value as NewTransactionFormData),
-        },
+        transaction,
       })
     );
   }

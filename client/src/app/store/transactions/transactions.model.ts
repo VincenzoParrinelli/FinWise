@@ -3,7 +3,7 @@ export interface TransactionsState {
 }
 
 export interface NewTransactionFormData {
-  amount: string;
+  amount: number;
   category: string;
   message: string;
   date: string | Date;
@@ -12,7 +12,7 @@ export interface NewTransactionFormData {
 export interface Transaction {
   _id: string | null;
   userId: string;
-  amount: string;
+  amount: number;
   category: string;
   message: string;
   date: Date;
