@@ -2,7 +2,14 @@
   <span ngProjectAs="header-content">Transactions</span>
 
   <div ngProjectAs="top-content" class="mt-3">
-    <app-total-balance />
+    <div
+      class="flex flex-col text-base bg-honeydew text-main-layout mx-8 p-1 rounded-xl"
+    >
+      <span class="font-medium">Total balance</span>
+      <span class="text-2xl font-extrabold">{{
+        transactionsTotals().totalBalance | currency
+      }}</span>
+    </div>
 
     <div class="flex items-center justify-between mx-8 mt-3 gap-2.5">
       <div
@@ -10,7 +17,9 @@
       >
         <app-income />
         <p class="text-sm font-medium leading-4">Income</p>
-        <p class="text-lg font-bold leading-5">$7,783.00</p>
+        <p class="text-lg font-bold leading-5">
+          {{ transactionsTotals().totalIncome | currency }}
+        </p>
       </div>
 
       <div
@@ -18,7 +27,9 @@
       >
         <app-expenses />
         <p class="text-sm font-medium leading-4">Expense</p>
-        <p class="text-lg font-bold text-vivid-blue leading-5">$1.187.40</p>
+        <p class="text-lg font-bold text-vivid-blue leading-5">
+          {{ transactionsTotals().totalExpenses | currency }}
+        </p>
       </div>
     </div>
   </div>

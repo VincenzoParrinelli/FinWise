@@ -1,9 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import { NewTransactionFormData, Transaction } from './transactions.model';
+import {
+  NewTransactionFormData,
+  Transaction,
+  TransactionsState,
+} from './transactions.model';
 
-export const getTransactionsSuccess = createAction(
-  '[Transaction] Get Transactions Success',
-  props<{ transactions: Transaction[] }>()
+export const getTransactionsWithTotalsSuccess = createAction(
+  '[Transaction] Get Transactions With Totals Success',
+  props<{ transactionsWithTotals: TransactionsState }>()
 );
 
 export const createTransaction = createAction(

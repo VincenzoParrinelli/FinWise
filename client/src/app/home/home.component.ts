@@ -1,8 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { map } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { selectUserState } from '../store/user/user.selectors';
+import { selectTransactionsTotals } from '../store/transactions/transactions.selectors';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
@@ -26,12 +28,14 @@ import { TransactionsListComponent } from '../shared/transactions-list/transacti
     CarComponent,
     BackArrowComponent,
     TransactionsListComponent,
+    CurrencyPipe,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   private store = inject(Store);
+  transactionsTotals = this.store.selectSignal(selectTransactionsTotals);
 
   btnsData = signal([
     {

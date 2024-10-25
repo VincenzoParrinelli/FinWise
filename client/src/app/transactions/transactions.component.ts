@@ -1,7 +1,11 @@
 import { Component, inject } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+
+import { Store } from '@ngrx/store';
+import { selectTransactionsTotals } from '../store/transactions/transactions.selectors';
+import { TransactionsState } from '../store/transactions/transactions.model';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
-import { TotalBalanceComponent } from '../shared/total-balance/total-balance.component';
 import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
 
 import { IncomeComponent } from '../svg/income/income.component';
@@ -15,15 +19,17 @@ import { RouterService } from '../router.service';
   standalone: true,
   imports: [
     MainLayoutComponent,
-    TotalBalanceComponent,
     IncomeComponent,
     ExpensesComponent,
     PlusComponent,
     TransactionsListComponent,
+    CurrencyPipe,
   ],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.scss',
 })
 export class TransactionsComponent {
   routerService = inject(RouterService);
+  private store = inject(Store<TransactionsState>);
+  transactionsTotals = this.store.selectSignal(selectTransactionsTotals);
 }

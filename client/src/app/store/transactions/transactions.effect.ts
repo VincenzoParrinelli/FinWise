@@ -11,7 +11,7 @@ import * as TransactionsActions from './transactions.actions';
 import * as UserActions from '../user/user.actions';
 import * as AppActions from '../app/app.actions';
 
-import { Transaction } from './transactions.model';
+import { Transaction, TransactionsState } from './transactions.model';
 
 import { selectUserId } from '../user/user.selectors';
 
@@ -27,15 +27,17 @@ export class TransactionsEffects {
       ofType(UserActions.loginUserSuccess),
       mergeMap((action) =>
         this.http
-          .get<Transaction[]>(
+          .get<TransactionsState>(
             `${this.apiUrl}/transactions/${action.user._id}`,
             {
               withCredentials: true,
             }
           )
           .pipe(
-            map((transactions) =>
-              TransactionsActions.getTransactionsSuccess({ transactions })
+            map((transactionsWithTotals) =>
+              TransactionsActions.getTransactionsWithTotalsSuccess({
+                transactionsWithTotals,
+              })
             ),
             tap(() =>
               this.store.dispatch(AppActions.setLoading({ loading: false }))
