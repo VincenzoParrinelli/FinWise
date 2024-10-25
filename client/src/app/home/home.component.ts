@@ -4,7 +4,10 @@ import { map } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { selectUserState } from '../store/user/user.selectors';
-import { selectTransactionsTotals } from '../store/transactions/transactions.selectors';
+import {
+  selectTransactions,
+  selectTransactionsTotals,
+} from '../store/transactions/transactions.selectors';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
@@ -36,6 +39,7 @@ import { TransactionsListComponent } from '../shared/transactions-list/transacti
 export class HomeComponent {
   private store = inject(Store);
   transactionsTotals = this.store.selectSignal(selectTransactionsTotals);
+  transactions = this.store.selectSignal(selectTransactions);
 
   btnsData = signal([
     {

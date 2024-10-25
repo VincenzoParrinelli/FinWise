@@ -52,7 +52,7 @@ export class TransactionsListComponent {
     }
 
     if (currDay !== prevDay) {
-      return 'd';
+      return 'EEEE';
     }
 
     return '';

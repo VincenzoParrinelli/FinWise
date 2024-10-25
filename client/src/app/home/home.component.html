@@ -28,7 +28,11 @@
     </div>
   </div>
 
-  <div ngProjectAs="bottom-content" class="mt-6 mb-72 mx-6 w-80 h-full">
+  <div
+    ngProjectAs="bottom-content"
+    [class.mb-72]="transactions().length"
+    class="mt-6 mx-6 w-80 h-full"
+  >
     <div
       class="flex items-center justify-between rounded-3xl py-1.5 bg-caribbean-green text-main-layout"
     >

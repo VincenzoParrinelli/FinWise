@@ -33,7 +33,12 @@
       </div>
     </div>
   </div>
-  <div ngProjectAs="bottom-content" class="mt-2 mb-20 mx-6 w-80 h-full">
+  <div
+    ngProjectAs="bottom-content"
+    [class.mb-20]="transactions().length"
+    [class.mt-2]="transactions().length"
+    class="mx-6 w-80 h-full"
+  >
     <app-plus
       (click)="routerService.navigateToTransactionsAdd()"
       class="fixed right-0 -translate-x-9 -translate-y-0"
