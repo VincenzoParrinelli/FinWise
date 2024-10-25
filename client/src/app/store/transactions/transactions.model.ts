@@ -8,8 +8,8 @@ export interface TransactionsState {
 export interface NewTransactionFormData {
   amount: number;
   category: string;
-  message: string;
   date: string | Date;
+  message?: string;
 }
 
 export interface Transaction {
