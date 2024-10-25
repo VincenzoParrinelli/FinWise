@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface ITransaction extends Document {
   userId: string;
   category: string;
-  amount: string;
+  amount: number;
   description: string;
   date: Date;
 }
@@ -33,7 +33,7 @@ const transactionSchema = new Schema<ITransaction>({
     ],
   },
   amount: {
-    type: String,
+    type: Number,
     required: true,
   },
   description: {

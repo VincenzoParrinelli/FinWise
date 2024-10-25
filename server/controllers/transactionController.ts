@@ -9,9 +9,24 @@ export const getTransactions = async (
   const userId = req.params.userId;
 
   try {
-    const transactions = await Transaction.find({ userId });
+    const transactionsWithTotals = await Transaction.aggregate([
+      { $match: { userId } },
+      {
+        $group: {
+          _id: "$userid",
+          totalBalance: { $sum: "$amount" },
+          totalIncome: {
+            $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
+          },
+          totalExpenses: {
+            $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
+          },
+          transactions: { $push: "$$ROOT" },
+        },
+      },
+    ]);
 
-    res.status(200).json(transactions);
+    res.status(200).json(transactionsWithTotals);
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
   }
