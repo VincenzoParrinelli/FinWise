@@ -11,6 +11,8 @@ export const getTransactions = async (
   try {
     const transactionsWithTotals = await Transaction.aggregate([
       { $match: { userId } },
+      { $sort: { date: -1 } },
+      { $limit: 5 },
       {
         $group: {
           _id: "$userid",
