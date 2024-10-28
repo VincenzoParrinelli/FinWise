@@ -48,7 +48,7 @@ export class TransactionsComponent {
 
   onScroll(event: any): void {
     const element = event.target;
-    const threshold = 100;
+    const threshold = 10;
 
     if (
       element.scrollHeight - element.scrollTop <=

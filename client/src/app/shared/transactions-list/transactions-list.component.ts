@@ -2,14 +2,17 @@ import { Component, inject } from '@angular/core';
 import { CurrencyPipe, DatePipe, NgComponentOutlet } from '@angular/common';
 import { Store } from '@ngrx/store';
 
+import { SpinnerComponent } from '../spinner/spinner.component';
+
 import { CategoryService } from '../../category.service';
 
 import { selectTransactions } from '../../store/transactions/transactions.selectors';
+import { selectLoading } from '../../store/app/app.selectors';
 
 @Component({
   selector: 'app-transactions-list',
   standalone: true,
-  imports: [DatePipe, CurrencyPipe, NgComponentOutlet],
+  imports: [DatePipe, CurrencyPipe, NgComponentOutlet, SpinnerComponent],
   templateUrl: './transactions-list.component.html',
   styleUrl: './transactions-list.component.scss',
 })
@@ -18,6 +21,7 @@ export class TransactionsListComponent {
   transactions = this.store.selectSignal(selectTransactions);
   categoryService = inject(CategoryService);
   categories = this.categoryService.getAllCategories();
+  loading = this.store.selectSignal(selectLoading);
 
   shouldDisplayDate(
     i: number,

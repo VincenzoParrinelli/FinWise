@@ -8,7 +8,10 @@
     </div>
   }
 
-  <div class="flex items-center justify-between mt-2">
+  <div
+    [class.mb-8]="transactions().length - 1 === i"
+    class="flex items-center justify-between mt-2"
+  >
     @for (category of categories; track $index) {
       @if (transaction.category === category.name) {
         <ng-container *ngComponentOutlet="category.svgComponent">
@@ -32,5 +35,11 @@
     <span class="text-sm ml-2.5 text-honeydew w-14 text-right">
       {{ transaction.amount | currency }}
     </span>
+  </div>
+}
+
+@if (loading()) {
+  <div class="flex justify-center items-center my-8">
+    <app-spinner />
   </div>
 }
