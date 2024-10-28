@@ -10,6 +10,11 @@ export const getTransactionsWithTotalsSuccess = createAction(
   props<{ transactionsWithTotals: TransactionsState }>()
 );
 
+export const getTransactionsWithTotals = createAction(
+  '[Transaction] Get Transactions',
+  props<{ userId: string; page: number; pageSize: number }>()
+);
+
 export const createTransaction = createAction(
   '[Transaction] Create Transaction',
   props<{ transaction: NewTransactionFormData }>()

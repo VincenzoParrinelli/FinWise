@@ -7,15 +7,15 @@ export const getTransactions = async (
   res: Response
 ): Promise<void> => {
   const userId = req.params.userId;
+  const page = parseInt(req.query.page as string) || 1;
+  const pageSize = parseInt(req.query.pageSize as string) || 10;
 
   try {
-    const transactionsWithTotals = await Transaction.aggregate([
+    const totals = await Transaction.aggregate([
       { $match: { userId } },
-      { $sort: { date: -1 } },
-      { $limit: 5 },
       {
         $group: {
-          _id: "$userid",
+          _id: null,
           totalBalance: { $sum: "$amount" },
           totalIncome: {
             $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
@@ -23,12 +23,21 @@ export const getTransactions = async (
           totalExpenses: {
             $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
           },
-          transactions: { $push: "$$ROOT" },
+          totalDocuments: { $sum: 1 },
         },
+      },
+      {
+        $project: { _id: 0 },
       },
     ]);
 
-    res.status(200).json(transactionsWithTotals[0]);
+    const transactions = await Transaction.find({ userId })
+      .sort({ date: -1 })
+      .skip((page - 1) * pageSize)
+      .limit(10)
+      .lean();
+
+    res.status(200).json({ transactions, ...totals[0] });
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
   }

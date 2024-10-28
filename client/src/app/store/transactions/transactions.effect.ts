@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -7,13 +7,12 @@ import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 
 import { RouterService } from '../../router.service';
 
-import * as TransactionsActions from './transactions.actions';
-import * as UserActions from '../user/user.actions';
 import * as AppActions from '../app/app.actions';
-
 import { Transaction, TransactionsState } from './transactions.model';
+import * as TransactionsActions from './transactions.actions';
 
 import { selectUserId } from '../user/user.selectors';
+import * as UserActions from '../user/user.actions';
 
 export class TransactionsEffects {
   private actions$ = inject(Actions);
@@ -22,17 +21,14 @@ export class TransactionsEffects {
   private apiUrl = environment.apiUrl;
   private routerService = inject(RouterService);
 
-  getTransactions$ = createEffect(() =>
+  getTransactionsOnLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.loginUserSuccess),
-      mergeMap((action) =>
+      mergeMap(({ user }) =>
         this.http
-          .get<TransactionsState>(
-            `${this.apiUrl}/transactions/${action.user._id}`,
-            {
-              withCredentials: true,
-            }
-          )
+          .get<TransactionsState>(`${this.apiUrl}/transactions/${user._id}`, {
+            withCredentials: true,
+          })
           .pipe(
             map((transactionsWithTotals) =>
               TransactionsActions.getTransactionsWithTotalsSuccess({
@@ -48,6 +44,38 @@ export class TransactionsEffects {
             })
           )
       )
+    )
+  );
+
+  getPaginatedTransactions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TransactionsActions.getTransactionsWithTotals),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ userId, page, pageSize }) => {
+        const params = new HttpParams()
+          .set('page', page)
+          .set('pageSize', pageSize);
+
+        return this.http
+          .get<TransactionsState>(`${this.apiUrl}/transactions/${userId}`, {
+            params,
+            withCredentials: true,
+          })
+          .pipe(
+            map((transactionsWithTotals) =>
+              TransactionsActions.getTransactionsWithTotalsSuccess({
+                transactionsWithTotals,
+              })
+            ),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return of();
+            })
+          );
+      })
     )
   );
 

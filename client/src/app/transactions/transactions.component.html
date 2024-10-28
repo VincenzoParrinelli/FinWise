@@ -38,6 +38,7 @@
     [class.mb-24]="transactions().length"
     [class.mt-2]="transactions().length"
     class="mx-6 w-80 overflow-x-hidden max-h-screen"
+    (scroll)="onScroll($event)"
   >
     <app-plus
       (click)="routerService.navigateToTransactionsAdd()"

@@ -6,6 +6,7 @@ export const initialState: TransactionsState = {
   totalBalance: 0,
   totalIncome: 0,
   totalExpenses: 0,
+  totalDocuments: 0,
   transactions: [],
 };
 
@@ -14,7 +15,17 @@ export const transactionsReducer = createReducer(
 
   on(
     TransactionsActions.getTransactionsWithTotalsSuccess,
-    (_state, { transactionsWithTotals }) => transactionsWithTotals
+    (state, { transactionsWithTotals }) => ({
+      ...state,
+      totalBalance: transactionsWithTotals.totalBalance,
+      totalIncome: transactionsWithTotals.totalIncome,
+      totalExpenses: transactionsWithTotals.totalExpenses,
+      totalDocuments: transactionsWithTotals.totalDocuments,
+      transactions: [
+        ...state.transactions,
+        ...transactionsWithTotals.transactions,
+      ],
+    })
   ),
   on(TransactionsActions.createTransaction, (state) => ({
     ...state,
