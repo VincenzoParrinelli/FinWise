@@ -57,7 +57,6 @@ export class TransactionsComponent {
     ) {
       this.store.dispatch(
         TransactionActions.getTransactionsWithTotals({
-          userId: this.userId()!,
           page: this.page,
           pageSize: this.pageSize,
         })

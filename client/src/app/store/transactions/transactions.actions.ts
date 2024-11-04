@@ -12,7 +12,7 @@ export const getTransactionsWithTotalsSuccess = createAction(
 
 export const getTransactionsWithTotals = createAction(
   '[Transaction] Get Transactions',
-  props<{ userId: string; page: number; pageSize: number }>()
+  props<{ page: number; pageSize: number }>()
 );
 
 export const createTransaction = createAction(

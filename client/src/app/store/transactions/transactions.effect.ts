@@ -24,25 +24,21 @@ export class TransactionsEffects {
   getTransactionsOnLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.loginUserSuccess),
-      mergeMap(({ user }) =>
-        this.http
-          .get<TransactionsState>(`${this.apiUrl}/transactions/${user._id}`, {
-            withCredentials: true,
-          })
-          .pipe(
-            map((transactionsWithTotals) =>
-              TransactionsActions.getTransactionsWithTotalsSuccess({
-                transactionsWithTotals,
-              })
-            ),
-            tap(() =>
-              this.store.dispatch(AppActions.setLoading({ loading: false }))
-            ),
-            catchError((error) => {
-              this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
+      mergeMap(() =>
+        this.http.get<TransactionsState>(`${this.apiUrl}/transactions`).pipe(
+          map((transactionsWithTotals) =>
+            TransactionsActions.getTransactionsWithTotalsSuccess({
+              transactionsWithTotals,
             })
-          )
+          ),
+          tap(() =>
+            this.store.dispatch(AppActions.setLoading({ loading: false }))
+          ),
+          catchError((error) => {
+            this.store.dispatch(AppActions.setLoading({ loading: false }));
+            return of();
+          })
+        )
       )
     )
   );
@@ -51,15 +47,14 @@ export class TransactionsEffects {
     this.actions$.pipe(
       ofType(TransactionsActions.getTransactionsWithTotals),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
-      mergeMap(({ userId, page, pageSize }) => {
+      mergeMap(({ page, pageSize }) => {
         const params = new HttpParams()
           .set('page', page)
           .set('pageSize', pageSize);
 
         return this.http
-          .get<TransactionsState>(`${this.apiUrl}/transactions/${userId}`, {
+          .get<TransactionsState>(`${this.apiUrl}/transactions`, {
             params,
-            withCredentials: true,
           })
           .pipe(
             map((transactionsWithTotals) =>
@@ -83,16 +78,11 @@ export class TransactionsEffects {
     this.actions$.pipe(
       ofType(TransactionsActions.createTransaction),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
-      withLatestFrom(this.store.select(selectUserId)),
-      mergeMap(([{ transaction }, _id]) =>
+      mergeMap(({ transaction }) =>
         this.http
-          .post<Transaction>(
-            `${this.apiUrl}/transactions/create`,
-            { ...transaction, userId: _id },
-            {
-              withCredentials: true,
-            }
-          )
+          .post<Transaction>(`${this.apiUrl}/transactions/create`, {
+            ...transaction,
+          })
           .pipe(
             map((createdTransaction) =>
               TransactionsActions.createTransactionSuccess({

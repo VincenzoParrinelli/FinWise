@@ -6,7 +6,7 @@ export const getTransactions = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const userId = req.params.userId;
+  const userId = res.locals.user._id.toString();
   const page = parseInt(req.query.page as string) || 1;
   const pageSize = parseInt(req.query.pageSize as string) || 10;
 
@@ -49,18 +49,11 @@ export const createTransaction = async (
 ): Promise<void> => {
   const transaction = req.body;
   const date = new Date(req.body.date);
-  const userId = req.body.userId;
+  const userId = res.locals.user._id.toString();
 
   try {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
       res.status(400).json({ message: "Invalid Data" });
-      return;
-    }
-
-    const user = await User.findById(userId).lean();
-
-    if (!user) {
-      res.status(404).send({ message: "User not found" });
       return;
     }
 

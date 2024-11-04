@@ -37,9 +37,7 @@ export class TransactionsListComponent {
     const currYear = new Date().getFullYear();
     const currYearMatches = currDate.getFullYear() === currYear;
 
-    if (!prevDate) {
-      return currYearMatches ? 'EEEE' : 'y';
-    }
+    if (!prevDate) return currYearMatches ? 'EEEE' : 'y';
 
     const prevYear = prevDate.getFullYear();
     const prevMonth = prevDate.getMonth();
@@ -47,17 +45,12 @@ export class TransactionsListComponent {
     const currMonth = currDate.getMonth();
     const currDay = currDate.getDate();
 
-    if (currDate.getFullYear() !== prevYear) {
+    if (currDate.getFullYear() !== prevYear)
       return currYearMatches ? 'MMMM' : 'y';
-    }
 
-    if (currMonth !== prevMonth) {
-      return 'MMMM';
-    }
+    if (currMonth !== prevMonth) return 'MMMM';
 
-    if (currDay !== prevDay) {
-      return 'EEEE';
-    }
+    if (currDay !== prevDay) return 'EEEE';
 
     return '';
   }

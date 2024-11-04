@@ -5,6 +5,7 @@ import cors from "cors";
 import connectDb from "./config/db";
 import userRoutes from "./routes/userRoutes";
 import transactionRoutes from "./routes/transactionRoutes";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -13,8 +14,9 @@ const PORT = process.env.PORT || 8000;
 
 connectDb();
 
-app.use(cors({ origin: ["http://localhost:4200"], credentials: true }));
+app.use(cors({ origin: "http://localhost:4200", credentials: true }));
 app.use(bodyparser.json());
+app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);

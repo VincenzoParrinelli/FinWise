@@ -23,24 +23,20 @@ export class UserEffects {
       ofType(UserActions.createUser),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
       mergeMap(({ user }) =>
-        this.http
-          .post<User>(`${this.apiUrl}/users/create-user`, user, {
-            withCredentials: true,
+        this.http.post<User>(`${this.apiUrl}/users/create-user`, user).pipe(
+          map((createdUser) => {
+            return UserActions.createUserSuccess({ user: createdUser });
+          }),
+          tap(() =>
+            this.store.dispatch(AppActions.setLoading({ loading: false }))
+          ),
+          tap(() => this.routerService.navigateToHome()),
+          catchError((error) => {
+            this.store.dispatch(AppActions.setLoading({ loading: false }));
+            return of();
+            // of(AppActions.setError({ error: error.message }));
           })
-          .pipe(
-            map((createdUser) => {
-              return UserActions.createUserSuccess({ user: createdUser });
-            }),
-            tap(() =>
-              this.store.dispatch(AppActions.setLoading({ loading: false }))
-            ),
-            tap(() => this.routerService.navigateToHome()),
-            catchError((error) => {
-              this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
-              // of(AppActions.setError({ error: error.message }));
-            })
-          )
+        )
       )
     )
   );
@@ -51,11 +47,7 @@ export class UserEffects {
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
       mergeMap(({ email, password }) =>
         this.http
-          .post<User>(
-            `${this.apiUrl}/users/login`,
-            { email, password },
-            { withCredentials: true }
-          )
+          .post<User>(`${this.apiUrl}/users/login`, { email, password })
           .pipe(
             map((loggedInUserData) =>
               UserActions.loginUserSuccess({ user: loggedInUserData })

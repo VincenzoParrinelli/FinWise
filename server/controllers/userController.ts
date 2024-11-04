@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import User, { IUser } from "../models/userModel";
 import { isEmail, isDate, isStrongPassword, isMobilePhone } from "validator";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { generateTokens } from "../utils/authUtils";
 
 export const createUser = async (
   req: Request,
@@ -34,6 +34,8 @@ export const createUser = async (
     const newUser: IUser = new User({ ...userData, password: hashedPassword });
     newUser.save();
 
+    generateTokens(userData, res);
+
     res.status(201).json(newUser);
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
@@ -56,25 +58,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const accessToken = jwt.sign(
-      { id: userData._id },
-      process.env.ACCESS_TOKEN_SECRET!
-    );
-
-    const refreshToken = jwt.sign(
-      { id: userData._id },
-      process.env.REFRESH_TOKEN_SECRET!
-    );
-
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: true,
-    });
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: true,
-    });
+    generateTokens(userData, res);
 
     // Exclude password from userData in response
     const { password: _, ...userWithoutPassword } = userData;
