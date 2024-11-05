@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import User, { IUser } from "../models/userModel";
-import { generateTokens } from "../utils/authUtils";
+import User from "../models/userModel";
+import { generateAccessToken } from "../utils/authUtils";
 
 export const authMiddleware = async (
   req: Request,
@@ -17,46 +17,52 @@ export const authMiddleware = async (
   }
 
   try {
-    if (accessToken) {
-      const decodedAccess = jwt.verify(
-        accessToken,
-        process.env.ACCESS_TOKEN_SECRET!
-      ) as { id: string };
+    const decodedAccess = jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_SECRET!
+    ) as { id: string };
 
-      const user = await User.findById(decodedAccess.id).lean();
+    const user = await User.findById(decodedAccess.id).lean();
 
-      if (!user) {
-        res.status(401).json({ message: "User not found. Access denied." });
+    if (!user) {
+      res.status(401).json({ message: "User not found. Access denied." });
+      return;
+    }
+
+    res.locals.user = user;
+    return next();
+  } catch (accessErr) {
+    if (accessErr instanceof jwt.TokenExpiredError && refreshToken) {
+      if (!refreshToken) {
+        res.status(403).json({ message: "Refresh token missing or expired" });
         return;
       }
 
-      res.locals.user = user;
+      try {
+        const decodedRefresh = jwt.verify(
+          refreshToken,
+          process.env.REFRESH_TOKEN_SECRET!
+        ) as { id: string };
 
-      return next();
-    }
+        const user = await User.findById(decodedRefresh.id).lean();
 
-    if (refreshToken) {
-      const decodedRefresh = jwt.verify(
-        refreshToken,
-        process.env.ACCESS_TOKEN_SECRET!
-      ) as { id: string };
+        if (!user) {
+          res.status(401).json({ message: "User not found. Access denied." });
+          return;
+        }
 
-      const user = await User.findById(decodedRefresh.id).lean();
+        res.locals.user = user;
 
-      if (!user) {
-        res.status(403).json({ message: "User not found. Access denied." });
+        generateAccessToken(user, res);
 
+        return next();
+      } catch (refreshErr) {
+        res.status(403).json({ message: "Refresh token expired" });
         return;
       }
-
-      res.locals.user = user;
-
-      generateTokens(user, res);
-
-      return next();
     }
-  } catch (err) {
-    res.status(403).json({ message: "Invalid token." });
+
+    res.status(403).json({ message: "Access token invalid" });
     return;
   }
 };

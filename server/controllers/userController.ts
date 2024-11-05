@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import User, { IUser } from "../models/userModel";
 import { isEmail, isDate, isStrongPassword, isMobilePhone } from "validator";
 import bcrypt from "bcrypt";
-import { generateTokens } from "../utils/authUtils";
+import { generateAccessToken, generateRefreshToken } from "../utils/authUtils";
 
 export const createUser = async (
   req: Request,
@@ -34,7 +34,8 @@ export const createUser = async (
     const newUser: IUser = new User({ ...userData, password: hashedPassword });
     newUser.save();
 
-    generateTokens(userData, res);
+    generateAccessToken(userData, res);
+    generateRefreshToken(userData, res);
 
     res.status(201).json(newUser);
   } catch (err) {
@@ -58,7 +59,8 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    generateTokens(userData, res);
+    generateAccessToken(userData, res);
+    generateRefreshToken(userData, res);
 
     // Exclude password from userData in response
     const { password: _, ...userWithoutPassword } = userData;
