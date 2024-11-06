@@ -3,7 +3,8 @@ import { LaunchComponent } from './launch/launch.component';
 import { OnBoardingComponent } from './on-boarding/on-boarding.component';
 import { LoginComponent } from './forms/login/login.component';
 import { SignupComponent } from './forms/signup/signup.component';
-import { AuthGuard } from './store/auth/auth.guard';
+import { noAuthGuard } from './guards/auth/noAuth.guard';
+import { AuthGuard } from './guards/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,7 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [noAuthGuard],
   },
   {
     path: 'signup',
