@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, take } from 'rxjs';
-import { selectIsUserAuthenticated } from '../user/user.selectors';
+import { selectIsUserAuthenticated } from '../../store/user/user.selectors';
 
 @Injectable({
   providedIn: 'root',
