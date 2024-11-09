@@ -3,15 +3,13 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { environment } from '../../../environments/environment.development';
-import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
 import { RouterService } from '../../router.service';
 
 import * as AppActions from '../app/app.actions';
 import { Transaction, TransactionsState } from './transactions.model';
 import * as TransactionsActions from './transactions.actions';
-
-import { selectUserId } from '../user/user.selectors';
 import * as UserActions from '../user/user.actions';
 
 export class TransactionsEffects {

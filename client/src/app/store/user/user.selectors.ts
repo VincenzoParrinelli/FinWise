@@ -12,3 +12,8 @@ export const selectUserId = createSelector(
   selectUserState,
   (state: UserState) => state.user?._id
 );
+
+export const selectUserName = createSelector(
+  selectUserState,
+  (state: UserState) => state.user?.fullName
+);

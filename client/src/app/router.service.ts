@@ -38,6 +38,10 @@ export class RouterService {
     this.router.navigate(['/transactions/add']);
   }
 
+  navigateToSettings() {
+    this.router.navigate(['/settings']);
+  }
+
   subscribeEvents() {
     const subscription = this.router.events.subscribe((event) => {
       if (!event) return;
