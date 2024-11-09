@@ -19,3 +19,9 @@ export interface NewUserFormData {
   phone: string;
   dateOfBirth: string;
 }
+
+export interface UpdatedUserFormData extends User {
+  fullName: string;
+  email: string;
+  phone: string;
+}

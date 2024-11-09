@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { UserState } from '../store/user/user.model';
 import { selectUserName } from '../store/user/user.selectors';
 
+import { RouterService } from '../router.service';
+
 import { EditProfileComponent } from '../svg/edit-profile/edit-profile.component';
 import { SecurityComponent } from '../svg/security/security.component';
 import { GearComponent } from '../svg/gear/gear.component';
@@ -26,4 +28,5 @@ import { LogoutComponent } from '../svg/logout/logout.component';
 export class SettingsComponent {
   private store = inject(Store<UserState>);
   userFullName = this.store.selectSignal(selectUserName);
+  routerService = inject(RouterService);
 }

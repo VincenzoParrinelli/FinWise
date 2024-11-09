@@ -2,9 +2,12 @@
   <span ngProjectAs="header-content">Profile</span>
 
   <div ngProjectAs="bottom-content" class="flex flex-col w-full m-8 gap-5">
-    <span class="mb-8 font-bold text-xl">{{ userFullName() }} John Smith </span>
+    <span class="mb-8 font-bold text-xl">{{ userFullName() }}</span>
 
-    <div class="flex items-center">
+    <div
+      class="flex items-center"
+      (click)="routerService.navigateToSettingsEdit()"
+    >
       <app-svg-edit-profile class="mr-3.5" />
       <span class="text-sm">Edit profile</span>
     </div>

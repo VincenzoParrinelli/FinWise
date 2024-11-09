@@ -57,6 +57,12 @@ export class LoginComponent {
     );
   }
 
+  get isEmailInvalid() {
+    return (
+      this.loginForm.controls.email.hasError('email') && this.formIsSubmitted()
+    );
+  }
+
   get isPasswordRequired() {
     return (
       this.loginForm.controls.password.hasError('required') &&

@@ -70,3 +70,28 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: (err as Error).message });
   }
 };
+
+export const updateUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const updatedData = req.body;
+  const userId = res.locals.user._id.toString();
+
+  if (!updatedData || Object.keys(updatedData).length === 0) {
+    res.status(400).send({ message: "No updated Data" });
+    return;
+  }
+
+  Object.keys(updatedData).forEach((key) => {
+    if (updatedData[key] === "") delete updatedData[key];
+  });
+
+  try {
+    await User.updateOne({ _id: userId }, { $set: updatedData });
+
+    res.status(200).end();
+  } catch (err) {
+    res.status(500).json({ message: (err as Error).message });
+  }
+};

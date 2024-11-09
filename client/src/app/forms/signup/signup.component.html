@@ -25,14 +25,15 @@
           <span>Full Name</span>
 
           @if (isFullNameRequired) {
-          <span> - field required </span>
-          } @if (isFullNameMaxLengthExceeded) {
-          <span> - max length exceeded </span>
+            <span> - field required </span>
+          }
+          @if (isFullNameMaxLengthExceeded) {
+            <span> - max length exceeded </span>
           }
         </label>
         <input
           id="fullname"
-          type="fullname"
+          type="text"
           formControlName="fullName"
           class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
           placeholder="John Smith"
@@ -42,12 +43,16 @@
         <label
           for="email"
           class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
-          [class.text-red-400]="isEmailRequired"
+          [class.text-red-400]="isEmailRequired || isEmailInvalid"
         >
           <span>Email</span>
 
           @if (isEmailRequired) {
-          <span> - field required </span>
+            <span> - field required </span>
+          }
+
+          @if (isEmailInvalid) {
+            <span> - invalid </span>
           }
         </label>
         <input
@@ -67,7 +72,7 @@
           <span>Mobile Number</span>
 
           @if (isPhoneRequired) {
-          <span> - field required </span>
+            <span> - field required </span>
           }
         </label>
         <input
@@ -87,7 +92,7 @@
           <span>Date Of Birth</span>
 
           @if (isDateOfBirthRequired) {
-          <span> - field required </span>
+            <span> - field required </span>
           }
         </label>
         <input
@@ -109,12 +114,13 @@
           <span>Password</span>
 
           @if (isPasswordRequired) {
-          <span> - field required </span>
-          } @if (isPasswordPatternMismatched) {
-          <span>
-            - password must contain a special character and one upper case
-            character
-          </span>
+            <span> - field required </span>
+          }
+          @if (isPasswordPatternMismatched) {
+            <span>
+              - password must contain a special character and one upper case
+              character
+            </span>
           }
         </label>
         <input
@@ -126,15 +132,15 @@
         />
 
         @if (isPasswordVisible) {
-        <app-eye-open
-          class="self-end -translate-x-7 -translate-y-7 w-1 h-1"
-          (click)="isPasswordVisible = !isPasswordVisible"
-        />
+          <app-eye-open
+            class="self-end -translate-x-7 -translate-y-7 w-1 h-1"
+            (click)="isPasswordVisible = !isPasswordVisible"
+          />
         } @else {
-        <app-eye-closed
-          class="self-end -translate-x-7 -translate-y-5 w-1 h-1"
-          (click)="isPasswordVisible = !isPasswordVisible"
-        />
+          <app-eye-closed
+            class="self-end -translate-x-7 -translate-y-5 w-1 h-1"
+            (click)="isPasswordVisible = !isPasswordVisible"
+          />
         }
       </div>
 
@@ -149,9 +155,10 @@
           <span>Confirm Password</span>
 
           @if (isConfirmPasswordRequired) {
-          <span> - field required </span>
-          } @if (isConfirmPasswordMismatched) {
-          <span> - password mismatch </span>
+            <span> - field required </span>
+          }
+          @if (isConfirmPasswordMismatched) {
+            <span> - password mismatch </span>
           }
         </label>
         <input
@@ -163,15 +170,15 @@
         />
 
         @if (isConfirmPasswordVisible) {
-        <app-eye-open
-          class="self-end -translate-x-7 -translate-y-7 w-1 h-1"
-          (click)="isConfirmPasswordVisible = !isConfirmPasswordVisible"
-        />
+          <app-eye-open
+            class="self-end -translate-x-7 -translate-y-7 w-1 h-1"
+            (click)="isConfirmPasswordVisible = !isConfirmPasswordVisible"
+          />
         } @else {
-        <app-eye-closed
-          class="self-end -translate-x-7 -translate-y-5 w-1 h-1"
-          (click)="isConfirmPasswordVisible = !isConfirmPasswordVisible"
-        />
+          <app-eye-closed
+            class="self-end -translate-x-7 -translate-y-5 w-1 h-1"
+            (click)="isConfirmPasswordVisible = !isConfirmPasswordVisible"
+          />
         }
       </div>
 

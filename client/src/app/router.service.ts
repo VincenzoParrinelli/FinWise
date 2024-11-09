@@ -42,6 +42,10 @@ export class RouterService {
     this.router.navigate(['/settings']);
   }
 
+  navigateToSettingsEdit() {
+    this.router.navigate(['/settings/edit']);
+  }
+
   subscribeEvents() {
     const subscription = this.router.events.subscribe((event) => {
       if (!event) return;

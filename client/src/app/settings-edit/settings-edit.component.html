@@ -1,0 +1,89 @@
+<app-main-layout screenMode="full">
+  <span ngProjectAs="header-content">Edit Profile</span>
+
+  <div
+    ngProjectAs="bottom-content"
+    class="flex flex-col items-center w-full m-8"
+  >
+    <span class="mb-8 font-bold text-xl">{{ userFullName() }}</span>
+
+    <p class="font-semibold text-xl text-left mb-4 self-start">
+      Account Settings
+    </p>
+
+    <form
+      [formGroup]="updateProfileForm"
+      (ngSubmit)="onSubmit()"
+      id="updateProfileForm"
+      class="w-full"
+    >
+      <div class="flex flex-col text-left mb-5">
+        <label
+          for="fullName"
+          class="text-light-green text-sm font-league-spartan mb-1"
+          [class.text-red-400]="isFullNameMaxLengthExceeded"
+        >
+          <span>Full Name</span>
+
+          @if (isFullNameMaxLengthExceeded) {
+            <span> - max length exceeded </span>
+          }
+        </label>
+        <input
+          id="fullName"
+          type="text"
+          formControlName="fullName"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="John Smith"
+        />
+      </div>
+
+      <div class="flex flex-col text-left mb-5">
+        <label
+          for="phone"
+          class="text-light-green text-sm font-league-spartan mb-1"
+        >
+          <span>Phone</span>
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          formControlName="phone"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="+123 456 789"
+        />
+      </div>
+
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="email"
+          class="text-light-green text-sm font-league-spartan mb-1"
+          [class.text-red-400]="isEmailInvalid"
+        >
+          <span>Email</span>
+
+          @if (isEmailInvalid) {
+            <span> - invalid </span>
+          }
+        </label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="example@example.com"
+        />
+      </div>
+    </form>
+
+    <app-custom-btn
+      bgColor="primary"
+      text="Update Profile"
+      class="mt-4 font-semibold text-lg"
+      type="submit"
+      form="updateProfileForm"
+      width="half"
+      [loading]="loading()"
+    />
+  </div>
+</app-main-layout>

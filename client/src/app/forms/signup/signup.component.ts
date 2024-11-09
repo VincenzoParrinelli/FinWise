@@ -117,6 +117,12 @@ export class SignupComponent {
     );
   }
 
+  get isEmailInvalid() {
+    return (
+      this.signupForm.controls.email.hasError('email') && this.formIsSubmitted()
+    );
+  }
+
   get isPhoneRequired() {
     return (
       this.signupForm.controls.phone.hasError('required') &&

@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { RouterService } from '../../router.service';
 
-import { User } from './user.model';
+import { UpdatedUserFormData, User } from './user.model';
 import { Store } from '@ngrx/store';
 import * as UserActions from './user.actions';
 import * as AppActions from '../app/app.actions';
@@ -53,6 +53,28 @@ export class UserEffects {
               UserActions.loginUserSuccess({ user: loggedInUserData })
             ),
             tap(() => this.routerService.navigateToHome()),
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return of();
+              // of(AppActions.setError({ error: error.message }));
+            })
+          )
+      )
+    )
+  );
+
+  updateUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.updateUser),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ updatedUserFormData }) =>
+        this.http
+          .patch<void>(`${this.apiUrl}/users/update`, updatedUserFormData)
+          .pipe(
+            map(() => UserActions.updateUserSuccess({ updatedUserFormData })),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
               return of();

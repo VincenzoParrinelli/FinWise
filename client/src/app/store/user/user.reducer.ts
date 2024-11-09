@@ -30,6 +30,10 @@ export const userReducer = createReducer(
     isAuthenticated: true,
     error: null,
   })),
+  on(UserActions.updateUserSuccess, (state, { updatedUserFormData }) => ({
+    ...state,
+    user: { ...state.user, ...updatedUserFormData },
+  })),
   on(UserActions.logoutUser, (state) => ({
     ...state,
     user: null,
