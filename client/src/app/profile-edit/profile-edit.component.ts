@@ -18,13 +18,13 @@ import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 
 @Component({
-  selector: 'app-settings-edit',
+  selector: 'app-profile-edit',
   standalone: true,
   imports: [MainLayoutComponent, CustomBtnComponent, ReactiveFormsModule],
-  templateUrl: './settings-edit.component.html',
-  styleUrl: './settings-edit.component.scss',
+  templateUrl: './profile-edit.component.html',
+  styleUrl: './profile-edit.component.scss',
 })
-export class SettingsEditComponent {
+export class ProfileEditComponent {
   private store = inject(Store);
   userFullName = this.store.selectSignal(selectUserName);
   loading = this.store.selectSignal(selectLoading);
