@@ -2,14 +2,14 @@ import { createReducer, on } from '@ngrx/store';
 import { UserState } from './user.model';
 import * as UserActions from './user.actions';
 
-export const initialState: UserState = {
+export const initialUserState: UserState = {
   user: null,
   error: null,
   isAuthenticated: false,
 };
 
 export const userReducer = createReducer(
-  initialState,
+  initialUserState,
   on(UserActions.createUser, (state) => ({
     ...state,
     error: null,

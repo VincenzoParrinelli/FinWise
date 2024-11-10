@@ -8,7 +8,7 @@ import {
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { catchError, Observable, throwError } from 'rxjs';
-import * as UserActions from './store/user/user.actions';
+import * as AppActions from './store/app/app.actions';
 import { UserState } from './store/user/user.model';
 
 export class AuthInterceptor implements HttpInterceptor {
@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          this.store.dispatch(UserActions.logoutUser());
+          this.store.dispatch(AppActions.resetAllAppSlices());
         }
 
         return throwError(() => err);

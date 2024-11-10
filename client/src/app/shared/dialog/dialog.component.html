@@ -1,0 +1,14 @@
+<dialog [open]="open()">
+  <div
+    class="fixed inset-0 flex items-center justify-center bg-transparent w-screen h-screen"
+  >
+    <div
+      class="absolute inset-0 bg-black bg-opacity-20"
+      (click)="closeDialogEmit()"
+    ></div>
+
+    <div class="bg-fence-green rounded-xl z-10">
+      <ng-content select="content" />
+    </div>
+  </div>
+</dialog>

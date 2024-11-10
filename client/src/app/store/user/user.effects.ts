@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { RouterService } from '../../router.service';
 
-import { UpdatedUserFormData, User } from './user.model';
+import { User } from './user.model';
 import { Store } from '@ngrx/store';
 import * as UserActions from './user.actions';
 import * as AppActions from '../app/app.actions';
@@ -81,6 +81,27 @@ export class UserEffects {
               // of(AppActions.setError({ error: error.message }));
             })
           )
+      )
+    )
+  );
+
+  logoutUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.logoutUser),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(() =>
+        this.http.delete<void>(`${this.apiUrl}/users/logout`).pipe(
+          map(() => UserActions.logoutUserSuccess()),
+          tap(() =>
+            this.store.dispatch(AppActions.setLoading({ loading: false }))
+          ),
+          tap(() => this.routerService.navigateToLogin()),
+          catchError((error) => {
+            this.store.dispatch(AppActions.setLoading({ loading: false }));
+            return of();
+            // of(AppActions.setError({ error: error.message }));
+          })
+        )
       )
     )
   );

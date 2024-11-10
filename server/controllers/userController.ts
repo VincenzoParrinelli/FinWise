@@ -95,3 +95,12 @@ export const updateUser = async (
     res.status(500).json({ message: (err as Error).message });
   }
 };
+
+export const logoutUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
+  res.end();
+};

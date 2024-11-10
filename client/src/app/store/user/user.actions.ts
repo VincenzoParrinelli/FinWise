@@ -32,3 +32,5 @@ export const updateUserSuccess = createAction(
 );
 
 export const logoutUser = createAction('[User] Logout User');
+
+export const logoutUserSuccess = createAction('[User] Logout User Success');

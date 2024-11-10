@@ -17,6 +17,7 @@ import { provideEffects } from '@ngrx/effects';
 import { appReducer } from './store/app/app.reducer';
 import { userReducer } from './store/user/user.reducer';
 import { transactionsReducer } from './store/transactions/transactions.reducer';
+import { metaReducers } from './store/resetStateOnLogoutMetaReducer';
 
 import { UserEffects } from './store/user/user.effects';
 import { TransactionsEffects } from './store/transactions/transactions.effect';
@@ -28,11 +29,14 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     RouterService,
-    provideStore({
-      app: appReducer,
-      user: userReducer,
-      transactions: transactionsReducer,
-    }),
+    provideStore(
+      {
+        app: appReducer,
+        user: userReducer,
+        transactions: transactionsReducer,
+      },
+      { metaReducers }
+    ),
     provideEffects([UserEffects, TransactionsEffects]),
   ],
 };

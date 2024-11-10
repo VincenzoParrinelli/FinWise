@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { Transaction, TransactionsState } from './transactions.model';
 import * as TransactionsActions from './transactions.actions';
 
-export const initialState: TransactionsState = {
+export const initialTransactionsState: TransactionsState = {
   totalBalance: 0,
   totalIncome: 0,
   totalExpenses: 0,
@@ -11,7 +11,7 @@ export const initialState: TransactionsState = {
 };
 
 export const transactionsReducer = createReducer(
-  initialState,
+  initialTransactionsState,
 
   on(
     TransactionsActions.getTransactionsWithTotalsSuccess,

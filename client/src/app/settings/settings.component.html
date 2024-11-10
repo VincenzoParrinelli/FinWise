@@ -22,9 +22,34 @@
       <span class="text-sm">Settings</span>
     </div>
 
-    <div class="flex items-center">
+    <div class="flex items-center" (click)="openDialog()">
       <app-svg-logout class="mr-3.5" />
       <span class="text-sm">Logout</span>
     </div>
+
+    <app-dialog [open]="isDialogOpen()" (closeEmitter)="closeDialog()">
+      <div
+        ngProjectAs="content"
+        class="flex flex-col justify-between items-center text-honeydew px-12 py-9"
+      >
+        <span class="text-lg font-semibold mb-1">End Session</span>
+        <span class="text-sm">Are you sure you want to log out?</span>
+
+        <app-custom-btn
+          class="m-2 mt-10 font-semibold"
+          text="Yes"
+          width="half"
+          (click)="logout()"
+          [loading]="loading()"
+        />
+        <app-custom-btn
+          class="font-semibold"
+          text="Cancel"
+          width="half"
+          bgColor="secondary"
+          (click)="closeDialog()"
+        />
+      </div>
+    </app-dialog>
   </div>
 </app-main-layout>
