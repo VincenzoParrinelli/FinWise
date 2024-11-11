@@ -1,0 +1,21 @@
+<app-main-layout screenMode="full">
+  <span ngProjectAs="header-content">Settings</span>
+
+  <div ngProjectAs="bottom-content" class="flex flex-col w-full gap-3 m-8">
+    <div class="flex justify-between items-center w-full">
+      <div class="flex items-center gap-4">
+        <app-svg-key />
+        <span class="justify-start">Password Settings</span>
+      </div>
+      <app-svg-arrow-right />
+    </div>
+
+    <div class="flex justify-between items-center w-full">
+      <div class="flex items-center gap-4">
+        <app-svg-delete-profile />
+        <span>Delete Account</span>
+      </div>
+      <app-svg-arrow-right />
+    </div>
+  </div>
+</app-main-layout>

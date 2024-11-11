@@ -71,4 +71,12 @@ export const routes: Routes = [
       ),
     // canActivate: [AuthGuard],
   },
+  {
+    path: 'settings/edit',
+    loadComponent: () =>
+      import('./settings-edit/settings-edit.component').then(
+        (m) => m.SettingsEditComponent
+      ),
+    // canActivate: [AuthGuard],
+  },
 ];

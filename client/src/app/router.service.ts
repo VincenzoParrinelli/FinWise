@@ -42,6 +42,10 @@ export class RouterService {
     this.router.navigate(['/settings']);
   }
 
+  navigateToProfileEdit() {
+    this.router.navigate(['/profile-edit']);
+  }
+
   navigateToSettingsEdit() {
     this.router.navigate(['/settings/edit']);
   }
