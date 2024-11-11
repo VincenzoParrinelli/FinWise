@@ -96,6 +96,32 @@ export const updateUser = async (
   }
 };
 
+export const editPassword = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const user = res.locals.user;
+  const { currPassword, newPassword } = req.body;
+
+  try {
+    if (!(await bcrypt.compare(currPassword, user.password))) {
+      res.status(401).send({ message: "Invalid password" });
+      return;
+    }
+
+    const newHashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await User.updateOne(
+      { _id: user._id.toString() },
+      { $set: { password: newHashedPassword } }
+    );
+
+    res.status(200).end();
+  } catch (err) {
+    res.status(500).json({ message: (err as Error).message });
+  }
+};
+
 export const logoutUser = async (
   req: Request,
   res: Response

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterService } from '../router.service';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 
@@ -18,4 +19,6 @@ import { DeleteProfileComponent } from '../svg/delete-profile/delete-profile.com
   templateUrl: './settings-edit.component.html',
   styleUrl: './settings-edit.component.scss',
 })
-export class SettingsEditComponent {}
+export class SettingsEditComponent {
+  routerService = inject(RouterService);
+}

@@ -85,6 +85,31 @@ export class UserEffects {
     )
   );
 
+  updateUserPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.updateUserPassword),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ currPassword, newPassword }) =>
+        this.http
+          .patch(`${this.apiUrl}/users/settings/edit/password`, {
+            currPassword,
+            newPassword,
+          })
+          .pipe(
+            map(() => UserActions.updateUserPasswordSuccess()),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return of();
+              // of(AppActions.setError({ error: error.message }));
+            })
+          )
+      )
+    )
+  );
+
   logoutUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.logoutUser),

@@ -3,7 +3,10 @@
 
   <div ngProjectAs="bottom-content" class="flex flex-col w-full gap-3 m-8">
     <div class="flex justify-between items-center w-full">
-      <div class="flex items-center gap-4">
+      <div
+        class="flex items-center gap-4"
+        (click)="routerService.navigateToPasswordEdit()"
+      >
         <app-svg-key />
         <span class="justify-start">Password Settings</span>
       </div>

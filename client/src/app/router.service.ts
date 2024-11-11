@@ -50,6 +50,10 @@ export class RouterService {
     this.router.navigate(['/settings/edit']);
   }
 
+  navigateToPasswordEdit() {
+    this.router.navigate(['/settings/edit/password']);
+  }
+
   subscribeEvents() {
     const subscription = this.router.events.subscribe((event) => {
       if (!event) return;

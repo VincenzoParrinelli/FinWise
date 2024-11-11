@@ -31,6 +31,15 @@ export const updateUserSuccess = createAction(
   props<{ updatedUserFormData: UpdatedUserFormData }>()
 );
 
+export const updateUserPassword = createAction(
+  '[User] Update User Password',
+  props<{ currPassword: string; newPassword: string }>()
+);
+
+export const updateUserPasswordSuccess = createAction(
+  '[User] Update User Password Success'
+);
+
 export const logoutUser = createAction('[User] Logout User');
 
 export const logoutUserSuccess = createAction('[User] Logout User Success');
