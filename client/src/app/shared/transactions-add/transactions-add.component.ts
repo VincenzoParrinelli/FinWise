@@ -31,13 +31,16 @@ export class TransactionsAddComponent {
     date: new FormControl('', {
       validators: [Validators.required],
     }),
-    amount: new FormControl('', {
-      validators: [Validators.required],
-    }),
     category: new FormControl('', {
       validators: [Validators.required],
     }),
-    message: new FormControl('', {
+    amount: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    transactionTitle: new FormControl('', {
+      validators: [Validators.maxLength(50)],
+    }),
+    description: new FormControl('', {
       validators: [Validators.maxLength(50)],
     }),
   });
@@ -55,13 +58,6 @@ export class TransactionsAddComponent {
     );
   }
 
-  get isAmountRequired() {
-    return (
-      this.transactionsAddForm.controls.amount.hasError('required') &&
-      this.formIsSubmitted()
-    );
-  }
-
   get isCategoryRequired() {
     return (
       this.transactionsAddForm.controls.category.hasError('required') &&
@@ -69,10 +65,25 @@ export class TransactionsAddComponent {
     );
   }
 
-  get messageMaxLengthExceeded() {
+  get isAmountRequired() {
     return (
-      this.transactionsAddForm.controls.message.hasError('maxlength') &&
+      this.transactionsAddForm.controls.amount.hasError('required') &&
       this.formIsSubmitted()
+    );
+  }
+
+  get descriptionMaxLengthExceeded() {
+    return (
+      this.transactionsAddForm.controls.description.hasError('maxlength') &&
+      this.formIsSubmitted()
+    );
+  }
+
+  get transactionTitleLengthExceeded() {
+    return (
+      this.transactionsAddForm.controls.transactionTitle.hasError(
+        'maxlength'
+      ) && this.formIsSubmitted()
     );
   }
 

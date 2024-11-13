@@ -1,7 +1,7 @@
 <app-main-layout screenMode="full">
   <span ngProjectAs="header-content">Add Transactions</span>
 
-  <div ngProjectAs="bottom-content" class="flex flex-col items-center">
+  <div ngProjectAs="bottom-content" class="flex flex-col items-center h-screen">
     <form
       [formGroup]="transactionsAddForm"
       (ngSubmit)="onSubmit()"
@@ -27,28 +27,7 @@
           class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
         />
       </div>
-      <div class="flex flex-col text-left mb-4">
-        <label
-          for="amount"
-          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
-          [class.text-red-400]="isAmountRequired"
-        >
-          <span>Amount</span>
 
-          @if (isAmountRequired) {
-            <span> - field required </span>
-          }
-        </label>
-        <input
-          id="amount"
-          type="text"
-          formControlName="amount"
-          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
-          placeholder="€10.00"
-          (mouseleave)="formatAmountOnLeave()"
-          (mouseenter)="formatAmountOnEnter()"
-        />
-      </div>
       <div class="flex flex-col text-left mb-4">
         <label
           for="category"
@@ -100,12 +79,58 @@
 
       <div class="flex flex-col text-left mb-4">
         <label
-          for="message"
+          for="amount"
           class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
-          [class.text-red-400]="messageMaxLengthExceeded"
+          [class.text-red-400]="isAmountRequired"
         >
-          <span>Message</span>
-          @if (messageMaxLengthExceeded) {
+          <span>Amount</span>
+
+          @if (isAmountRequired) {
+            <span> - field required </span>
+          }
+        </label>
+        <input
+          id="amount"
+          type="text"
+          formControlName="amount"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="€10.00"
+          (mouseleave)="formatAmountOnLeave()"
+          (mouseenter)="formatAmountOnEnter()"
+        />
+      </div>
+
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="transactiontitle"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="transactionTitleLengthExceeded"
+        >
+          <span>Transaction Title</span>
+
+          @if (transactionTitleLengthExceeded) {
+            <span class="translate-x-3 mb-1 text-sm">
+              - max length of 50 characters exceeded
+            </span>
+          }
+        </label>
+        <input
+          id="transactiontitle"
+          type="text"
+          formControlName="transactionTitle"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+          placeholder="Lunch"
+        />
+      </div>
+
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="description"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+          [class.text-red-400]="descriptionMaxLengthExceeded"
+        >
+          <span>Description</span>
+          @if (descriptionMaxLengthExceeded) {
             <span class="translate-x-3 mb-1 text-sm">
               - max length of 50 characters exceeded
             </span>
@@ -113,10 +138,10 @@
         </label>
 
         <textarea
-          id="message"
+          id="description"
           class="rounded-xl bg-light-green outline-none px-7 py-3 p-1 text-main-layout h-24 leading-3 resize-none"
           placeholder="..."
-          formControlName="message"
+          formControlName="description"
         >
         </textarea>
       </div>

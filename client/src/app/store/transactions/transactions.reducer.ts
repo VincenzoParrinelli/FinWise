@@ -17,10 +17,10 @@ export const transactionsReducer = createReducer(
     TransactionsActions.getTransactionsWithTotalsSuccess,
     (state, { transactionsWithTotals }) => ({
       ...state,
-      totalBalance: transactionsWithTotals.totalBalance,
-      totalIncome: transactionsWithTotals.totalIncome,
-      totalExpenses: transactionsWithTotals.totalExpenses,
-      totalDocuments: transactionsWithTotals.totalDocuments,
+      totalBalance: transactionsWithTotals.totalBalance || 0,
+      totalIncome: transactionsWithTotals.totalIncome || 0,
+      totalExpenses: transactionsWithTotals.totalExpenses || 0,
+      totalDocuments: transactionsWithTotals.totalDocuments || 0,
       transactions: removeDuplicatesAndSort(
         state.transactions,
         transactionsWithTotals.transactions

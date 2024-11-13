@@ -4,6 +4,7 @@ export interface ITransaction extends Document {
   userId: string;
   category: string;
   amount: number;
+  transactionTitle: string;
   description: string;
   date: Date;
 }
@@ -35,6 +36,10 @@ const transactionSchema = new Schema<ITransaction>({
   amount: {
     type: Number,
     required: true,
+  },
+  transactionTitle: {
+    type: String,
+    maxLength: "50",
   },
   description: {
     type: String,

@@ -10,7 +10,8 @@ export interface NewTransactionFormData {
   amount: number;
   category: string;
   date: string | Date;
-  message?: string;
+  transactionTitle?: string;
+  description?: string;
 }
 
 export interface Transaction {
@@ -18,6 +19,7 @@ export interface Transaction {
   userId: string;
   amount: number;
   category: string;
-  message: string;
+  transactionTitle?: string;
+  description?: string;
   date: Date;
 }
