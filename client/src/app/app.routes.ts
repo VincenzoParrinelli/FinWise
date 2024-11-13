@@ -50,6 +50,14 @@ export const routes: Routes = [
     // canActivate: [AuthGuard],
   },
   {
+    path: 'transactions/view/:id',
+    loadComponent: () =>
+      import('./shared/transactions-view/transactions-view.component').then(
+        (m) => m.TransactionsViewComponent
+      ),
+    // canActivate: [AuthGuard],
+  },
+  {
     path: 'transactions/add',
     loadComponent: () =>
       import('./shared/transactions-add/transactions-add.component').then(

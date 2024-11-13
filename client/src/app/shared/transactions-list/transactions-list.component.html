@@ -11,6 +11,7 @@
   <div
     [class.mb-8]="transactions().length - 1 === i"
     class="flex items-center justify-between mt-2 w-full gap-3"
+    (click)="routerService.navigateToTransactionsView(transaction._id!)"
   >
     @for (category of categories; track $index) {
       @if (transaction.category === category.name) {

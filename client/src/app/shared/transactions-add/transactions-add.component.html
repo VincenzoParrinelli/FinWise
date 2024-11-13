@@ -63,7 +63,7 @@
           >
             <ul class="py-2 text-sm text-main-layout px-6 mt-4">
               @for (
-                category of categoryService.getAllCategories();
+                category of categoryService.getAllCategories;
                 track category.id
               ) {
                 <li (click)="setCategory(category.name)">

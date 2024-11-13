@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { SpinnerComponent } from '../spinner/spinner.component';
 
+import { RouterService } from '../../router.service';
 import { CategoryService } from '../../category.service';
 
 import { selectTransactions } from '../../store/transactions/transactions.selectors';
@@ -18,9 +19,10 @@ import { selectLoading } from '../../store/app/app.selectors';
 })
 export class TransactionsListComponent {
   private store = inject(Store);
-  transactions = this.store.selectSignal(selectTransactions);
+  routerService = inject(RouterService);
   categoryService = inject(CategoryService);
-  categories = this.categoryService.getAllCategories();
+  transactions = this.store.selectSignal(selectTransactions);
+  categories = this.categoryService.getAllCategories;
   loading = this.store.selectSignal(selectLoading);
 
   shouldDisplayDate(

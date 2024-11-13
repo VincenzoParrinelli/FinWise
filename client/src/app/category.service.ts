@@ -88,7 +88,7 @@ export class CategoryService {
     },
   ];
 
-  getAllCategories(): Category[] {
+  get getAllCategories(): Category[] {
     return this.categories;
   }
 

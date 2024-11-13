@@ -34,6 +34,10 @@ export class RouterService {
     this.router.navigate(['/transactions']);
   }
 
+  navigateToTransactionsView(id: string) {
+    this.router.navigate(['/transactions/view', id]);
+  }
+
   navigateToTransactionsAdd() {
     this.router.navigate(['/transactions/add']);
   }
