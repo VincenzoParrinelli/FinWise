@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-rent',
+  selector: 'app-svg-rent',
   standalone: true,
   imports: [],
   templateUrl: './rent.component.svg',
 })
-export class RentComponent {}
+export class RentComponent {
+  classNames = input<string>('');
+  width = input<string>('50');
+  height = input<string>('50');
+}
