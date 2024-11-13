@@ -1,4 +1,9 @@
-import { Component, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  CLASSNAMES_TOKEN,
+  HEIGHT_TOKEN,
+  WIDTH_TOKEN,
+} from '../../../shared/injection-tokens/svgs-injection-tokens';
 
 @Component({
   selector: 'app-svg-new-home',
@@ -7,7 +12,7 @@ import { Component, input } from '@angular/core';
   templateUrl: './new-home.component.svg',
 })
 export class NewHomeComponent {
-  classNames = input<string>('');
-  width = input<string>('50');
-  height = input<string>('50');
+  classNames: string = inject(CLASSNAMES_TOKEN);
+  width: string = inject(WIDTH_TOKEN);
+  height: string = inject(HEIGHT_TOKEN);
 }
