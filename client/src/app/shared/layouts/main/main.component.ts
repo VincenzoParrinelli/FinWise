@@ -3,14 +3,13 @@ import { Location } from '@angular/common';
 
 import { RouterService } from '../../../router.service';
 
-import { NavComponent } from '../../nav/nav.component';
 import { BackArrowComponent } from '../../../svg/back-arrow/back-arrow.component';
 import { BellComponent } from '../../../svg/bell/bell.component';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [NavComponent, BackArrowComponent, BellComponent],
+  imports: [BackArrowComponent, BellComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })

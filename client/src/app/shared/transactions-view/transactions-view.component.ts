@@ -1,4 +1,4 @@
-import { Component, inject, Injector } from '@angular/core';
+import { Component, DestroyRef, inject, Injector, signal } from '@angular/core';
 import { CurrencyPipe, NgComponentOutlet } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
@@ -10,10 +10,14 @@ import {
 import { CategoryService } from '../../category.service';
 
 import { Store } from '@ngrx/store';
-import { TransactionsState } from '../../store/transactions/transactions.model';
+import {
+  Transaction,
+  TransactionsState,
+} from '../../store/transactions/transactions.model';
 import { selectTransaction } from '../../store/transactions/transactions.selectors';
 
 import { MainLayoutComponent } from '../layouts/main/main.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-transactions-view',
@@ -26,12 +30,26 @@ export class TransactionsViewComponent {
   private store = inject(Store<TransactionsState>);
   private route = inject(ActivatedRoute);
   private injector = inject(Injector);
+  private destroyRef = inject(DestroyRef);
   categoryService = inject(CategoryService);
   categories = this.categoryService.getAllCategories;
+  transaction = signal<Transaction | null>(null);
 
-  transaction = this.store.selectSignal(
-    selectTransaction(this.route.snapshot.paramMap.get('id')!)
-  );
+  ngOnInit() {
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        const id = params.get('id');
+
+        if (id)
+          this.store
+            .select(selectTransaction(id))
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((transaction) => {
+              this.transaction.set(transaction!);
+            });
+      });
+  }
 
   injectSvgProps(): Injector {
     return Injector.create({
