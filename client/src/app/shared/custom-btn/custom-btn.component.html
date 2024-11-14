@@ -14,9 +14,9 @@
   [class.u-border-radius-md]="rounded() === 'md'"
   [disabled]="loading()"
 >
-  @if (loading() ) {
-  <app-spinner />
-  }@else {
-  <span>{{ text() }}</span>
+  @if (loading()) {
+    <app-spinner />
+  } @else {
+    <span>{{ text() }}</span>
   }
 </button>

@@ -3,7 +3,7 @@
     {{ transaction()?.transactionTitle || transaction()?.category }}
   </span>
 
-  <div ngProjectAs="bottom-content" class="w-full h-full my-8">
+  <div ngProjectAs="bottom-content" class="flex flex-col w-full h-full my-8">
     <div class="flex justify-between items-center mx-14">
       <div class="flex flex-col">
         <label class="text-sm font-thin">Amount</label>
@@ -33,5 +33,13 @@
         {{ transaction()?.description || "No description" }}
       </p>
     </div>
+
+    <app-custom-btn
+      class="font-semibold self-center fixed -translate-y-2 bottom-24"
+      width="half"
+      text="Delete"
+      [loading]="loading()"
+      (click)="onTransactionDelete()"
+    />
   </div>
 </app-main-layout>

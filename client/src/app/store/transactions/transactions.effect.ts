@@ -99,4 +99,27 @@ export class TransactionsEffects {
       )
     )
   );
+
+  deleteTransaction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TransactionsActions.deleteTransaction),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ transactionId }) =>
+        this.http
+          .delete<void>(`${this.apiUrl}/transactions/delete/${transactionId}`)
+          .pipe(
+            map(() => TransactionsActions.deleteTransactionSuccess()),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
+            tap(() => this.routerService.navigateToTransactions()),
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return of();
+              // of(AppActions.setError({ error: error.message }));
+            })
+          )
+      )
+    )
+  );
 }

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Transaction, { ITransaction } from "../models/transactionModel";
-import User from "../models/userModel";
 
 export const getTransactions = async (
   req: Request,
@@ -64,6 +63,21 @@ export const createTransaction = async (
     newTransaction.save();
 
     res.status(201).json(newTransaction);
+  } catch (err) {
+    res.status(500).json({ message: (err as Error).message });
+  }
+};
+
+export const deleteTransaction = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const transactionId = req.params.id.toString();
+
+  try {
+    await Transaction.deleteOne({ _id: transactionId });
+
+    res.status(200).end();
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
   }
