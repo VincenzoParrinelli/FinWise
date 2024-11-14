@@ -31,5 +31,6 @@ export const deleteTransaction = createAction(
 );
 
 export const deleteTransactionSuccess = createAction(
-  '[Transaction] Delete Transaction Success'
+  '[Transaction] Delete Transaction Success',
+  props<{ transactionId: string }>()
 );

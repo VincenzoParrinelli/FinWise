@@ -49,6 +49,15 @@ export const transactionsReducer = createReducer(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       ),
     })
+  ),
+  on(
+    TransactionsActions.deleteTransactionSuccess,
+    (state, { transactionId }) => ({
+      ...state,
+      transactions: state.transactions.filter(
+        (transaction) => transaction._id !== transactionId
+      ),
+    })
   )
 );
 

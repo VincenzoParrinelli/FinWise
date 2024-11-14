@@ -108,7 +108,9 @@ export class TransactionsEffects {
         this.http
           .delete<void>(`${this.apiUrl}/transactions/delete/${transactionId}`)
           .pipe(
-            map(() => TransactionsActions.deleteTransactionSuccess()),
+            map(() =>
+              TransactionsActions.deleteTransactionSuccess({ transactionId })
+            ),
             tap(() =>
               this.store.dispatch(AppActions.setLoading({ loading: false }))
             ),
