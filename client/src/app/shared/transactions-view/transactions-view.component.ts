@@ -1,4 +1,4 @@
-import { Component, inject, Injector } from '@angular/core';
+import { Component, inject, Injector, signal } from '@angular/core';
 import { CurrencyPipe, NgComponentOutlet } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
@@ -17,6 +17,7 @@ import * as TransactionsActions from '../../store/transactions/transactions.acti
 
 import { MainLayoutComponent } from '../layouts/main/main.component';
 import { CustomBtnComponent } from '../custom-btn/custom-btn.component';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-transactions-view',
@@ -26,6 +27,7 @@ import { CustomBtnComponent } from '../custom-btn/custom-btn.component';
     NgComponentOutlet,
     CurrencyPipe,
     CustomBtnComponent,
+    DialogComponent,
   ],
   templateUrl: './transactions-view.component.html',
   styleUrl: './transactions-view.component.scss',
@@ -38,7 +40,7 @@ export class TransactionsViewComponent {
   categories = this.categoryService.getAllCategories;
   loading = this.store.selectSignal(selectLoading);
   transactionId: string = this.route.snapshot.paramMap.get('id')!;
-
+  isDialogOpen = signal<boolean>(false);
   transaction = this.store.selectSignal(selectTransaction(this.transactionId));
 
   injectSvgProps(): Injector {
@@ -49,6 +51,14 @@ export class TransactionsViewComponent {
       ],
       parent: this.injector,
     });
+  }
+
+  openDialog(): void {
+    this.isDialogOpen.set(true);
+  }
+
+  closeDialog(): void {
+    this.isDialogOpen.set(false);
   }
 
   onTransactionDelete(): void {

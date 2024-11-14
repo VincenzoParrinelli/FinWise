@@ -38,8 +38,32 @@
       class="font-semibold self-center fixed -translate-y-2 bottom-24"
       width="half"
       text="Delete"
-      [loading]="loading()"
-      (click)="onTransactionDelete()"
+      (click)="openDialog()"
     />
+
+    <app-dialog [open]="isDialogOpen()" (closeEmitter)="closeDialog()">
+      <div
+        ngProjectAs="content"
+        class="flex flex-col justify-between items-center text-honeydew px-12 py-9"
+      >
+        <span class="text-lg font-semibold mb-1">Delete transaction?</span>
+        <span class="text-sm">You will not be able to recover it</span>
+
+        <app-custom-btn
+          class="m-2 mt-10 font-semibold"
+          text="Yes"
+          width="half"
+          (click)="onTransactionDelete()"
+          [loading]="loading()"
+        />
+        <app-custom-btn
+          class="font-semibold"
+          text="Cancel"
+          width="half"
+          bgColor="secondary"
+          (click)="closeDialog()"
+        />
+      </div>
+    </app-dialog>
   </div>
 </app-main-layout>
