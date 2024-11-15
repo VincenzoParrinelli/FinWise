@@ -51,6 +51,47 @@ export const transactionsReducer = createReducer(
     })
   ),
   on(
+    TransactionsActions.updateTransactionSuccess,
+    (state, { updatedTransactionFormData, id }) => {
+      let transactionToUpdate = null as Transaction | null;
+
+      const updatedTransactions = state.transactions.map((transaction) => {
+        if (transaction._id !== id) return transaction;
+
+        transactionToUpdate = transaction;
+
+        return {
+          ...transaction,
+          ...updatedTransactionFormData,
+          date: updatedTransactionFormData.date
+            ? new Date(updatedTransactionFormData.date)
+            : transaction.date,
+        };
+      });
+
+      if (!transactionToUpdate) return state;
+
+      const oldAmount = transactionToUpdate.amount;
+      const newAmount = updatedTransactionFormData.amount;
+
+      return {
+        ...state,
+        totalBalance: newAmount
+          ? state.totalBalance - oldAmount + newAmount
+          : state.totalBalance,
+        totalIncome:
+          newAmount && newAmount > 0
+            ? state.totalIncome - (oldAmount > 0 ? oldAmount : 0) + newAmount
+            : state.totalIncome,
+        totalExpenses:
+          newAmount && newAmount < 0
+            ? state.totalExpenses - (oldAmount < 0 ? oldAmount : 0) + newAmount
+            : state.totalExpenses,
+        transactions: updatedTransactions,
+      };
+    }
+  ),
+  on(
     TransactionsActions.deleteTransactionSuccess,
     (state, { transactionId }) => ({
       ...state,

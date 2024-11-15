@@ -100,6 +100,36 @@ export class TransactionsEffects {
     )
   );
 
+  updateTransaction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TransactionsActions.updateTransaction),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ updatedTransactionFormData, id }) =>
+        this.http
+          .patch<void>(`${this.apiUrl}/transactions/edit`, {
+            updatedTransaction: updatedTransactionFormData,
+            id,
+          })
+          .pipe(
+            map(() =>
+              TransactionsActions.updateTransactionSuccess({
+                updatedTransactionFormData,
+                id,
+              })
+            ),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
+            tap(() => this.routerService.navigateBack()), // Navigating back still shows old data, but transactions list gets updated properly
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return of();
+            })
+          )
+      )
+    )
+  );
+
   deleteTransaction$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionsActions.deleteTransaction),

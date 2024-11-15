@@ -23,3 +23,11 @@ export interface Transaction {
   description?: string;
   date: Date;
 }
+
+export interface UpdatedTransactionFormData {
+  amount?: number;
+  category?: string;
+  date?: string | Date;
+  transactionTitle?: string;
+  description?: string;
+}

@@ -1,21 +1,21 @@
 <app-main-layout screenMode="full">
   <span ngProjectAs="header-content">
-    {{ transaction()?.transactionTitle || transaction()?.category }}
+    {{ transaction.transactionTitle || transaction.category }}
   </span>
 
-  <div ngProjectAs="bottom-content" class="flex flex-col w-full h-full my-8">
+  <div ngProjectAs="bottom-content" class="flex flex-col w-full h-screen my-8">
     <div class="flex justify-between items-center mx-14">
       <div class="flex flex-col">
         <label class="text-sm font-thin">Amount</label>
         <span
           class="text-2xl font-bold"
-          [class.text-vivid-blue]="transaction()?.amount! < 0"
-          >{{ transaction()?.amount | currency }}</span
+          [class.text-vivid-blue]="transaction.amount! < 0"
+          >{{ transaction.amount | currency }}</span
         >
       </div>
 
       @for (category of categories; track $index) {
-        @if (transaction()?.category === category.name) {
+        @if (transaction.category === category.name) {
           <ng-container
             *ngComponentOutlet="
               category.svgComponent;
@@ -30,16 +30,28 @@
     <div class="flex flex-col mt-10 text-left">
       <span class="text-2xl font-semibold ml-6">Description: </span>
       <p class="mt-6 mx-6">
-        {{ transaction()?.description || "No description" }}
+        {{ transaction.description || "No description" }}
       </p>
     </div>
 
-    <app-custom-btn
-      class="font-semibold self-center fixed -translate-y-2 bottom-24"
-      width="half"
-      text="Delete"
-      (click)="openDialog()"
-    />
+    <div
+      class="flex justify-center items-center self-center fixed -translate-y-2 bottom-24 gap-3"
+    >
+      <app-custom-btn
+        class="font-semibold"
+        width="min"
+        text="Edit"
+        bgColor="secondary"
+        (click)="routerService.navigateToTransactionsEdit(transaction)"
+      />
+
+      <app-custom-btn
+        class="font-semibold"
+        width="min"
+        text="Delete"
+        (click)="openDialog()"
+      />
+    </div>
 
     <app-dialog [open]="isDialogOpen()" (closeEmitter)="closeDialog()">
       <div

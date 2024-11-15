@@ -3,6 +3,7 @@ import {
   NewTransactionFormData,
   Transaction,
   TransactionsState,
+  UpdatedTransactionFormData,
 } from './transactions.model';
 
 export const getTransactionsWithTotalsSuccess = createAction(
@@ -23,6 +24,22 @@ export const createTransaction = createAction(
 export const createTransactionSuccess = createAction(
   '[Transaction] Create Transaction Success',
   props<{ transaction: Transaction }>()
+);
+
+export const updateTransaction = createAction(
+  '[Transaction] Update Transaction',
+  props<{
+    updatedTransactionFormData: UpdatedTransactionFormData;
+    id: string;
+  }>()
+);
+
+export const updateTransactionSuccess = createAction(
+  '[Transaction] Update Transaction Success',
+  props<{
+    updatedTransactionFormData: UpdatedTransactionFormData;
+    id: string;
+  }>()
 );
 
 export const deleteTransaction = createAction(

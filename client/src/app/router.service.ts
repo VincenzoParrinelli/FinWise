@@ -1,8 +1,12 @@
 import { DestroyRef, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+
+import { Transaction } from './store/transactions/transactions.model';
 
 export class RouterService {
   router = inject(Router);
+  private location = inject(Location);
   showNaw = signal<boolean>(true);
   showBackArrow = signal<boolean>(false);
   private destroyRef = inject(DestroyRef);
@@ -13,6 +17,10 @@ export class RouterService {
     '/signup',
     '/home',
   ];
+
+  navigateBack() {
+    this.location.back();
+  }
 
   navigateToLogin() {
     this.router.navigate(['/login']);
@@ -34,12 +42,16 @@ export class RouterService {
     this.router.navigate(['/transactions']);
   }
 
-  navigateToTransactionsView(id: string) {
-    this.router.navigate(['/transactions/view', id]);
+  navigateToTransactionsView(transaction: Transaction) {
+    this.router.navigate(['/transactions/view'], { state: { transaction } });
   }
 
   navigateToTransactionsAdd() {
     this.router.navigate(['/transactions/add']);
+  }
+
+  navigateToTransactionsEdit(transaction: Transaction) {
+    this.router.navigate(['/transactions/edit'], { state: { transaction } });
   }
 
   navigateToSettings() {

@@ -1,6 +1,6 @@
 import { Component, inject, Injector, signal } from '@angular/core';
 import { CurrencyPipe, NgComponentOutlet } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import {
   HEIGHT_TOKEN,
@@ -8,11 +8,14 @@ import {
 } from '../injection-tokens/svgs-injection-tokens';
 
 import { CategoryService } from '../../category.service';
+import { RouterService } from '../../router.service';
 
 import { Store } from '@ngrx/store';
 import { selectLoading } from '../../store/app/app.selectors';
-import { TransactionsState } from '../../store/transactions/transactions.model';
-import { selectTransaction } from '../../store/transactions/transactions.selectors';
+import {
+  Transaction,
+  TransactionsState,
+} from '../../store/transactions/transactions.model';
 import * as TransactionsActions from '../../store/transactions/transactions.actions';
 
 import { MainLayoutComponent } from '../layouts/main/main.component';
@@ -34,14 +37,15 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class TransactionsViewComponent {
   private store = inject(Store<TransactionsState>);
-  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private injector = inject(Injector);
   categoryService = inject(CategoryService);
+  routerService = inject(RouterService);
   categories = this.categoryService.getAllCategories;
   loading = this.store.selectSignal(selectLoading);
-  transactionId: string = this.route.snapshot.paramMap.get('id')!;
   isDialogOpen = signal<boolean>(false);
-  transaction = this.store.selectSignal(selectTransaction(this.transactionId));
+  transaction: Transaction =
+    this.router.getCurrentNavigation()?.extras.state!['transaction'];
 
   injectSvgProps(): Injector {
     return Injector.create({
@@ -64,7 +68,7 @@ export class TransactionsViewComponent {
   onTransactionDelete(): void {
     this.store.dispatch(
       TransactionsActions.deleteTransaction({
-        transactionId: this.transactionId,
+        transactionId: this.transaction._id!,
       })
     );
   }

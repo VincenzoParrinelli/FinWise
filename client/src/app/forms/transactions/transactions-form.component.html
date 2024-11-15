@@ -1,9 +1,11 @@
 <app-main-layout screenMode="full">
-  <span ngProjectAs="header-content">Add Transactions</span>
+  <span ngProjectAs="header-content">
+    {{ !selectedTransaction ? "Add Transaction" : "Edit Transaction" }}
+  </span>
 
   <div ngProjectAs="bottom-content" class="flex flex-col items-center h-screen">
     <form
-      [formGroup]="transactionsAddForm"
+      [formGroup]="transactionsForm"
       (ngSubmit)="onSubmit()"
       id="transactionsAddForm"
       class="w-72 mt-8 mb-4"
@@ -139,7 +141,7 @@
 
         <textarea
           id="description"
-          class="rounded-xl bg-light-green outline-none px-7 py-3 p-1 text-main-layout h-24 leading-3 resize-none"
+          class="rounded-xl bg-light-green outline-none px-6 py-3 p-1 text-main-layout h-24 leading-3 resize-none"
           placeholder="..."
           formControlName="description"
         >

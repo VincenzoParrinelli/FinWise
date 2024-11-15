@@ -50,7 +50,7 @@ export const routes: Routes = [
     // canActivate: [AuthGuard],
   },
   {
-    path: 'transactions/view/:id',
+    path: 'transactions/view',
     loadComponent: () =>
       import('./shared/transactions-view/transactions-view.component').then(
         (m) => m.TransactionsViewComponent
@@ -60,8 +60,16 @@ export const routes: Routes = [
   {
     path: 'transactions/add',
     loadComponent: () =>
-      import('./shared/transactions-add/transactions-add.component').then(
-        (m) => m.TransactionsAddComponent
+      import('./forms/transactions/transactions-form.component').then(
+        (m) => m.TransactionsFormComponent
+      ),
+    // canActivate: [AuthGuard],
+  },
+  {
+    path: 'transactions/edit',
+    loadComponent: () =>
+      import('./forms/transactions/transactions-form.component').then(
+        (m) => m.TransactionsFormComponent
       ),
     // canActivate: [AuthGuard],
   },

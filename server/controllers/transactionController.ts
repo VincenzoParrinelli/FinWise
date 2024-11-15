@@ -68,6 +68,21 @@ export const createTransaction = async (
   }
 };
 
+export const editTransaction = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { updatedTransaction, id } = req.body;
+
+  try {
+    await Transaction.updateOne({ _id: id }, { $set: updatedTransaction });
+
+    res.status(200).end();
+  } catch (err) {
+    res.status(500).json({ message: (err as Error).message });
+  }
+};
+
 export const deleteTransaction = async (
   req: Request,
   res: Response
