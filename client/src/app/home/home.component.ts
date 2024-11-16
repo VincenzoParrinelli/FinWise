@@ -1,21 +1,18 @@
 import { Component, inject, signal } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
 import { map } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { selectUserState } from '../store/user/user.selectors';
-import {
-  selectTransactions,
-  selectTransactionsTotals,
-} from '../store/transactions/transactions.selectors';
+import { selectTransactions } from '../store/transactions/transactions.selectors';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
+import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
+import { TotalCountersComponent } from '../shared/total-counters/total-counters.component';
 import { BellComponent } from '../svg/bell/bell.component';
 import { MoneyComponent } from '../svg/money/money.component';
 import { SilverwareComponent } from '../svg/silverware/silverware.component';
 import { CarComponent } from '../svg/car/car.component';
-import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
 
 @Component({
   selector: 'app-home',
@@ -28,14 +25,13 @@ import { TransactionsListComponent } from '../shared/transactions-list/transacti
     SilverwareComponent,
     CarComponent,
     TransactionsListComponent,
-    CurrencyPipe,
+    TotalCountersComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   private store = inject(Store);
-  transactionsTotals = this.store.selectSignal(selectTransactionsTotals);
   transactions = this.store.selectSignal(selectTransactions);
 
   btnsData = signal([
