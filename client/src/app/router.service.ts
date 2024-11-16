@@ -22,6 +22,20 @@ export class RouterService {
     this.location.back();
   }
 
+  resetQueryParams() {
+    this.router.navigate([], {
+      queryParams: {},
+      queryParamsHandling: '',
+    });
+  }
+
+  setQueryParams(paramName: string, paramValue: string) {
+    this.router.navigate([], {
+      queryParams: { [paramName]: paramValue },
+      queryParamsHandling: 'merge',
+    });
+  }
+
   navigateToLogin() {
     this.router.navigate(['/login']);
   }

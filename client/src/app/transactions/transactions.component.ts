@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 import { Store } from '@ngrx/store';
@@ -43,8 +43,52 @@ export class TransactionsComponent {
     selectTransactionsTotalUserDocuments
   );
   userId = this.store.selectSignal(selectUserId);
+  isIncomesSelected = signal<boolean>(false);
+  isExpensesSelected = signal<boolean>(false);
   private page = 2;
   private pageSize = 10;
+
+  showIncomesOnly(): void {
+    this.isIncomesSelected.set(!this.isIncomesSelected());
+    this.isExpensesSelected.set(false);
+
+    this.isIncomesSelected()
+      ? this.routerService.setQueryParams('filter', 'incomes')
+      : this.routerService.resetQueryParams();
+  }
+
+  showExpensesOnly(): void {
+    this.isIncomesSelected.set(false);
+    this.isExpensesSelected.set(!this.isExpensesSelected());
+
+    this.isExpensesSelected()
+      ? this.routerService.setQueryParams('filter', 'expenses')
+      : this.routerService.resetQueryParams();
+  }
+
+  get incomesStrokeColor(): string {
+    if (this.isIncomesSelected()) return 'stroke-honeydew';
+
+    return 'stroke-caribbean-green';
+  }
+
+  get incomesFillColor(): string {
+    if (this.isIncomesSelected()) return 'fill-honeydew';
+
+    return 'fill-caribbean-green';
+  }
+
+  get expensesStrokeColor(): string {
+    if (this.isExpensesSelected()) return 'stroke-honeydew';
+
+    return 'stroke-ocean-blue';
+  }
+
+  get expensesFillColor(): string {
+    if (this.isExpensesSelected()) return 'fill-honeydew';
+
+    return 'fill-ocean-blue';
+  }
 
   onScroll(event: any): void {
     const element = event.target;

@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-expenses',
+  selector: 'app-svg-expenses',
   standalone: true,
   imports: [],
   templateUrl: './expenses.component.svg',
 })
-export class ExpensesComponent {}
+export class ExpensesComponent {
+  stroke = input<string>('stroke-ocean-blue');
+  fill = input<string>('fill-ocean-blue');
+}

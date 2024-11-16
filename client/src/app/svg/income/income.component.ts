@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-income',
+  selector: 'app-svg-income',
   standalone: true,
   imports: [],
   templateUrl: './income.component.svg',
 })
-export class IncomeComponent {}
+export class IncomeComponent {
+  stroke = input<string>('stroke-caribbean-green');
+  fill = input<string>('fill-caribbean-green');
+}

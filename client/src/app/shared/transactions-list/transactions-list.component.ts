@@ -1,6 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CurrencyPipe, DatePipe, NgComponentOutlet } from '@angular/common';
+
 import { Store } from '@ngrx/store';
+import { Transaction } from '../../store/transactions/transactions.model';
 
 import { SpinnerComponent } from '../spinner/spinner.component';
 
@@ -20,10 +23,27 @@ import { selectLoading } from '../../store/app/app.selectors';
 export class TransactionsListComponent {
   private store = inject(Store);
   routerService = inject(RouterService);
+  private activatedRoute = inject(ActivatedRoute);
   categoryService = inject(CategoryService);
   transactions = this.store.selectSignal(selectTransactions);
+  filteredTransactions = signal<Transaction[]>([]);
   categories = this.categoryService.getAllCategories;
   loading = this.store.selectSignal(selectLoading);
+
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const filter = params['filter'];
+
+      const filtered = this.transactions().filter((transaction) => {
+        return (
+          (filter === 'incomes' && transaction.amount > 0) ||
+          (filter === 'expenses' && transaction.amount < 0)
+        );
+      });
+
+      this.filteredTransactions.set(filtered);
+    });
+  }
 
   shouldDisplayDate(
     i: number,

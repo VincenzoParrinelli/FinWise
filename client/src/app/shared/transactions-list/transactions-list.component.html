@@ -1,4 +1,9 @@
-@for (transaction of transactions(); track transaction._id; let i = $index) {
+@for (
+  transaction of (filteredTransactions().length && filteredTransactions()) ||
+    transactions();
+  track transaction._id;
+  let i = $index
+) {
   @if (shouldDisplayDate(i, transaction, transactions()[i - 1])) {
     <div class="flex mt-6">
       <span class="text-sm">{{

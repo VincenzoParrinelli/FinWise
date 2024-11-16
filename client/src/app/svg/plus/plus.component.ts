@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-plus',
+  selector: 'app-svg-plus',
   standalone: true,
   imports: [],
   templateUrl: './plus.component.svg',
