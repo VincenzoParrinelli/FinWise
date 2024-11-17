@@ -1,0 +1,23 @@
+<app-main-layout>
+  <span ngProjectAs="header-content">Categories</span>
+
+  <div ngProjectAs="top-content" class="flex flex-col justify-between p-6 mt-2">
+    <app-total-counters />
+  </div>
+
+  <div ngProjectAs="bottom-content" class="w-full overflow-auto">
+    <div class="grid grid-cols-3 justify-items-center gap-y-10 mt-6 mx-6 mb-32">
+      @for (category of categoryService.getAllCategories; track category.id) {
+        <div>
+          <ng-container
+            *ngComponentOutlet="
+              category.svgComponent;
+              injector: injectSvgProps()
+            "
+          ></ng-container>
+          <span class="">{{ category.name }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</app-main-layout>

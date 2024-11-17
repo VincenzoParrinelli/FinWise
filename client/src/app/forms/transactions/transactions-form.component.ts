@@ -175,7 +175,7 @@ export class TransactionsFormComponent {
     return Object.values(this.updatedTransaction()).length;
   }
 
-  // TODO: do not submit if no field has chan
+  // TODO: do not submit if no field has changed
   onSubmit(): void {
     this.formIsSubmitted.set(true);
 

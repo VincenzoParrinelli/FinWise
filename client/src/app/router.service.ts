@@ -68,6 +68,10 @@ export class RouterService {
     this.router.navigate(['/transactions/edit'], { state: { transaction } });
   }
 
+  navigateToCategories() {
+    this.router.navigate(['/categories']);
+  }
+
   navigateToSettings() {
     this.router.navigate(['/settings']);
   }
