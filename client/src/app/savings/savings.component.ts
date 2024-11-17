@@ -11,13 +11,13 @@ import {
 } from '../shared/injection-tokens/svgs-injection-tokens';
 
 @Component({
-  selector: 'app-categories',
+  selector: 'app-savings',
   standalone: true,
   imports: [MainLayoutComponent, TotalCountersComponent, NgComponentOutlet],
-  templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss',
+  templateUrl: './savings.component.html',
+  styleUrl: './savings.component.scss',
 })
-export class CategoriesComponent {
+export class SavingsComponent {
   categoryService = inject(CategoryService);
   private injector = inject(Injector);
 
