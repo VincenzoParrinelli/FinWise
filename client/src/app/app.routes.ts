@@ -80,6 +80,14 @@ export const routes: Routes = [
     // canActivate: [AuthGuard],
   },
   {
+    path: 'savings/add',
+    loadComponent: () =>
+      import('./forms/savings/savings-form.component').then(
+        (m) => m.SavingsFormComponent
+      ),
+    // canActivate: [AuthGuard],
+  },
+  {
     path: 'settings',
     loadComponent: () =>
       import('./settings/settings.component').then((m) => m.SettingsComponent),

@@ -17,10 +17,12 @@ import { provideEffects } from '@ngrx/effects';
 import { appReducer } from './store/app/app.reducer';
 import { userReducer } from './store/user/user.reducer';
 import { transactionsReducer } from './store/transactions/transactions.reducer';
+import { savingsReducer } from './store/savings/savings.reducer';
 import { metaReducers } from './store/resetStateOnLogoutMetaReducer';
 
 import { UserEffects } from './store/user/user.effects';
-import { TransactionsEffects } from './store/transactions/transactions.effect';
+import { TransactionsEffects } from './store/transactions/transactions.effects';
+import { SavingsEffects } from './store/savings/saving.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,9 +36,10 @@ export const appConfig: ApplicationConfig = {
         app: appReducer,
         user: userReducer,
         transactions: transactionsReducer,
+        savings: savingsReducer,
       },
       { metaReducers }
     ),
-    provideEffects([UserEffects, TransactionsEffects]),
+    provideEffects([UserEffects, TransactionsEffects, SavingsEffects]),
   ],
 };

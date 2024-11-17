@@ -5,6 +5,7 @@ import cors from "cors";
 import connectDb from "./config/db";
 import userRoutes from "./routes/userRoutes";
 import transactionRoutes from "./routes/transactionRoutes";
+import savingRoutes from "./routes/savingRoutes";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/savings", savingRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

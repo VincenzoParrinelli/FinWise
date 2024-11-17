@@ -68,8 +68,12 @@ export class RouterService {
     this.router.navigate(['/transactions/edit'], { state: { transaction } });
   }
 
-  navigateToCategories() {
-    this.router.navigate(['/categories']);
+  navigateToSavings() {
+    this.router.navigate(['/savings']);
+  }
+
+  navigateToSavingsAdd() {
+    this.router.navigate(['/savings/add']);
   }
 
   navigateToSettings() {

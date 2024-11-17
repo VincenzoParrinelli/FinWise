@@ -1,0 +1,38 @@
+@for (saving of savings(); track saving._id; let i = $index) {
+  @if (shouldDisplayDate(i, saving, savings()[i - 1])) {
+    <div class="flex mt-6">
+      <span class="text-sm">{{
+        saving.date | date: getDateFormat(saving, savings()[i - 1])
+      }}</span>
+    </div>
+  }
+
+  <div
+    [class.mb-8]="savings().length - 1 === i"
+    class="flex items-center justify-between mt-2 w-full gap-3"
+  >
+    @for (category of categories; track $index) {
+      @if (saving.category === category.name) {
+        <ng-container *ngComponentOutlet="category.svgComponent">
+        </ng-container>
+      }
+    }
+
+    <div class="flex flex-col items-start ml-1 w-full">
+      <span>{{ saving.savingTitle || saving.category }}</span>
+      <span class="text-xs text-vivid-blue font-semibold">
+        {{ saving.date | date }}
+      </span>
+    </div>
+
+    <span class="text-sm ml-2.5 text-honeydew w-14" dir="rtl">
+      &lrm;{{ saving.goalAmount | currency }}
+    </span>
+  </div>
+}
+
+@if (loading()) {
+  <div class="flex justify-center items-center my-8">
+    <app-spinner />
+  </div>
+}

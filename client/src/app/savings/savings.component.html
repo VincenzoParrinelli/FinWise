@@ -1,23 +1,41 @@
 <app-main-layout>
-  <span ngProjectAs="header-content">Categories</span>
+  <span ngProjectAs="header-content">Savings</span>
 
   <div ngProjectAs="top-content" class="flex flex-col justify-between p-6 mt-2">
     <app-total-counters />
   </div>
 
-  <div ngProjectAs="bottom-content" class="w-full overflow-auto">
-    <div class="grid grid-cols-3 justify-items-center gap-y-10 mt-6 mx-6 mb-32">
+  <div
+    ngProjectAs="bottom-content"
+    class="mx-6 w-80 overflow-x-hidden max-h-screen flex justify-center"
+  >
+    <!-- <div class="grid grid-cols-3 justify-items-center gap-y-10 mt-6 mx-6 mb-32">
       @for (category of categoryService.getAllCategories; track category.id) {
-        <div>
-          <ng-container
-            *ngComponentOutlet="
-              category.svgComponent;
-              injector: injectSvgProps()
-            "
-          ></ng-container>
-          <span class="">{{ category.name }}</span>
-        </div>
+        @if (category.name !== "Salary") {
+          <div>
+            <ng-container
+              *ngComponentOutlet="
+                category.svgComponent;
+                injector: injectSvgProps()
+              "
+            ></ng-container>
+            <span>{{ category.name }}</span>
+          </div>
+        }
       }
+    </div> -->
+
+    <app-savings-list />
+
+    <div
+      class="flex justify-center items-center self-center fixed -translate-y-2 bottom-24"
+    >
+      <app-custom-btn
+        class="font-semibold"
+        width="half"
+        text="Add Savings"
+        (click)="routerService.navigateToSavingsAdd()"
+      />
     </div>
   </div>
 </app-main-layout>

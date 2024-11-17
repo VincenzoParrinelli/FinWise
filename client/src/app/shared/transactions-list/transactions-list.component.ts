@@ -4,14 +4,13 @@ import { CurrencyPipe, DatePipe, NgComponentOutlet } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { Transaction } from '../../store/transactions/transactions.model';
+import { selectTransactions } from '../../store/transactions/transactions.selectors';
+import { selectLoading } from '../../store/app/app.selectors';
 
 import { SpinnerComponent } from '../spinner/spinner.component';
 
 import { RouterService } from '../../router.service';
 import { CategoryService } from '../../category.service';
-
-import { selectTransactions } from '../../store/transactions/transactions.selectors';
-import { selectLoading } from '../../store/app/app.selectors';
 
 @Component({
   selector: 'app-transactions-list',
@@ -24,10 +23,9 @@ export class TransactionsListComponent {
   private store = inject(Store);
   routerService = inject(RouterService);
   private activatedRoute = inject(ActivatedRoute);
-  categoryService = inject(CategoryService);
+  categories = inject(CategoryService).getAllCategories;
   transactions = this.store.selectSignal(selectTransactions);
   filteredTransactions = signal<Transaction[]>([]);
-  categories = this.categoryService.getAllCategories;
   loading = this.store.selectSignal(selectLoading);
 
   ngOnInit() {

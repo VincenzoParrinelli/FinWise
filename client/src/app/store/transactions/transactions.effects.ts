@@ -1,16 +1,17 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+
 import { Store } from '@ngrx/store';
-import { environment } from '../../../environments/environment.development';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-
-import { RouterService } from '../../router.service';
-
 import * as AppActions from '../app/app.actions';
 import { Transaction, TransactionsState } from './transactions.model';
 import * as TransactionsActions from './transactions.actions';
 import * as UserActions from '../user/user.actions';
+
+import { environment } from '../../../environments/environment.development';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+
+import { RouterService } from '../../router.service';
 
 export class TransactionsEffects {
   private actions$ = inject(Actions);
