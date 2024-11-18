@@ -8,3 +8,8 @@ export const selectSavings = createSelector(
   selectSavingsState,
   (state: SavingsState) => state.savings
 );
+
+export const selectSavingsTotalDocuments = createSelector(
+  selectSavingsState,
+  (state: SavingsState) => state.totalDocuments
+);

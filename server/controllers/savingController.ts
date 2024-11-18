@@ -1,6 +1,40 @@
 import { Request, Response } from "express";
 import Saving, { ISaving } from "../models/savingModel";
 
+export const getSavings = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const userId = res.locals.user._id.toString();
+  const page = parseInt(req.query.page as string) || 1;
+  const pageSize = parseInt(req.query.pageSize as string) || 10;
+
+  try {
+    const totals = await Saving.aggregate([
+      { $match: { userId } },
+      {
+        $group: {
+          _id: null,
+          totalDocuments: { $sum: 1 },
+        },
+      },
+      {
+        $project: { _id: 0 },
+      },
+    ]);
+
+    const savings = await Saving.find({ userId })
+      .sort({ date: -1 })
+      .skip((page - 1) * pageSize)
+      .limit(10)
+      .lean();
+
+    res.status(200).json({ savings, ...totals[0] });
+  } catch (err) {
+    res.status(500).json({ message: (err as Error).message });
+  }
+};
+
 export const createSaving = async (
   req: Request,
   res: Response

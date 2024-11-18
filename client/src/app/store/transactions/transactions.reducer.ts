@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Transaction, TransactionsState } from './transactions.model';
+import { removeDuplicatesAndSortById } from '../../utils/utils';
 import * as TransactionsActions from './transactions.actions';
 
 export const initialTransactionsState: TransactionsState = {
@@ -21,7 +22,7 @@ export const transactionsReducer = createReducer(
       totalIncome: transactionsWithTotals.totalIncome || 0,
       totalExpenses: transactionsWithTotals.totalExpenses || 0,
       totalDocuments: transactionsWithTotals.totalDocuments || 0,
-      transactions: removeDuplicatesAndSort(
+      transactions: removeDuplicatesAndSortById(
         state.transactions,
         transactionsWithTotals.transactions
       ),
@@ -102,48 +103,48 @@ export const transactionsReducer = createReducer(
   )
 );
 
-const removeDuplicatesAndSort = (
-  transactions: Transaction[],
-  newTransactions: Transaction[]
-): Transaction[] => {
-  const map = new Map<string, Transaction>();
+// const removeDuplicatesAndSort = (
+//   transactions: Transaction[],
+//   newTransactions: Transaction[]
+// ): Transaction[] => {
+//   const map = new Map<string, Transaction>();
 
-  transactions.forEach((transaction) => {
-    map.set(transaction._id!, transaction);
-  });
+//   transactions.forEach((transaction) => {
+//     map.set(transaction._id!, transaction);
+//   });
 
-  newTransactions.forEach((transaction) => {
-    map.set(transaction._id!, transaction);
-  });
+//   newTransactions.forEach((transaction) => {
+//     map.set(transaction._id!, transaction);
+//   });
 
-  const uniqueTransactions = Array.from(map.values());
-  const result: Transaction[] = [];
+//   const uniqueTransactions = Array.from(map.values());
+//   const result: Transaction[] = [];
 
-  uniqueTransactions.forEach((transaction) => {
-    const index = binarySearch(result, new Date(transaction.date));
+//   uniqueTransactions.forEach((transaction) => {
+//     const index = binarySearch(result, new Date(transaction.date));
 
-    result.splice(index, 0, transaction);
-  });
+//     result.splice(index, 0, transaction);
+//   });
 
-  return result;
-};
+//   return result;
+// };
 
-const binarySearch = (arr: Transaction[], date: Date) => {
-  let left = 0;
-  let right = arr.length - 1;
+// const binarySearch = (arr: Transaction[], date: Date) => {
+//   let left = 0;
+//   let right = arr.length - 1;
 
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    const midDate = new Date(arr[mid].date).getTime();
+//   while (left <= right) {
+//     const mid = Math.floor((left + right) / 2);
+//     const midDate = new Date(arr[mid].date).getTime();
 
-    if (midDate === date.getTime()) {
-      return mid;
-    } else if (midDate > date.getTime()) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
-    }
-  }
+//     if (midDate === date.getTime()) {
+//       return mid;
+//     } else if (midDate > date.getTime()) {
+//       left = mid + 1;
+//     } else {
+//       right = mid - 1;
+//     }
+//   }
 
-  return left;
-};
+//   return left;
+// };

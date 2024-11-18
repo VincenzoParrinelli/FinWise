@@ -1,18 +1,21 @@
-import { Component, inject, Injector } from '@angular/core';
-import { NgComponentOutlet } from '@angular/common';
+import { Component, inject } from '@angular/core';
 
-import { CategoryService } from '../category.service';
-import { RouterService } from '../router.service';
+import { Store } from '@ngrx/store';
+import { selectUserId } from '../store/user/user.selectors';
+import {
+  selectSavings,
+  selectSavingsTotalDocuments,
+} from '../store/savings/savings.selectors';
+import * as SavingsActions from '../store/savings/savings.actions';
 
 import { SavingsListComponent } from '../savings-list/savings-list.component';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { TotalCountersComponent } from '../shared/total-counters/total-counters.component';
-import {
-  HEIGHT_TOKEN,
-  WIDTH_TOKEN,
-} from '../shared/injection-tokens/svgs-injection-tokens';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
+
+import { CategoryService } from '../category.service';
+import { RouterService } from '../router.service';
 
 @Component({
   selector: 'app-savings',
@@ -20,7 +23,6 @@ import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
   imports: [
     MainLayoutComponent,
     TotalCountersComponent,
-    NgComponentOutlet,
     CustomBtnComponent,
     SavingsListComponent,
   ],
@@ -30,15 +32,32 @@ import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 export class SavingsComponent {
   categoryService = inject(CategoryService);
   routerService = inject(RouterService);
-  private injector = inject(Injector);
+  private store = inject(Store);
+  private page = 2;
+  private pageSize = 10;
+  userId = this.store.selectSignal(selectUserId);
+  savings = this.store.selectSignal(selectSavings);
+  SavingsTotalUserDocuments = this.store.selectSignal(
+    selectSavingsTotalDocuments
+  );
 
-  injectSvgProps(): Injector {
-    return Injector.create({
-      providers: [
-        { provide: WIDTH_TOKEN, useValue: '90' },
-        { provide: HEIGHT_TOKEN, useValue: '90' },
-      ],
-      parent: this.injector,
-    });
+  onScroll(event: any): void {
+    const element = event.target;
+    const threshold = 10;
+
+    if (
+      element.scrollHeight - element.scrollTop <=
+        element.clientHeight + threshold &&
+      this.savings().length < this.SavingsTotalUserDocuments()
+    ) {
+      this.store.dispatch(
+        SavingsActions.getSavings({
+          page: this.page,
+          pageSize: this.pageSize,
+        })
+      );
+
+      this.page++;
+    }
   }
 }

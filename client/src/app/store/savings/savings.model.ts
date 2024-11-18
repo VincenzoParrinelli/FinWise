@@ -1,10 +1,11 @@
 export interface SavingsState {
-  savings: Saving[];
   totalDocuments: number;
+  savings: Saving[];
 }
 
 export interface Saving {
   _id: string | null;
+  userId: string;
   category: string;
   goalAmount: number;
   savingTitle?: string;

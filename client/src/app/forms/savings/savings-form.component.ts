@@ -154,20 +154,20 @@ export class SavingsFormComponent {
     amountControl.setValue(amountValueNumeric);
   }
 
-  private issavingEdited(formattedFormData: object): number {
+  private isSavingEdited(formattedFormData: object): number {
     for (const key in formattedFormData) {
       const formField = formattedFormData[key as keyof object];
-      const selectedsavingField = this.selectedSaving[key as keyof Saving];
+      const selectedSavingField = this.selectedSaving[key as keyof Saving];
 
-      if (formField !== selectedsavingField) {
+      if (formField !== selectedSavingField) {
         this.updatedSaving.set({
           ...this.updatedSaving(),
           [key]: formField,
         });
       } else {
-        const updatedsaving = { ...this.updatedSaving() };
-        delete updatedsaving[key as keyof object];
-        this.updatedSaving.set(updatedsaving);
+        const updatedSaving = { ...this.updatedSaving() };
+        delete updatedSaving[key as keyof object];
+        this.updatedSaving.set(updatedSaving);
       }
     }
 
@@ -196,7 +196,7 @@ export class SavingsFormComponent {
           saving: formattedsaving,
         })
       );
-      // } else if (this.issavingEdited(formattedsaving)) {
+      // } else if (this.isSavingEdited(formattedSaving)) {
       //   this.store.dispatch(
       //     SavingsActions.updateSaving({
       //       updatedsavingFormData: this.updatedSaving(),

@@ -2,7 +2,6 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface ISaving extends Document {
   userId: string;
-  savingTransactions: [];
   category: string;
   goalAmount: number;
   savingTitle: string;

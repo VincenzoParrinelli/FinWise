@@ -2,13 +2,23 @@ import { createReducer, on } from '@ngrx/store';
 import { SavingsState } from './savings.model';
 import * as SavingsActions from './savings.actions';
 
+import { removeDuplicatesAndSortById } from '../../utils/array-utils';
+
 export const initialSavingsState: SavingsState = {
-  savings: [],
   totalDocuments: 0,
+  savings: [],
 };
 
 export const savingsReducer = createReducer(
   initialSavingsState,
+  on(SavingsActions.getSavingsSuccess, (state, { savingsWithTotals }) => ({
+    ...state,
+    totalDocuments: savingsWithTotals.totalDocuments,
+    savings: removeDuplicatesAndSortById(
+      state.savings,
+      savingsWithTotals.savings
+    ),
+  })),
   on(SavingsActions.createSavingSuccess, (state, { saving }) => ({
     ...state,
     totalDocuments: state.totalDocuments + 1,

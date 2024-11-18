@@ -8,23 +8,10 @@
   <div
     ngProjectAs="bottom-content"
     class="mx-6 w-80 overflow-x-hidden max-h-screen flex justify-center"
+    [class.mb-24]="savings().length"
+    [class.mt-2]="savings().length"
+    (scroll)="onScroll($event)"
   >
-    <!-- <div class="grid grid-cols-3 justify-items-center gap-y-10 mt-6 mx-6 mb-32">
-      @for (category of categoryService.getAllCategories; track category.id) {
-        @if (category.name !== "Salary") {
-          <div>
-            <ng-container
-              *ngComponentOutlet="
-                category.svgComponent;
-                injector: injectSvgProps()
-              "
-            ></ng-container>
-            <span>{{ category.name }}</span>
-          </div>
-        }
-      }
-    </div> -->
-
     <app-savings-list />
 
     <div

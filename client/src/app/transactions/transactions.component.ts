@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import {
   selectTransactions,
   selectTransactionsTotals,
-  selectTransactionsTotalUserDocuments,
+  selectTransactionsTotalDocuments,
 } from '../store/transactions/transactions.selectors';
 
 import { selectUserId } from '../store/user/user.selectors';
@@ -39,8 +39,8 @@ export class TransactionsComponent {
   private store = inject(Store);
   transactionsTotals = this.store.selectSignal(selectTransactionsTotals);
   transactions = this.store.selectSignal(selectTransactions);
-  transactionsTotalUserDocuments = this.store.selectSignal(
-    selectTransactionsTotalUserDocuments
+  transactionsTotalDocuments = this.store.selectSignal(
+    selectTransactionsTotalDocuments
   );
   userId = this.store.selectSignal(selectUserId);
   isIncomesSelected = signal<boolean>(false);
@@ -97,7 +97,7 @@ export class TransactionsComponent {
     if (
       element.scrollHeight - element.scrollTop <=
         element.clientHeight + threshold &&
-      this.transactions().length < this.transactionsTotalUserDocuments()
+      this.transactions().length < this.transactionsTotalDocuments()
     ) {
       this.store.dispatch(
         TransactionActions.getTransactionsWithTotals({
