@@ -26,5 +26,9 @@ export const savingsReducer = createReducer(
     savings: [...state.savings, saving].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     ),
+  })),
+  on(SavingsActions.deleteSavingSuccess, (state, { savingId }) => ({
+    ...state,
+    savings: state.savings.filter((saving) => saving._id !== savingId),
   }))
 );

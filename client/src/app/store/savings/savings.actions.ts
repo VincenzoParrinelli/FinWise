@@ -20,3 +20,13 @@ export const createSavingSuccess = createAction(
   '[Saving] Create Saving Success',
   props<{ saving: Saving }>()
 );
+
+export const deleteSaving = createAction(
+  '[Saving] Delete Saving',
+  props<{ savingId: string }>()
+);
+
+export const deleteSavingSuccess = createAction(
+  '[Saving] Delete Saving Success',
+  props<{ savingId: string }>()
+);

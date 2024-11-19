@@ -60,3 +60,18 @@ export const createSaving = async (
     res.status(500).json({ message: (err as Error).message });
   }
 };
+
+export const deleteSaving = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const savingId = req.params.id.toString();
+
+  try {
+    await Saving.deleteOne({ _id: savingId });
+
+    res.status(200).end();
+  } catch (err) {
+    res.status(500).json({ message: (err as Error).message });
+  }
+};

@@ -62,11 +62,10 @@ export class SavingsViewComponent {
   }
 
   onSavingDelete(): void {
-    // this.store
-    //   .dispatch
-    //   SavingActions.deleteSaving({
-    //     transactionId: this.transaction._id!,
-    //   })
-    //   ();
+    this.store.dispatch(
+      SavingActions.deleteSaving({
+        savingId: this.saving._id!,
+      })
+    );
   }
 }

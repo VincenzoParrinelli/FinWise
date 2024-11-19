@@ -100,4 +100,26 @@ export class SavingsEffects {
       )
     )
   );
+
+  deleteSaving$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SavingsActions.deleteSaving),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ savingId }) =>
+        this.http
+          .delete<void>(`${this.apiUrl}/savings/delete/${savingId}`)
+          .pipe(
+            map(() => SavingsActions.deleteSavingSuccess({ savingId })),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
+            tap(() => this.routerService.navigateToSavings()),
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return EMPTY;
+            })
+          )
+      )
+    )
+  );
 }
