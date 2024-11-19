@@ -9,7 +9,7 @@ import * as TransactionsActions from './transactions.actions';
 import * as UserActions from '../user/user.actions';
 
 import { environment } from '../../../environments/environment.development';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, EMPTY, map, mergeMap, of, tap } from 'rxjs';
 
 import { RouterService } from '../../router.service';
 
@@ -35,7 +35,7 @@ export class TransactionsEffects {
           ),
           catchError((error) => {
             this.store.dispatch(AppActions.setLoading({ loading: false }));
-            return of();
+            return EMPTY;
           })
         )
       )
@@ -66,7 +66,7 @@ export class TransactionsEffects {
             ),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
+              return EMPTY;
             })
           );
       })
@@ -94,7 +94,7 @@ export class TransactionsEffects {
             tap(() => this.routerService.navigateToTransactions()),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
+              return EMPTY;
             })
           )
       )
@@ -124,7 +124,7 @@ export class TransactionsEffects {
             tap(() => this.routerService.navigateBack()), // Navigating back still shows old data, but transactions list gets updated properly
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
+              return EMPTY;
             })
           )
       )
@@ -148,8 +148,7 @@ export class TransactionsEffects {
             tap(() => this.routerService.navigateToTransactions()),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
-              // of(AppActions.setError({ error: error.message }));
+              return EMPTY;
             })
           )
       )

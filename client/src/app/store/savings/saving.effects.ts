@@ -9,7 +9,7 @@ import * as SavingsActions from './savings.actions';
 import * as UserActions from '../user/user.actions';
 
 import { environment } from '../../../environments/environment.development';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, EMPTY, map, mergeMap, of, tap } from 'rxjs';
 
 import { RouterService } from '../../router.service';
 
@@ -35,7 +35,7 @@ export class SavingsEffects {
           ),
           catchError((error) => {
             this.store.dispatch(AppActions.setLoading({ loading: false }));
-            return of();
+            return EMPTY;
           })
         )
       )
@@ -66,7 +66,7 @@ export class SavingsEffects {
             ),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
+              return EMPTY;
             })
           );
       })
@@ -94,7 +94,7 @@ export class SavingsEffects {
             tap(() => this.routerService.navigateToSavings()),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
+              return EMPTY;
             })
           )
       )

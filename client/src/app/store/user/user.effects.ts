@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, EMPTY, map, mergeMap, of, tap } from 'rxjs';
 import { RouterService } from '../../router.service';
 
 import { User } from './user.model';
@@ -33,8 +33,7 @@ export class UserEffects {
           tap(() => this.routerService.navigateToHome()),
           catchError((error) => {
             this.store.dispatch(AppActions.setLoading({ loading: false }));
-            return of();
-            // of(AppActions.setError({ error: error.message }));
+            return EMPTY;
           })
         )
       )
@@ -55,8 +54,7 @@ export class UserEffects {
             tap(() => this.routerService.navigateToHome()),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
-              // of(AppActions.setError({ error: error.message }));
+              return EMPTY;
             })
           )
       )
@@ -77,8 +75,7 @@ export class UserEffects {
             ),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
-              // of(AppActions.setError({ error: error.message }));
+              return EMPTY;
             })
           )
       )
@@ -102,8 +99,7 @@ export class UserEffects {
             ),
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
-              return of();
-              // of(AppActions.setError({ error: error.message }));
+              return EMPTY;
             })
           )
       )
@@ -123,8 +119,7 @@ export class UserEffects {
           tap(() => this.routerService.navigateToLogin()),
           catchError((error) => {
             this.store.dispatch(AppActions.setLoading({ loading: false }));
-            return of();
-            // of(AppActions.setError({ error: error.message }));
+            return EMPTY;
           })
         )
       )
