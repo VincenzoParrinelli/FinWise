@@ -42,7 +42,7 @@ export const transactionsReducer = createReducer(
           : state.totalIncome,
       totalExpenses:
         transaction.amount < 0
-          ? state.totalIncome + transaction.amount
+          ? state.totalExpenses + transaction.amount
           : state.totalExpenses,
       totalDocuments: state.totalDocuments + 1,
 
@@ -102,49 +102,3 @@ export const transactionsReducer = createReducer(
     })
   )
 );
-
-// const removeDuplicatesAndSort = (
-//   transactions: Transaction[],
-//   newTransactions: Transaction[]
-// ): Transaction[] => {
-//   const map = new Map<string, Transaction>();
-
-//   transactions.forEach((transaction) => {
-//     map.set(transaction._id!, transaction);
-//   });
-
-//   newTransactions.forEach((transaction) => {
-//     map.set(transaction._id!, transaction);
-//   });
-
-//   const uniqueTransactions = Array.from(map.values());
-//   const result: Transaction[] = [];
-
-//   uniqueTransactions.forEach((transaction) => {
-//     const index = binarySearch(result, new Date(transaction.date));
-
-//     result.splice(index, 0, transaction);
-//   });
-
-//   return result;
-// };
-
-// const binarySearch = (arr: Transaction[], date: Date) => {
-//   let left = 0;
-//   let right = arr.length - 1;
-
-//   while (left <= right) {
-//     const mid = Math.floor((left + right) / 2);
-//     const midDate = new Date(arr[mid].date).getTime();
-
-//     if (midDate === date.getTime()) {
-//       return mid;
-//     } else if (midDate > date.getTime()) {
-//       left = mid + 1;
-//     } else {
-//       right = mid - 1;
-//     }
-//   }
-
-//   return left;
-// };
