@@ -29,7 +29,7 @@ import * as SavingsActions from '../../store/savings/savings.actions';
   styleUrl: './savings-form.component.scss',
 })
 export class SavingsFormComponent {
-  categoryService = inject(CategoryService);
+  categories = inject(CategoryService).getAllCategories;
   private formIsSubmitted = signal<boolean>(false);
   private store = inject(Store<SavingsState>);
   private router = inject(Router);
@@ -44,9 +44,6 @@ export class SavingsFormComponent {
   }
 
   savingsForm = new FormGroup({
-    date: new FormControl(this.formatSelectedSavingDate || '', {
-      validators: [Validators.required],
-    }),
     category: new FormControl(this.selectedSaving?.category || '', {
       validators: [Validators.required],
     }),
@@ -63,19 +60,6 @@ export class SavingsFormComponent {
       validators: [Validators.maxLength(50)],
     }),
   });
-
-  get formatSelectedSavingDate(): string {
-    return this.selectedSaving
-      ? new Date(this.selectedSaving.date).toISOString().split('T')[0]
-      : '';
-  }
-
-  get isDateRequired() {
-    return (
-      this.savingsForm.controls.date.hasError('required') &&
-      this.formIsSubmitted()
-    );
-  }
 
   get isCategoryRequired() {
     return (
@@ -119,39 +103,17 @@ export class SavingsFormComponent {
 
   formatGoalAmountOnLeave(): void {
     const amountControl = this.savingsForm.get('goalAmount');
-    const categoryControl = this.savingsForm.get('category');
 
     if (!amountControl?.value) return;
 
     amountControl.setValue(amountControl.value.replace(/[-]/g, ''));
     const fixedValue = parseFloat(amountControl.value).toFixed(2);
 
-    if (categoryControl?.value === 'Salary') {
-      amountControl.setValue(`$${fixedValue}`);
-    } else {
-      amountControl.setValue(`-$${fixedValue}`);
-    }
+    amountControl.setValue(`$${fixedValue}`);
   }
 
   setCategory(categoryName: string): void {
     this.savingsForm.patchValue({ category: categoryName });
-
-    const amountControl = this.savingsForm.get('goalAmount');
-
-    if (!amountControl?.value) return;
-
-    const isNotSalary = categoryName !== 'Salary';
-    let amountValueNumeric = amountControl.value.replace(/[^0-9.]/g, '');
-
-    if (isNotSalary) {
-      amountValueNumeric = amountValueNumeric.includes('-')
-        ? amountValueNumeric
-        : `-$${amountValueNumeric}`;
-    } else {
-      amountValueNumeric = `$${amountValueNumeric}`;
-    }
-
-    amountControl.setValue(amountValueNumeric);
   }
 
   private isSavingEdited(formattedFormData: object): number {
@@ -183,9 +145,10 @@ export class SavingsFormComponent {
       return;
     }
 
-    const formattedsaving = {
+    const formattedSaving = {
       ...this.savingsForm.value,
-      amountGoal: parseFloat(
+      date: new Date(),
+      goalAmount: parseFloat(
         this.savingsForm.controls.goalAmount.value?.replace(/[^0-9.-]/g, '')!
       ),
     } as NewSavingFormData;
@@ -193,7 +156,7 @@ export class SavingsFormComponent {
     if (!this.selectedSaving) {
       this.store.dispatch(
         SavingsActions.createSaving({
-          saving: formattedsaving,
+          saving: formattedSaving,
         })
       );
       // } else if (this.isSavingEdited(formattedSaving)) {

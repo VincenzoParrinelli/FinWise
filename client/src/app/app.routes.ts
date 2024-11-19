@@ -80,6 +80,14 @@ export const routes: Routes = [
     // canActivate: [AuthGuard],
   },
   {
+    path: 'savings/view',
+    loadComponent: () =>
+      import('./savings-view/savings-view.component').then(
+        (m) => m.SavingsViewComponent
+      ),
+    // canActivate: [AuthGuard],
+  },
+  {
     path: 'savings/add',
     loadComponent: () =>
       import('./forms/savings/savings-form.component').then(
@@ -87,6 +95,14 @@ export const routes: Routes = [
       ),
     // canActivate: [AuthGuard],
   },
+  // {
+  //   path: 'savings/edit',
+  //   loadComponent: () =>
+  //     import('./savings-edit/').then(
+  //       (m) => m.TransactionsFormComponent
+  //     ),
+  //   // canActivate: [AuthGuard],
+  // },
   {
     path: 'settings',
     loadComponent: () =>

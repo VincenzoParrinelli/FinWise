@@ -7,7 +7,7 @@
 
   <div
     ngProjectAs="bottom-content"
-    class="mx-6 w-80 overflow-x-hidden max-h-screen flex justify-center"
+    class="mx-6 w-80 overflow-x-hidden max-h-screen"
     [class.mb-24]="savings().length"
     [class.mt-2]="savings().length"
     (scroll)="onScroll($event)"
@@ -15,7 +15,7 @@
     <app-savings-list />
 
     <div
-      class="flex justify-center items-center self-center fixed -translate-y-2 bottom-24"
+      class="flex justify-center items-center w-80 fixed -translate-y-2 bottom-24"
     >
       <app-custom-btn
         class="font-semibold"

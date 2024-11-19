@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { Transaction } from './store/transactions/transactions.model';
+import { Saving } from './store/savings/savings.model';
 
 export class RouterService {
   router = inject(Router);
@@ -72,8 +73,16 @@ export class RouterService {
     this.router.navigate(['/savings']);
   }
 
+  navigateToSavingsView(saving: Saving) {
+    this.router.navigate(['/savings/view'], { state: { saving } });
+  }
+
   navigateToSavingsAdd() {
     this.router.navigate(['/savings/add']);
+  }
+
+  navigateToSavingsEdit(saving: Saving) {
+    this.router.navigate(['/savings/edit'], { state: { saving } });
   }
 
   navigateToSettings() {

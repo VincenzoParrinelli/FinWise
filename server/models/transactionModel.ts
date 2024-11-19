@@ -2,15 +2,20 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface ITransaction extends Document {
   userId: string;
+  savingId: string;
   category: string;
   amount: number;
-  transactionTitle: string;
-  description: string;
+  transactionTitle?: string;
+  description?: string;
   date: Date;
 }
 
 const transactionSchema = new Schema<ITransaction>({
   userId: {
+    type: String,
+    required: true,
+  },
+  savingId: {
     type: String,
     required: true,
   },
@@ -50,6 +55,18 @@ const transactionSchema = new Schema<ITransaction>({
     default: Date.now,
     required: true,
   },
+});
+
+transactionSchema.pre("validate", function (this: ITransaction, next) {
+  if (!this.userId && !this.savingId) {
+    return next(new Error("Either userId or savingId is required."));
+  }
+
+  if (this.userId && this.savingId) {
+    return next(new Error("Only one of userId or savingId can be provided."));
+  }
+
+  next();
 });
 
 export default mongoose.model<ITransaction>("Transaction", transactionSchema);

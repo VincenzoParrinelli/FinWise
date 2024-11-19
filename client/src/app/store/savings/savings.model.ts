@@ -14,7 +14,7 @@ export interface Saving {
 }
 
 export interface NewSavingFormData {
-  amountGoal: number;
+  goalAmount: number;
   category: string;
   date: string | Date;
   savingTitle?: string;
