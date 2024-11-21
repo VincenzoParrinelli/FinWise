@@ -46,8 +46,8 @@ export const createTransaction = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const transaction = req.body;
-  const date = new Date(req.body.date);
+  const { transaction, savingId } = req.body;
+  const date = new Date(transaction.date);
   const userId = res.locals.user._id.toString();
 
   try {
@@ -58,7 +58,8 @@ export const createTransaction = async (
 
     const newTransaction: ITransaction = new Transaction({
       ...transaction,
-      userId,
+      userId: savingId ? undefined : userId,
+      savingId: savingId || undefined,
     });
     newTransaction.save();
 

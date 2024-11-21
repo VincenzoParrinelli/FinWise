@@ -4,6 +4,7 @@ export interface TransactionsState {
   totalExpenses: number;
   totalDocuments: number;
   transactions: Transaction[];
+  savingsTransactions: Transaction[];
 }
 
 export interface NewTransactionFormData {
@@ -16,7 +17,8 @@ export interface NewTransactionFormData {
 
 export interface Transaction {
   _id: string | null;
-  userId: string;
+  userId?: string;
+  savingId?: string;
   amount: number;
   category: string;
   transactionTitle?: string;

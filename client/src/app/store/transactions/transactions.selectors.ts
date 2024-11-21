@@ -9,6 +9,13 @@ export const selectTransactions = createSelector(
   (state: TransactionsState) => state.transactions
 );
 
+export const selectSavingsTransactions = (savingId: string) =>
+  createSelector(selectTransactionsState, (state: TransactionsState) => {
+    return state.savingsTransactions.filter(
+      (savingsTransaction) => savingsTransaction.savingId === savingId
+    );
+  });
+
 export const selectTransactionsTotals = createSelector(
   selectTransactionsState,
   (state: TransactionsState) => {

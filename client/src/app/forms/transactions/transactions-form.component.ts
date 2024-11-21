@@ -37,6 +37,8 @@ export class TransactionsFormComponent {
   toggleCategoryDropdown = signal<boolean>(false);
   selectedTransaction =
     this.router.getCurrentNavigation()?.extras?.state?.['transaction'];
+  private selectedSaving =
+    this.router.getCurrentNavigation()?.extras?.state?.['saving'];
   updatedTransaction = signal({});
 
   ngOnInit() {
@@ -195,6 +197,7 @@ export class TransactionsFormComponent {
       this.store.dispatch(
         TransactionsActions.createTransaction({
           transaction: formattedTransaction,
+          savingId: this.selectedSaving._id,
         })
       );
     } else if (this.isTransactionEdited(formattedTransaction)) {

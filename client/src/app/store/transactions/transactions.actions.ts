@@ -18,12 +18,17 @@ export const getTransactionsWithTotalsSuccess = createAction(
 
 export const createTransaction = createAction(
   '[Transaction] Create Transaction',
-  props<{ transaction: NewTransactionFormData }>()
+  props<{ transaction: NewTransactionFormData; savingId?: string }>()
 );
 
 export const createTransactionSuccess = createAction(
   '[Transaction] Create Transaction Success',
   props<{ transaction: Transaction }>()
+);
+
+export const createSavingTransactionSuccess = createAction(
+  '[Transaction] Create Saving Transaction Success',
+  props<{ transaction: Transaction; savingId: string }>()
 );
 
 export const updateTransaction = createAction(

@@ -56,9 +56,6 @@ export class SavingsFormComponent {
     savingTitle: new FormControl(this.selectedSaving?.savingTitle || '', {
       validators: [Validators.maxLength(50)],
     }),
-    description: new FormControl(this.selectedSaving?.description || '', {
-      validators: [Validators.maxLength(50)],
-    }),
   });
 
   get isCategoryRequired() {
@@ -71,13 +68,6 @@ export class SavingsFormComponent {
   get isGoalAmountRequired() {
     return (
       this.savingsForm.controls.goalAmount.hasError('required') &&
-      this.formIsSubmitted()
-    );
-  }
-
-  get descriptionMaxLengthExceeded() {
-    return (
-      this.savingsForm.controls.description.hasError('maxlength') &&
       this.formIsSubmitted()
     );
   }

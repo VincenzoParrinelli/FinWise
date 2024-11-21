@@ -61,8 +61,8 @@ export class RouterService {
     this.router.navigate(['/transactions/view'], { state: { transaction } });
   }
 
-  navigateToTransactionsAdd() {
-    this.router.navigate(['/transactions/add']);
+  navigateToTransactionsAdd(saving?: Saving) {
+    this.router.navigate(['/transactions/add'], { state: { saving } });
   }
 
   navigateToTransactionsEdit(transaction: Transaction) {

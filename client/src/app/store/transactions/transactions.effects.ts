@@ -77,17 +77,24 @@ export class TransactionsEffects {
     this.actions$.pipe(
       ofType(TransactionsActions.createTransaction),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
-      mergeMap(({ transaction }) =>
+      mergeMap(({ transaction, savingId }) =>
         this.http
           .post<Transaction>(`${this.apiUrl}/transactions/create`, {
-            ...transaction,
+            transaction,
+            savingId,
           })
           .pipe(
-            map((createdTransaction) =>
-              TransactionsActions.createTransactionSuccess({
+            map((createdTransaction) => {
+              if (savingId)
+                return TransactionsActions.createSavingTransactionSuccess({
+                  transaction: createdTransaction,
+                  savingId,
+                });
+
+              return TransactionsActions.createTransactionSuccess({
                 transaction: createdTransaction,
-              })
-            ),
+              });
+            }),
             tap(() =>
               this.store.dispatch(AppActions.setLoading({ loading: false }))
             ),

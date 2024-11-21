@@ -9,6 +9,7 @@ export const initialTransactionsState: TransactionsState = {
   totalExpenses: 0,
   totalDocuments: 0,
   transactions: [],
+  savingsTransactions: [],
 };
 
 export const transactionsReducer = createReducer(
@@ -47,6 +48,15 @@ export const transactionsReducer = createReducer(
       totalDocuments: state.totalDocuments + 1,
 
       transactions: [...state.transactions, transaction].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      ),
+    })
+  ),
+  on(
+    TransactionsActions.createSavingTransactionSuccess,
+    (state, { transaction }) => ({
+      ...state,
+      savingsTransactions: [...state.savingsTransactions, transaction].sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       ),
     })

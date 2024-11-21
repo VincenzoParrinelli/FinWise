@@ -1,10 +1,20 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  Signal,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyPipe, DatePipe, NgComponentOutlet } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { Transaction } from '../../store/transactions/transactions.model';
-import { selectTransactions } from '../../store/transactions/transactions.selectors';
+import {
+  selectSavingsTransactions,
+  selectTransactions,
+} from '../../store/transactions/transactions.selectors';
 import { selectLoading } from '../../store/app/app.selectors';
 
 import { SpinnerComponent } from '../spinner/spinner.component';
@@ -20,11 +30,16 @@ import { CategoryService } from '../../category.service';
   styleUrl: './transactions-list.component.scss',
 })
 export class TransactionsListComponent {
+  savingId = input<string>();
   private store = inject(Store);
   routerService = inject(RouterService);
   private activatedRoute = inject(ActivatedRoute);
   categories = inject(CategoryService).getAllCategories;
-  transactions = this.store.selectSignal(selectTransactions);
+  transactions: Signal<Transaction[]> = computed(() =>
+    this.savingId()
+      ? this.store.selectSignal(selectSavingsTransactions(this.savingId()!))()
+      : this.store.selectSignal(selectTransactions)()
+  );
   filteredTransactions = signal<Transaction[]>([]);
   loading = this.store.selectSignal(selectLoading);
 

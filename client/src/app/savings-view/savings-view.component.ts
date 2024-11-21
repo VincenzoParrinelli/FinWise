@@ -4,7 +4,12 @@ import { Router } from '@angular/router';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
+import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
 import { DialogComponent } from '../shared/dialog/dialog.component';
+import {
+  HEIGHT_TOKEN,
+  WIDTH_TOKEN,
+} from '../shared/injection-tokens/svgs-injection-tokens';
 
 import { Store } from '@ngrx/store';
 import { selectLoading } from '../store/app/app.selectors';
@@ -14,11 +19,6 @@ import * as SavingActions from '../store/savings/savings.actions';
 import { CategoryService } from '../category.service';
 import { RouterService } from '../router.service';
 
-import {
-  HEIGHT_TOKEN,
-  WIDTH_TOKEN,
-} from '../shared/injection-tokens/svgs-injection-tokens';
-
 @Component({
   selector: 'app-savings-view',
   standalone: true,
@@ -27,6 +27,7 @@ import {
     NgComponentOutlet,
     CurrencyPipe,
     CustomBtnComponent,
+    TransactionsListComponent,
     DialogComponent,
   ],
   templateUrl: './savings-view.component.html',

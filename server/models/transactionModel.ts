@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface ITransaction extends Document {
-  userId: string;
-  savingId: string;
+  userId?: string;
+  savingId?: string;
   category: string;
   amount: number;
   transactionTitle?: string;
@@ -13,11 +13,9 @@ export interface ITransaction extends Document {
 const transactionSchema = new Schema<ITransaction>({
   userId: {
     type: String,
-    required: true,
   },
   savingId: {
     type: String,
-    required: true,
   },
   category: {
     type: String,

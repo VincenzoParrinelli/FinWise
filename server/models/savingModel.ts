@@ -5,7 +5,6 @@ export interface ISaving extends Document {
   category: string;
   goalAmount: number;
   savingTitle: string;
-  description: string;
   date: Date;
 }
 
@@ -38,10 +37,6 @@ const savingSchema = new Schema<ISaving>({
     required: true,
   },
   savingTitle: {
-    type: String,
-    maxLength: "50",
-  },
-  description: {
     type: String,
     maxLength: "50",
   },
