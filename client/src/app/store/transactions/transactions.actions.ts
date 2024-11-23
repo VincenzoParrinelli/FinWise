@@ -8,12 +8,12 @@ import {
 
 export const getTransactionsWithTotals = createAction(
   '[Transaction] Get Transactions With Totals',
-  props<{ page: number; pageSize: number }>()
+  props<{ page: number; pageSize: number; savingId?: string }>()
 );
 
 export const getTransactionsWithTotalsSuccess = createAction(
   '[Transaction] Get Transactions With Totals Success',
-  props<{ transactionsWithTotals: TransactionsState }>()
+  props<{ transactionsWithTotals: TransactionsState; savingId?: string }>()
 );
 
 export const createTransaction = createAction(

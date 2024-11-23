@@ -2,7 +2,8 @@ export interface TransactionsState {
   totalBalance: number;
   totalIncome: number;
   totalExpenses: number;
-  totalDocuments: number;
+  totalTransactionsInDb: number;
+  totalSavingsTransactionsInDb: number;
   transactions: Transaction[];
   savingsTransactions: Transaction[];
 }

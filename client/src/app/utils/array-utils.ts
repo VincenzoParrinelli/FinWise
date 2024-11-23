@@ -1,7 +1,7 @@
 import { Saving } from '../store/savings/savings.model';
 import { Transaction } from '../store/transactions/transactions.model';
 
-export const removeDuplicatesAndSortById = <T extends Transaction | Saving>(
+export const removeDuplicatesAndSortByDate = <T extends Transaction | Saving>(
   existingItems: T[],
   newItems: T[]
 ): T[] => {

@@ -47,6 +47,8 @@ export class TransactionsListComponent {
     this.activatedRoute.queryParams.subscribe((params) => {
       const filter = params['filter'];
 
+      if (!filter) return;
+
       const filtered = this.transactions().filter((transaction) => {
         return (
           (filter === 'incomes' && transaction.amount > 0) ||

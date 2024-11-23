@@ -29,5 +29,10 @@ export const selectTransactionsTotals = createSelector(
 
 export const selectTransactionsTotalDocuments = createSelector(
   selectTransactionsState,
-  (state: TransactionsState) => state.totalDocuments
+  (state: TransactionsState) => state.totalTransactionsInDb
+);
+
+export const selectTotalSavingsTransactionsInDb = createSelector(
+  selectTransactionsState,
+  (state: TransactionsState) => state.totalSavingsTransactionsInDb
 );

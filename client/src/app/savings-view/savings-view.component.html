@@ -34,7 +34,12 @@
       />
     </div>
 
-    <app-transactions-list [savingId]="saving._id!" />
+    <div
+      class="mx-6 w-80 overflow-x-hidden max-h-screen"
+      (scroll)="onScroll($event)"
+    >
+      <app-transactions-list [savingId]="saving._id!" />
+    </div>
 
     <div
       class="flex justify-center items-center self-center fixed -translate-y-2 bottom-24 gap-3"

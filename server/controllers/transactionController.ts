@@ -6,31 +6,51 @@ export const getTransactions = async (
   res: Response
 ): Promise<void> => {
   const userId = res.locals.user._id.toString();
+  const savingId = req.query.savingId as string;
   const page = parseInt(req.query.page as string) || 1;
   const pageSize = parseInt(req.query.pageSize as string) || 10;
 
   try {
-    const totals = await Transaction.aggregate([
-      { $match: { userId } },
-      {
-        $group: {
-          _id: null,
-          totalBalance: { $sum: "$amount" },
-          totalIncome: {
-            $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
-          },
-          totalExpenses: {
-            $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
-          },
-          totalDocuments: { $sum: 1 },
-        },
-      },
-      {
-        $project: { _id: 0 },
-      },
-    ]);
+    let totals = [];
 
-    const transactions = await Transaction.find({ userId })
+    if (!savingId) {
+      totals = await Transaction.aggregate([
+        { $match: { userId } },
+        {
+          $group: {
+            _id: null,
+            totalBalance: { $sum: "$amount" },
+            totalIncome: {
+              $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
+            },
+            totalExpenses: {
+              $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
+            },
+            totalTransactionsInDb: { $sum: 1 },
+          },
+        },
+        {
+          $project: { _id: 0 },
+        },
+      ]);
+    } else {
+      totals = await Transaction.aggregate([
+        { $match: { savingId } },
+        {
+          $group: {
+            _id: null,
+            totalSavingsTransactionsInDb: { $sum: 1 },
+          },
+        },
+        {
+          $project: { _id: 0 },
+        },
+      ]);
+    }
+
+    const transactions = await Transaction.find(
+      savingId ? { savingId } : { userId }
+    )
       .sort({ date: -1 })
       .skip((page - 1) * pageSize)
       .limit(10)

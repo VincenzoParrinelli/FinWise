@@ -46,10 +46,11 @@ export class TransactionsEffects {
     this.actions$.pipe(
       ofType(TransactionsActions.getTransactionsWithTotals),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
-      mergeMap(({ page, pageSize }) => {
+      mergeMap(({ page, pageSize, savingId }) => {
         const params = new HttpParams()
           .set('page', page)
-          .set('pageSize', pageSize);
+          .set('pageSize', pageSize)
+          .set('savingId', savingId ?? '');
 
         return this.http
           .get<TransactionsState>(`${this.apiUrl}/transactions`, {
@@ -59,6 +60,7 @@ export class TransactionsEffects {
             map((transactionsWithTotals) =>
               TransactionsActions.getTransactionsWithTotalsSuccess({
                 transactionsWithTotals,
+                savingId,
               })
             ),
             tap(() =>

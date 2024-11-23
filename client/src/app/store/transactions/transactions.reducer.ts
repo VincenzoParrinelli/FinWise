@@ -1,13 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
 import { Transaction, TransactionsState } from './transactions.model';
-import { removeDuplicatesAndSortById } from '../../utils/utils';
+import { removeDuplicatesAndSortByDate } from '../../utils/utils';
 import * as TransactionsActions from './transactions.actions';
 
 export const initialTransactionsState: TransactionsState = {
   totalBalance: 0,
   totalIncome: 0,
   totalExpenses: 0,
-  totalDocuments: 0,
+  totalTransactionsInDb: 0,
+  totalSavingsTransactionsInDb: 0,
   transactions: [],
   savingsTransactions: [],
 };
@@ -17,17 +18,32 @@ export const transactionsReducer = createReducer(
 
   on(
     TransactionsActions.getTransactionsWithTotalsSuccess,
-    (state, { transactionsWithTotals }) => ({
-      ...state,
-      totalBalance: transactionsWithTotals.totalBalance || 0,
-      totalIncome: transactionsWithTotals.totalIncome || 0,
-      totalExpenses: transactionsWithTotals.totalExpenses || 0,
-      totalDocuments: transactionsWithTotals.totalDocuments || 0,
-      transactions: removeDuplicatesAndSortById(
-        state.transactions,
-        transactionsWithTotals.transactions
-      ),
-    })
+    (state, { transactionsWithTotals, savingId }) => {
+      if (savingId) {
+        return {
+          ...state,
+          totalSavingsTransactionsInDb:
+            transactionsWithTotals.totalSavingsTransactionsInDb || 0,
+          savingsTransactions: removeDuplicatesAndSortByDate(
+            state.savingsTransactions,
+            transactionsWithTotals.transactions
+          ),
+        };
+      }
+
+      return {
+        ...state,
+        totalBalance: transactionsWithTotals.totalBalance || 0,
+        totalIncome: transactionsWithTotals.totalIncome || 0,
+        totalExpenses: transactionsWithTotals.totalExpenses || 0,
+        totalTransactionsInDb:
+          transactionsWithTotals.totalTransactionsInDb || 0,
+        transactions: removeDuplicatesAndSortByDate(
+          state.transactions,
+          transactionsWithTotals.transactions
+        ),
+      };
+    }
   ),
   on(TransactionsActions.createTransaction, (state) => ({
     ...state,
@@ -45,7 +61,7 @@ export const transactionsReducer = createReducer(
         transaction.amount < 0
           ? state.totalExpenses + transaction.amount
           : state.totalExpenses,
-      totalDocuments: state.totalDocuments + 1,
+      totalTransactionsInDb: state.totalTransactionsInDb + 1,
 
       transactions: [...state.transactions, transaction].sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()

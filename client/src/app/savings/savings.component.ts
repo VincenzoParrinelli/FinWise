@@ -37,7 +37,7 @@ export class SavingsComponent {
   private pageSize = 10;
   userId = this.store.selectSignal(selectUserId);
   savings = this.store.selectSignal(selectSavings);
-  SavingsTotalUserDocuments = this.store.selectSignal(
+  savingsTotalUserDocuments = this.store.selectSignal(
     selectSavingsTotalDocuments
   );
 
@@ -48,7 +48,7 @@ export class SavingsComponent {
     if (
       element.scrollHeight - element.scrollTop <=
         element.clientHeight + threshold &&
-      this.savings().length < this.SavingsTotalUserDocuments()
+      this.savings().length < this.savingsTotalUserDocuments()
     ) {
       this.store.dispatch(
         SavingsActions.getSavings({
