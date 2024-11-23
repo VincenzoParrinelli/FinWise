@@ -10,7 +10,7 @@
         <span
           class="text-2xl font-bold"
           [class.text-vivid-blue]="transaction.amount! < 0"
-          >{{ transaction.amount | currency }}</span
+          >{{ transaction.amount | currency: "EUR" : "symbol" : "1.0-2" }}</span
         >
       </div>
 

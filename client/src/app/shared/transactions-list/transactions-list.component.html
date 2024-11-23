@@ -32,8 +32,8 @@
       </span>
     </div>
 
-    <span class="text-sm ml-2.5 text-honeydew w-14" dir="rtl">
-      &lrm;{{ transaction.amount | currency }}
+    <span class="text-sm ml-2.5 text-honeydew w-14 whitespace-nowrap" dir="rtl">
+      &lrm;{{ transaction.amount | currency: "EUR" : "symbol" : "1.0-2" }}
     </span>
   </div>
 }

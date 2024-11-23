@@ -7,7 +7,7 @@
     >
       <span class="font-medium">Total balance</span>
       <span class="text-2xl font-extrabold">{{
-        transactionsTotals().totalBalance | currency
+        transactionsTotals().totalBalance | currency: "EUR" : "symbol" : "1.0-2"
       }}</span>
     </div>
 
@@ -25,7 +25,10 @@
         />
         <p class="text-sm font-medium leading-4">Income</p>
         <p class="text-lg font-bold leading-5">
-          {{ transactionsTotals().totalIncome | currency }}
+          {{
+            transactionsTotals().totalIncome
+              | currency: "EUR" : "symbol" : "1.0-2"
+          }}
         </p>
       </div>
 
@@ -45,7 +48,10 @@
           class="text-lg font-bold leading-5"
           [class.text-vivid-blue]="!isExpensesSelected()"
         >
-          {{ transactionsTotals().totalExpenses | currency }}
+          {{
+            transactionsTotals().totalExpenses
+              | currency: "EUR" : "symbol" : "1.0-2"
+          }}
         </p>
       </div>
     </div>
