@@ -197,7 +197,9 @@ export class TransactionsFormComponent {
       this.store.dispatch(
         TransactionsActions.createTransaction({
           transaction: formattedTransaction,
-          savingId: this.selectedSaving._id,
+          ...(this.selectedSaving?._id && {
+            savingId: this.selectedSaving._id,
+          }),
         })
       );
     } else if (this.isTransactionEdited(formattedTransaction)) {
