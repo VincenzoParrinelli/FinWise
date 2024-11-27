@@ -18,7 +18,8 @@ import { appReducer } from './store/app/app.reducer';
 import { userReducer } from './store/user/user.reducer';
 import { transactionsReducer } from './store/transactions/transactions.reducer';
 import { savingsReducer } from './store/savings/savings.reducer';
-import { metaReducers } from './store/resetStateOnLogoutMetaReducer';
+
+import { metaReducers } from './store/meta-reducers/entry';
 
 import { UserEffects } from './store/user/user.effects';
 import { TransactionsEffects } from './store/transactions/transactions.effects';

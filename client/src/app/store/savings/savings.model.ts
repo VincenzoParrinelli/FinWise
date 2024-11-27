@@ -7,6 +7,7 @@ export interface Saving {
   _id: string | null;
   userId: string;
   category: string;
+  savedAmount: number;
   goalAmount: number;
   savingTitle?: string;
   date: Date;

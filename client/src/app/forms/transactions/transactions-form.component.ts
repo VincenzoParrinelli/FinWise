@@ -37,7 +37,7 @@ export class TransactionsFormComponent {
   toggleCategoryDropdown = signal<boolean>(false);
   selectedTransaction =
     this.router.getCurrentNavigation()?.extras?.state?.['transaction'];
-  private selectedSaving =
+  selectedSaving =
     this.router.getCurrentNavigation()?.extras?.state?.['saving'];
   updatedTransaction = signal({});
 
@@ -46,17 +46,27 @@ export class TransactionsFormComponent {
   }
 
   transactionsForm = new FormGroup({
-    date: new FormControl(this.formatSelectedTransactionDate || '', {
-      validators: [Validators.required],
-    }),
-    category: new FormControl(this.selectedTransaction?.category || '', {
-      validators: [Validators.required],
-    }),
+    date: new FormControl(
+      this.formatSelectedTransactionDate || this.selectedSaving
+        ? new Date()
+        : '',
+      {
+        validators: [Validators.required],
+      }
+    ),
+    category: new FormControl(
+      this.selectedTransaction?.category || this.selectedSaving.category || '',
+      {
+        validators: [Validators.required],
+      }
+    ),
     amount: new FormControl(this.selectedTransaction?.amount.toString() || '', {
       validators: [Validators.required],
     }),
     transactionTitle: new FormControl(
-      this.selectedTransaction?.transactionTitle || '',
+      this.selectedTransaction?.transactionTitle ||
+        `${this.selectedSaving?.category} Deposit` ||
+        '',
       {
         validators: [Validators.maxLength(50)],
       }
@@ -128,7 +138,7 @@ export class TransactionsFormComponent {
     amountControl.setValue(amountControl.value.replace(/[-]/g, ''));
     const fixedValue = parseFloat(amountControl.value).toFixed(2);
 
-    if (categoryControl?.value === 'Salary') {
+    if (categoryControl?.value === 'Salary' || this.selectedSaving) {
       amountControl.setValue(`$${fixedValue}`);
     } else {
       amountControl.setValue(`-$${fixedValue}`);

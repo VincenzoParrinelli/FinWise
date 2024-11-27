@@ -3,6 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface ISaving extends Document {
   userId: string;
   category: string;
+  savedAmount: number;
   goalAmount: number;
   savingTitle: string;
   date: Date;
@@ -31,6 +32,11 @@ const savingSchema = new Schema<ISaving>({
       "Car",
       "Wedding",
     ],
+  },
+  savedAmount: {
+    type: Number,
+    default: 0,
+    required: true,
   },
   goalAmount: {
     type: Number,

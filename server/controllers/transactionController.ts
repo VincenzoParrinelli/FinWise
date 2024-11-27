@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Transaction, { ITransaction } from "../models/transactionModel";
+import Saving from "../models/savingModel";
 
 export const getTransactions = async (
   req: Request,
@@ -74,6 +75,13 @@ export const createTransaction = async (
     if (!(date instanceof Date) || isNaN(date.getTime())) {
       res.status(400).json({ message: "Invalid Data" });
       return;
+    }
+
+    if (savingId) {
+      await Saving.updateOne(
+        { userId },
+        { $inc: { savedAmount: transaction.amount } }
+      );
     }
 
     const newTransaction: ITransaction = new Transaction({

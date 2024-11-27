@@ -1,11 +1,11 @@
-import { ActionReducer, MetaReducer } from '@ngrx/store';
+import { ActionReducer } from '@ngrx/store';
 
-import { initialAppState } from './app/app.reducer';
-import { initialUserState } from './user/user.reducer';
-import { initialTransactionsState } from './transactions/transactions.reducer';
+import { initialAppState } from '../app/app.reducer';
+import { initialUserState } from '../user/user.reducer';
+import { initialTransactionsState } from '../transactions/transactions.reducer';
 
-import { resetAllAppSlices } from './app/app.actions';
-import { logoutUserSuccess } from './user/user.actions';
+import { resetAllAppSlices } from '../app/app.actions';
+import { logoutUserSuccess } from '../user/user.actions';
 
 const initialState = {
   app: initialAppState,
@@ -26,5 +26,3 @@ export const resetStateOnLogoutMetaReducer = (
     return reducer(state, action);
   };
 };
-
-export const metaReducers: MetaReducer<any>[] = [resetStateOnLogoutMetaReducer];
