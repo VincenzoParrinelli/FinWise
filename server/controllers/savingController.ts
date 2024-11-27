@@ -61,6 +61,21 @@ export const createSaving = async (
   }
 };
 
+export const editSaving = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { updatedSaving, id } = req.body;
+
+  try {
+    await Saving.updateOne({ _id: id }, { $set: updatedSaving });
+
+    res.status(200).end();
+  } catch (err) {
+    res.status(500).json({ message: (err as Error).message });
+  }
+};
+
 export const deleteSaving = async (
   req: Request,
   res: Response

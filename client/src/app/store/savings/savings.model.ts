@@ -19,3 +19,10 @@ export interface NewSavingFormData {
   date: string | Date;
   savingTitle?: string;
 }
+
+export interface UpdatedSavingFormData {
+  goalAmount?: number;
+  category?: string;
+  date?: string | Date;
+  savingTitle?: string;
+}

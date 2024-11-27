@@ -10,6 +10,11 @@
         <span class="text-2xl font-bold">
           {{ saving.goalAmount | currency: "EUR" : "symbol" : "1.0-2" }}
         </span>
+
+        <label class="text-sm font-thin mt-2">Amount Saved</label>
+        <span class="text-2xl font-bold text-caribbean-green">
+          {{ saving.savedAmount | currency: "EUR" : "symbol" : "1.0-2" }}
+        </span>
       </div>
 
       @for (category of categories; track $index) {
@@ -51,6 +56,7 @@
         width="min"
         text="Edit"
         bgColor="secondary"
+        (click)="routerService.navigateToSavingsEdit(saving)"
       />
 
       <app-custom-btn

@@ -1,5 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { NewSavingFormData, Saving, SavingsState } from './savings.model';
+import {
+  NewSavingFormData,
+  Saving,
+  SavingsState,
+  UpdatedSavingFormData,
+} from './savings.model';
 
 export const getSavings = createAction(
   '[Saving] Get Savings',
@@ -19,6 +24,22 @@ export const createSaving = createAction(
 export const createSavingSuccess = createAction(
   '[Saving] Create Saving Success',
   props<{ saving: Saving }>()
+);
+
+export const updateSaving = createAction(
+  '[Saving] Update Saving',
+  props<{
+    updatedSavingFormData: UpdatedSavingFormData;
+    id: string;
+  }>()
+);
+
+export const updateSavingSuccess = createAction(
+  '[Saving] Update Saving Success',
+  props<{
+    updatedSavingFormData: UpdatedSavingFormData;
+    id: string;
+  }>()
 );
 
 export const deleteSaving = createAction(

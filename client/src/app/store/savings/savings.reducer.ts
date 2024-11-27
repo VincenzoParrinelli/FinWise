@@ -27,6 +27,27 @@ export const savingsReducer = createReducer(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     ),
   })),
+  on(
+    SavingsActions.updateSavingSuccess,
+    (state, { updatedSavingFormData, id }) => {
+      const updatedSavings = state.savings.map((saving) => {
+        if (saving._id !== id) return saving;
+
+        return {
+          ...saving,
+          ...updatedSavingFormData,
+          date: updatedSavingFormData.date
+            ? new Date(updatedSavingFormData.date)
+            : saving.date,
+        };
+      });
+
+      return {
+        ...state,
+        savings: updatedSavings,
+      };
+    }
+  ),
   on(SavingsActions.deleteSavingSuccess, (state, { savingId }) => ({
     ...state,
     savings: state.savings.filter((saving) => saving._id !== savingId),

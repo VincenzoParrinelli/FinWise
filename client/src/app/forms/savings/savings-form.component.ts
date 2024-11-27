@@ -137,7 +137,7 @@ export class SavingsFormComponent {
 
     const formattedSaving = {
       ...this.savingsForm.value,
-      date: new Date(),
+      date: this.selectedSaving.date || new Date(),
       goalAmount: parseFloat(
         this.savingsForm.controls.goalAmount.value?.replace(/[^0-9.-]/g, '')!
       ),
@@ -149,13 +149,13 @@ export class SavingsFormComponent {
           saving: formattedSaving,
         })
       );
-      // } else if (this.isSavingEdited(formattedSaving)) {
-      //   this.store.dispatch(
-      //     SavingsActions.updateSaving({
-      //       updatedsavingFormData: this.updatedSaving(),
-      //       id: this.selectedSaving._id,
-      //     })
-      //   );
+    } else if (this.isSavingEdited(formattedSaving)) {
+      this.store.dispatch(
+        SavingsActions.updateSaving({
+          updatedSavingFormData: this.updatedSaving(),
+          id: this.selectedSaving._id,
+        })
+      );
     }
   }
 }

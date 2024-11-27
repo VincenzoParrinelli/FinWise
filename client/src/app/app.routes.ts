@@ -95,14 +95,14 @@ export const routes: Routes = [
       ),
     // canActivate: [AuthGuard],
   },
-  // {
-  //   path: 'savings/edit',
-  //   loadComponent: () =>
-  //     import('./savings-edit/').then(
-  //       (m) => m.TransactionsFormComponent
-  //     ),
-  //   // canActivate: [AuthGuard],
-  // },
+  {
+    path: 'savings/edit',
+    loadComponent: () =>
+      import('./forms/savings/savings-form.component').then(
+        (m) => m.SavingsFormComponent
+      ),
+    // canActivate: [AuthGuard],
+  },
   {
     path: 'settings',
     loadComponent: () =>
