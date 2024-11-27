@@ -1,8 +1,8 @@
 import { ActionReducer } from '@ngrx/store';
 
+import { createSavingTransactionSuccess } from '../transactions/transactions.actions';
 import { Saving, SavingsState } from '../savings/savings.model';
 import { Transaction } from '../transactions/transactions.model';
-import { createSavingTransactionSuccess } from '../transactions/transactions.actions';
 
 export const updateSavingSavedAmountMetaReducer = (
   reducer: ActionReducer<any>
@@ -11,8 +11,6 @@ export const updateSavingSavedAmountMetaReducer = (
     if (action.type === createSavingTransactionSuccess.type) {
       const { savings } = state.savings as SavingsState;
       const { transaction }: { transaction: Transaction } = action;
-
-      if (!transaction || !transaction.savingId) return reducer(state, action);
 
       const updatedSavings = savings.map((saving: Saving) => {
         if (saving._id === transaction.savingId) {
@@ -25,10 +23,12 @@ export const updateSavingSavedAmountMetaReducer = (
         return saving;
       });
 
-      return {
+      const newState = {
         ...state,
         savings: { ...state.savings, savings: updatedSavings },
       };
+
+      return reducer(newState, action);
     }
 
     return reducer(state, action);
