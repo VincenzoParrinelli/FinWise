@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Saving, { ISaving } from "../models/savingModel";
+import Transaction from "../models/transactionModel";
 
 export const getSavings = async (
   req: Request,
@@ -83,7 +84,14 @@ export const deleteSaving = async (
   const savingId = req.params.id.toString();
 
   try {
-    await Saving.deleteOne({ _id: savingId });
+    const result = await Saving.deleteOne({ _id: savingId });
+
+    if (!result.deletedCount) {
+      res.status(404).json({ message: "Saving not found" });
+      return;
+    }
+
+    await Transaction.deleteMany({ savingId });
 
     res.status(200).end();
   } catch (err) {

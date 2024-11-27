@@ -130,7 +130,7 @@ export class TransactionsEffects {
             tap(() =>
               this.store.dispatch(AppActions.setLoading({ loading: false }))
             ),
-            tap(() => this.routerService.navigateBack()), // Navigating back still shows old data, but transactions list gets updated properly
+            tap(() => this.routerService.navigateBack()), // TODO: Navigating back still shows old data, but transactions list gets updated properly
             catchError((error) => {
               this.store.dispatch(AppActions.setLoading({ loading: false }));
               return EMPTY;

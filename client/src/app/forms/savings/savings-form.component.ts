@@ -137,7 +137,7 @@ export class SavingsFormComponent {
 
     const formattedSaving = {
       ...this.savingsForm.value,
-      date: this.selectedSaving.date || new Date(),
+      date: this.selectedSaving?.date || new Date(),
       goalAmount: parseFloat(
         this.savingsForm.controls.goalAmount.value?.replace(/[^0-9.-]/g, '')!
       ),

@@ -50,6 +50,7 @@ export const savingsReducer = createReducer(
   ),
   on(SavingsActions.deleteSavingSuccess, (state, { savingId }) => ({
     ...state,
+    totalDocuments: state.totalDocuments - 1,
     savings: state.savings.filter((saving) => saving._id !== savingId),
   }))
 );
