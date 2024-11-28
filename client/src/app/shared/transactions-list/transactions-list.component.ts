@@ -65,7 +65,11 @@ export class TransactionsListComponent {
     currTransaction: any,
     prevTransaction: any
   ): boolean {
-    return i === 0 || currTransaction.date !== prevTransaction?.date;
+    return (
+      i === 0 ||
+      new Date(currTransaction.date).toDateString() !==
+        new Date(prevTransaction?.date).toDateString()
+    );
   }
 
   getDateFormat(currTransaction: any, prevTransaction: any): string {

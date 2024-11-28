@@ -25,7 +25,11 @@ export class SavingsListComponent {
   loading = this.store.selectSignal(selectLoading);
 
   shouldDisplayDate(i: number, currSaving: any, prevSaving: any): boolean {
-    return i === 0 || currSaving.date !== prevSaving?.date;
+    return (
+      i === 0 ||
+      new Date(currSaving.date).toDateString() !==
+        new Date(prevSaving?.date).toDateString()
+    );
   }
 
   getDateFormat(currSaving: any, prevSaving: any): string {
