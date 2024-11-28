@@ -10,7 +10,7 @@
       id="transactionsForm"
       class="w-72 mt-8 mb-4"
     >
-      @if (!selectedSaving) {
+      @if (!selectedSaving && !selectedTransaction?.savingId) {
         <div class="flex flex-col text-left mb-4">
           <label
             for="date"
@@ -32,7 +32,7 @@
         </div>
       }
 
-      @if (!selectedSaving) {
+      @if (!selectedSaving && !selectedTransaction?.savingId) {
         <div class="flex flex-col text-left mb-4">
           <label
             for="category"
@@ -106,7 +106,7 @@
         />
       </div>
 
-      @if (!selectedSaving) {
+      @if (!selectedSaving && !selectedTransaction?.savingId) {
         <div class="flex flex-col text-left mb-4">
           <label
             for="transactiontitle"
