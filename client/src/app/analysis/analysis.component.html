@@ -1,6 +1,39 @@
 <app-main-layout>
   <span ngProjectAs="header-content">Analysis</span>
 
-  <div ngProjectAs="top-content"></div>
-  <div ngProjectAs="bottom-content"></div>
+  <div ngProjectAs="top-content" class="flex flex-col justify-between p-6 mt-2">
+    <app-total-counters />
+  </div>
+
+  <div
+    ngProjectAs="bottom-content"
+    class="mt-6 w-80 overflow-x-hidden h-screen"
+  >
+    <div class="grid grid-cols-4 rounded-3xl bg-cyprus py-1 px-1 mb-6">
+      @for (data of btnsData(); track $index) {
+        <app-custom-btn
+          [text]="data.text"
+          bgColor="cyprus"
+          [selected]="data.selected"
+          textColor="white"
+          rounded="md"
+          (click)="selectedBtnToggle($index)"
+        />
+      }
+    </div>
+
+    <div class="flex flex-col bg-light-green rounded-3xl w-full h-60">
+      <div class="text-main-layout">
+        <span class="font-semibold"> Income & Expenses </span>
+      </div>
+      <canvas
+        baseChart
+        [data]="chartData"
+        [options]="chartOptions"
+        [type]="chartType"
+        [legend]="false"
+      >
+      </canvas>
+    </div>
+  </div>
 </app-main-layout>

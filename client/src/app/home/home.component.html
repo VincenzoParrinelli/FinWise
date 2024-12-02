@@ -65,22 +65,6 @@
       </div>
     </div>
 
-    <div
-      class="flex items-center justify-between rounded-2xl bg-cyprus py-1 px-2.5 my-5"
-    >
-      @for (data of btnsData(); track $index) {
-        <app-custom-btn
-          [text]="data.text"
-          width="24"
-          bgColor="cyprus"
-          [selected]="data.selected"
-          textColor="white"
-          rounded="md"
-          (click)="selectedBtnToggle($index)"
-        />
-      }
-    </div>
-
     <app-transactions-list />
   </div>
 </app-main-layout>

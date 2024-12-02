@@ -11,6 +11,8 @@ import { RouterService } from './router.service';
 
 import { AuthInterceptor } from './auth.interceptor';
 
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 
@@ -32,6 +34,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     RouterService,
+    provideCharts(withDefaultRegisterables()),
     provideStore(
       {
         app: appReducer,
