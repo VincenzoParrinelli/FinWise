@@ -1,0 +1,13 @@
+<div class="flex flex-col bg-light-green rounded-3xl w-full h-60">
+  <div class="text-main-layout">
+    <span class="font-semibold"> Income & Expenses </span>
+  </div>
+  <canvas
+    baseChart
+    [data]="chartData()"
+    [options]="chartOptions()"
+    [type]="chartType()"
+    [legend]="false"
+  >
+  </canvas>
+</div>
