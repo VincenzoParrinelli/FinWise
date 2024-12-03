@@ -55,7 +55,7 @@ export class TransactionsFormComponent {
       }
     ),
     category: new FormControl(
-      this.selectedTransaction?.category || this.selectedSaving.category || '',
+      this.selectedTransaction?.category || this.selectedSaving?.category || '',
       {
         validators: [Validators.required],
       }
@@ -65,7 +65,8 @@ export class TransactionsFormComponent {
     }),
     transactionTitle: new FormControl(
       this.selectedTransaction?.transactionTitle ||
-        `${this.selectedSaving?.category} Deposit` ||
+        (this.selectedSaving?.category &&
+          `${this.selectedSaving?.category} Deposit`) ||
         '',
       {
         validators: [Validators.maxLength(50)],
