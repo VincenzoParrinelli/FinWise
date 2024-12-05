@@ -6,6 +6,10 @@ export interface TransactionsState {
   totalSavingsTransactionsInDb: number;
   transactions: Transaction[];
   savingsTransactions: Transaction[];
+  dailyTransactions: [];
+  weeklyTransactions: [];
+  monthlyTransactions: [];
+  yearlyTransactions: [];
 }
 
 export interface NewTransactionFormData {

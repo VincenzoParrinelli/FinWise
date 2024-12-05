@@ -16,6 +16,16 @@ export const getTransactionsWithTotalsSuccess = createAction(
   props<{ transactionsWithTotals: TransactionsState; savingId?: string }>()
 );
 
+export const getGroupedTransactions = createAction(
+  '[Transaction] Get Grouped Transactions',
+  props<{ group: string }>()
+);
+
+export const getGroupedTransactionsSuccess = createAction(
+  '[Transaction] Get Grouped Transactions Success',
+  props<{ groupedTransactions: []; group: string }>()
+);
+
 export const createTransaction = createAction(
   '[Transaction] Create Transaction',
   props<{ transaction: NewTransactionFormData; savingId?: string }>()

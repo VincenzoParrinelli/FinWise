@@ -1,4 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+import * as TransactionActions from '../store/transactions/transactions.actions';
 
 import { BarChartComponent } from '../charts/bar-chart/bar-chart.component';
 
@@ -18,33 +21,32 @@ import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
   templateUrl: './analysis.component.html',
   styleUrl: './analysis.component.scss',
 })
-export class AnalysisComponent {
-  btnsData = signal([
-    {
-      text: 'Daily',
-      selected: true,
-    },
-    {
-      text: 'Weekly',
-      selected: false,
-    },
-    {
-      text: 'Monthly',
-      selected: false,
-    },
-    {
-      text: 'Yearly',
-      selected: false,
-    },
-  ]);
+export class AnalysisComponent implements OnInit {
+  private store = inject(Store);
+  btnsTexts = signal(['Daily', 'Weekly', 'Monthly', 'Yearly']);
+  selectedBtnText = signal<'Daily' | 'Weekly' | 'Monthly' | 'Yearly'>('Daily');
 
-  selectedBtnToggle(index: number) {
-    this.btnsData.update((items) => {
-      items.forEach((item, i) => {
-        item.selected = index === i;
-      });
+  ngOnInit() {
+    this.store.dispatch(
+      TransactionActions.getGroupedTransactions({ group: 'Daily' })
+    );
+  }
 
-      return items;
-    });
+  selectedBtnToggle(selectedBtnText: any): void {
+    if (selectedBtnText === this.selectedBtnText()) return;
+
+    this.selectedBtnText.set(selectedBtnText);
+
+    this.dispatchGroupedTransactions();
+  }
+
+  dispatchGroupedTransactions(): void {
+    switch (this.selectedBtnText()) {
+      case 'Daily':
+        this.store.dispatch(
+          TransactionActions.getGroupedTransactions({ group: 'Daily' })
+        );
+        break;
+    }
   }
 }

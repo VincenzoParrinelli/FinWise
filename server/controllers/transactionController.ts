@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import Transaction, { ITransaction } from "../models/transactionModel";
 import Saving from "../models/savingModel";
 
+import * as transactionsService from "../services/transactions.service";
+
 export const getTransactions = async (
   req: Request,
   res: Response
@@ -58,6 +60,23 @@ export const getTransactions = async (
       .lean();
 
     res.status(200).json({ transactions, ...totals[0] });
+  } catch (err) {
+    res.status(500).json({ message: (err as Error).message });
+  }
+};
+
+export const getGroupedTransactions = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const userId = res.locals.user._id.toString();
+  const { group } = req.params;
+
+  try {
+    const groupedTransactions =
+      await transactionsService.getGroupedTransactions(group, userId);
+
+    res.status(200).json(groupedTransactions);
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
   }

@@ -11,6 +11,10 @@ export const initialTransactionsState: TransactionsState = {
   totalSavingsTransactionsInDb: 0,
   transactions: [],
   savingsTransactions: [],
+  dailyTransactions: [],
+  weeklyTransactions: [],
+  monthlyTransactions: [],
+  yearlyTransactions: [],
 };
 
 export const transactionsReducer = createReducer(
@@ -43,6 +47,22 @@ export const transactionsReducer = createReducer(
           transactionsWithTotals.transactions
         ),
       };
+    }
+  ),
+  on(
+    TransactionsActions.getGroupedTransactionsSuccess,
+    (state, { groupedTransactions, group }) => {
+      switch (group) {
+        case 'Daily':
+          return {
+            ...state,
+            dailyTransactions: groupedTransactions,
+          };
+        default:
+          return {
+            ...state,
+          };
+      }
     }
   ),
   on(TransactionsActions.createTransaction, (state) => ({

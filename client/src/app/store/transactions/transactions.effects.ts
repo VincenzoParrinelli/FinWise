@@ -75,6 +75,30 @@ export class TransactionsEffects {
     )
   );
 
+  getGroupedTransactions = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TransactionsActions.getGroupedTransactions),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ group }) =>
+        this.http.get<any>(`${this.apiUrl}/transactions/grouped/${group}`).pipe(
+          map((groupedTransactions) =>
+            TransactionsActions.getGroupedTransactionsSuccess({
+              groupedTransactions,
+              group,
+            })
+          ),
+          tap(() =>
+            this.store.dispatch(AppActions.setLoading({ loading: false }))
+          ),
+          catchError((error) => {
+            this.store.dispatch(AppActions.setLoading({ loading: false }));
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+
   createTransaction$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionsActions.createTransaction),

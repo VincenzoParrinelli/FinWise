@@ -10,18 +10,18 @@
     class="mt-6 w-80 overflow-x-hidden h-screen"
   >
     <div class="grid grid-cols-4 rounded-3xl bg-cyprus py-1 px-1 mb-6">
-      @for (data of btnsData(); track $index) {
+      @for (text of btnsTexts(); track $index) {
         <app-custom-btn
-          [text]="data.text"
+          [text]="text"
           bgColor="cyprus"
-          [selected]="data.selected"
+          [selected]="text === selectedBtnText()"
           textColor="white"
           rounded="md"
-          (click)="selectedBtnToggle($index)"
+          (click)="selectedBtnToggle(text)"
         />
       }
     </div>
 
-    <app-bar-chart />
+    <app-bar-chart [selectedBtnText]="selectedBtnText()" />
   </div>
 </app-main-layout>

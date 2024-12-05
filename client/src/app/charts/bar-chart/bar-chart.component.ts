@@ -1,4 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+import { selectLoading } from '../../store/app/app.selectors';
+import { selectDailyTransactions } from '../../store/transactions/transactions.selectors';
 
 import { BaseChartDirective } from 'ng2-charts';
 import {
@@ -8,32 +12,72 @@ import {
   ScriptableScaleContext,
 } from 'chart.js';
 
+import { SpinnerComponent } from '../../shared/spinner/spinner.component';
+
 @Component({
   selector: 'app-bar-chart',
   standalone: true,
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, SpinnerComponent],
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss',
 })
 export class BarChartComponent {
+  private store = inject(Store);
+  loading = this.store.selectSignal(selectLoading);
+  selectedBtnText = input<'Daily' | 'Weekly' | 'Monthly' | 'Yearly'>('Daily');
+
+  groupedTransactions = computed(() => {
+    switch (this.selectedBtnText()) {
+      case 'Daily':
+        return this.store.selectSignal(selectDailyTransactions)();
+      default:
+        return [] as any;
+    }
+  });
+
   chartType = signal<keyof ChartTypeRegistry>('bar');
 
-  chartData = signal<ChartData>({
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  chartData = computed<ChartData>(() => {
+    if (!this.groupedTransactions().length) {
+      return {
+        labels: [],
+        datasets: [],
+      };
+    }
 
-    datasets: [
-      {
-        label: 'Income',
-        data: [5000, 6000, 5500, 7000, 6500, 5000],
-        backgroundColor: '#00D09E',
-      },
-      {
-        label: 'Expenses',
-        data: [4000, 4500, 5000, 4800, 5200, 5000],
-        backgroundColor: '#0068FF',
-      },
-    ],
+    const totalIncome = new Array(7).fill(0);
+    const totalExpenses = new Array(7).fill(0);
+
+    this.groupedTransactions().forEach((t: any) => {
+      totalIncome[t.dayOfWeek - 1] = t.totalIncome;
+      totalExpenses[t.dayOfWeek - 1] = Math.abs(t.totalExpenses);
+    });
+
+    return {
+      labels: this.labels,
+      datasets: [
+        {
+          label: 'Income',
+          data: totalIncome,
+          backgroundColor: '#00D09E',
+        },
+        {
+          label: 'Expenses',
+          data: totalExpenses,
+          backgroundColor: '#0068FF',
+        },
+      ],
+    };
   });
+
+  get labels() {
+    switch (this.selectedBtnText()) {
+      case 'Daily':
+        return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      default:
+        return [];
+    }
+  }
 
   chartOptions = signal<ChartOptions>({
     responsive: true,
