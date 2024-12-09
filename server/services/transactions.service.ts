@@ -116,21 +116,23 @@ const getWeeklyTransactions = async (userId: string): Promise<any[]> => {
 };
 
 const getMonthlyTransactions = async (userId: string): Promise<any[]> => {
-  const startOfYear = new Date();
-  startOfYear.setMonth(0, 1);
-  startOfYear.setHours(0, 0, 0, 0);
+  const currDate = new Date();
+  const endOfMonth = new Date(currDate);
+  endOfMonth.setDate(1);
+  endOfMonth.setHours(23, 59, 59, 999);
 
-  const endOfYear = new Date();
-  endOfYear.setMonth(11, 31);
-  endOfYear.setHours(23, 59, 59, 999);
+  const startOfLast7Months = new Date(currDate);
+  startOfLast7Months.setMonth(currDate.getMonth() - 7);
+  startOfLast7Months.setDate(1);
+  startOfLast7Months.setHours(0, 0, 0, 0);
 
   const monthlyTransactions = await Transaction.aggregate([
     {
       $match: {
         userId,
         date: {
-          $gte: startOfYear,
-          $lte: endOfYear,
+          $gte: startOfLast7Months,
+          $lte: endOfMonth,
         },
       },
     },

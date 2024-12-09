@@ -47,20 +47,7 @@ export class BarChartComponent {
       case 'Monthly':
         return {
           data: this.store.selectSignal(selectMonthlyTransactions)(),
-          labels: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec',
-          ],
+          labels: this.last7monthsLabels,
         };
 
       default:
@@ -70,6 +57,23 @@ export class BarChartComponent {
         };
     }
   });
+
+  get last7monthsLabels() {
+    const labels = [];
+    const currDate = new Date();
+    const currMonth = currDate.getMonth();
+
+    for (let i = 6; i >= 0; i--) {
+      const monthIndex = (currMonth - i + 12) % 12;
+      const monthName = new Date(0, monthIndex).toLocaleString('en', {
+        month: 'short',
+      });
+
+      labels.push(monthName);
+    }
+
+    return labels;
+  }
 
   chartType = signal<keyof ChartTypeRegistry>('bar');
 
@@ -87,7 +91,7 @@ export class BarChartComponent {
     const totalExpenses = new Array(labels.length).fill(0);
 
     data?.forEach((t: any) => {
-      const index = (t.dayOfWeek || t.month || t.weekOfMonth) - 1;
+      const index = (t.dayOfWeek || t.month - 5 || t.weekOfMonth) - 1;
 
       totalIncome[index] = t.totalIncome;
       totalExpenses[index] = Math.abs(t.totalExpenses);
