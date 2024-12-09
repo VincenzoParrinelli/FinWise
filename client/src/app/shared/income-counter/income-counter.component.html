@@ -1,0 +1,7 @@
+<div class="flex flex-col justify-center items-center">
+  <app-svg-income [stroke]="incomesStrokeColor" [fill]="incomesFillColor" />
+  <p class="text-sm font-medium leading-4">Income</p>
+  <p class="text-lg font-bold leading-5">
+    {{ totalIncome() | currency: "EUR" : "symbol" : "1.0-2" }}
+  </p>
+</div>

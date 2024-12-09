@@ -14,22 +14,15 @@
     <div class="flex items-center justify-between mx-8 mt-3 gap-2.5">
       <div
         class="flex flex-col items-center bg-honeydew p-3 rounded-xl w-full"
-        [class.text-main-layout]="!isIncomesSelected()"
-        [class.bg-ocean-blue]="isIncomesSelected()"
-        [class.text-honeydew]="isIncomesSelected()"
+        [class.text-main-layout]="!isIncomeSelected()"
+        [class.bg-ocean-blue]="isIncomeSelected()"
+        [class.text-honeydew]="isIncomeSelected()"
         (click)="showIncomesOnly()"
       >
-        <app-svg-income
-          [stroke]="incomesStrokeColor"
-          [fill]="incomesFillColor"
+        <app-income-counter
+          [totalIncome]="transactionsTotals().totalIncome"
+          [isSelected]="isIncomeSelected()"
         />
-        <p class="text-sm font-medium leading-4">Income</p>
-        <p class="text-lg font-bold leading-5">
-          {{
-            transactionsTotals().totalIncome
-              | currency: "EUR" : "symbol" : "1.0-2"
-          }}
-        </p>
       </div>
 
       <div
@@ -39,20 +32,10 @@
         [class.text-honeydew]="isExpensesSelected()"
         (click)="showExpensesOnly()"
       >
-        <app-svg-expenses
-          [stroke]="expensesStrokeColor"
-          [fill]="expensesFillColor"
+        <app-expenses-counter
+          [totalExpenses]="transactionsTotals().totalExpenses"
+          [isSelected]="isExpensesSelected()"
         />
-        <p class="text-sm font-medium leading-4">Expense</p>
-        <p
-          class="text-lg font-bold leading-5"
-          [class.text-vivid-blue]="!isExpensesSelected()"
-        >
-          {{
-            transactionsTotals().totalExpenses
-              | currency: "EUR" : "symbol" : "1.0-2"
-          }}
-        </p>
       </div>
     </div>
   </div>
