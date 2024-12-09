@@ -29,118 +29,24 @@ import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 export class BarChartComponent {
   private store = inject(Store);
   loading = this.store.selectSignal(selectLoading);
-  selectedBtnText = input<'Daily' | 'Weekly' | 'Monthly' | 'Yearly'>('Daily');
-
-  groupedTransactions = computed(() => {
-    switch (this.selectedBtnText()) {
-      case 'Daily':
-        return {
-          data: this.store.selectSignal(selectDailyTransactions)(),
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        };
-
-      case 'Weekly':
-        return {
-          data: this.store.selectSignal(selectWeeklyTransactions)(),
-          labels: ['1st Week', '2nd Week', '3rd Week', '4th Week'],
-        };
-
-      case 'Monthly':
-        return {
-          data: this.store.selectSignal(selectMonthlyTransactions)(),
-          labels: this.last7monthsLabels,
-        };
-
-      case 'Yearly':
-        return {
-          data: this.store.selectSignal(selectYearlyTransactions)(),
-          labels: this.last7YearsLabels,
-        };
-
-      default:
-        return {
-          data: [] as any[],
-          labels: [],
-        };
-    }
-  });
-
-  get last7monthsLabels() {
-    const labels = [];
-    const currDate = new Date();
-    const currMonth = currDate.getMonth();
-
-    for (let i = 6; i >= 0; i--) {
-      const monthIndex = (currMonth - i + 12) % 12;
-      const monthName = new Date(0, monthIndex).toLocaleString('en', {
-        month: 'short',
-      });
-
-      labels.push(monthName);
-    }
-
-    return labels;
-  }
-
-  get last7YearsLabels() {
-    const labels = [];
-    const currDate = new Date();
-    const currYear = currDate.getFullYear();
-
-    for (let i = 6; i >= 0; i--) {
-      const year = currYear - i;
-      labels.push(year.toString());
-    }
-
-    return labels;
-  }
+  chartLabels = input<any[]>([]);
+  totalIncome = input<any[]>([]);
+  totalExpenses = input<any[]>([]);
 
   chartType = signal<keyof ChartTypeRegistry>('bar');
 
   chartData = computed<ChartData>(() => {
-    const { data, labels } = this.groupedTransactions();
-
-    if (!data?.length) {
-      return {
-        labels,
-        datasets: [],
-      };
-    }
-
-    const totalIncome = new Array(labels.length).fill(0);
-    const totalExpenses = new Array(labels.length).fill(0);
-
-    data?.forEach((t: any) => {
-      const currYear = new Date().getFullYear();
-      let index: number;
-
-      if (t.dayOfWeek) {
-        index = t.dayOfWeek - 1;
-      } else if (t.month) {
-        index = t.month - 6;
-      } else if (t.weekOfMonth) {
-        index = t.weekOfMonth - 1;
-      } else if (t.year) {
-        index = currYear - t.year + 5;
-      } else {
-        index = -1;
-      }
-
-      totalIncome[index] = t.totalIncome;
-      totalExpenses[index] = Math.abs(t.totalExpenses);
-    });
-
     return {
-      labels,
+      labels: this.chartLabels(),
       datasets: [
         {
           label: 'Income',
-          data: totalIncome,
+          data: this.totalIncome(),
           backgroundColor: '#00D09E',
         },
         {
           label: 'Expenses',
-          data: totalExpenses,
+          data: this.totalExpenses(),
           backgroundColor: '#0068FF',
         },
       ],

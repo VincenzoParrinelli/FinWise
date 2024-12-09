@@ -9,7 +9,7 @@
     ngProjectAs="bottom-content"
     class="mt-6 w-80 overflow-x-hidden h-screen"
   >
-    <div class="grid grid-cols-4 rounded-3xl bg-cyprus py-1 px-1 mb-6">
+    <div class="grid grid-cols-4 rounded-3xl bg-cyprus py-1 px-1 mb-8">
       @for (text of btnsTexts(); track $index) {
         <app-custom-btn
           [text]="text"
@@ -22,6 +22,15 @@
       }
     </div>
 
-    <app-bar-chart [selectedBtnText]="selectedBtnText()" />
+    <app-bar-chart
+      [chartLabels]="chartLabels()"
+      [totalIncome]="totalIncomeAndExpenses().totalIncome"
+      [totalExpenses]="totalIncomeAndExpenses().totalExpenses"
+    />
+
+    <div class="flex justify-around mt-8">
+      <app-income-counter />
+      <app-expenses-counter />
+    </div>
   </div>
 </app-main-layout>
