@@ -58,6 +58,13 @@ export const transactionsReducer = createReducer(
             ...state,
             dailyTransactions: groupedTransactions,
           };
+
+        case 'Weekly':
+          return {
+            ...state,
+            weeklyTransactions: groupedTransactions,
+          };
+
         default:
           return {
             ...state,

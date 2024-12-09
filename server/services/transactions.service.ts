@@ -7,6 +7,9 @@ export const getGroupedTransactions = async (
   switch (group) {
     case "Daily":
       return getDailyTransactions(userId);
+
+    case "Weekly":
+      return getWeeklyTransactions(userId);
   }
 };
 
@@ -57,4 +60,54 @@ const getDailyTransactions = async (userId: string): Promise<any[]> => {
   ]);
 
   return dailyTransactions;
+};
+
+const getWeeklyTransactions = async (userId: string): Promise<any[]> => {
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const endOfMonth = new Date();
+  endOfMonth.setMonth(startOfMonth.getMonth() + 1);
+  endOfMonth.setDate(0);
+  endOfMonth.setHours(23, 59, 59, 999);
+
+  const weeklyTransactions = await Transaction.aggregate([
+    {
+      $match: {
+        userId,
+        date: {
+          $gte: startOfMonth,
+          $lte: endOfMonth,
+        },
+      },
+    },
+    {
+      $addFields: {
+        weekOfMonth: { $ceil: { $divide: [{ $dayOfMonth: "$date" }, 7] } },
+      },
+    },
+    {
+      $group: {
+        _id: "$weekOfMonth",
+        totalIncome: {
+          $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
+        },
+        totalExpenses: {
+          $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
+        },
+      },
+    },
+    {
+      $project: {
+        weekOfMonth: "$_id",
+        totalIncome: 1,
+        totalExpenses: 1,
+        _id: 0,
+      },
+    },
+    { $sort: { week: 1 } },
+  ]);
+
+  return weeklyTransactions;
 };

@@ -2,7 +2,10 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { selectLoading } from '../../store/app/app.selectors';
-import { selectDailyTransactions } from '../../store/transactions/transactions.selectors';
+import {
+  selectDailyTransactions,
+  selectWeeklyTransactions,
+} from '../../store/transactions/transactions.selectors';
 
 import { BaseChartDirective } from 'ng2-charts';
 import {
@@ -29,32 +32,67 @@ export class BarChartComponent {
   groupedTransactions = computed(() => {
     switch (this.selectedBtnText()) {
       case 'Daily':
-        return this.store.selectSignal(selectDailyTransactions)();
+        return {
+          transactions: this.store.selectSignal(selectDailyTransactions)(),
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        };
+
+      case 'Weekly':
+        return {
+          transactions: this.store.selectSignal(selectWeeklyTransactions)(),
+          labels: ['1st Week', '2nd Week', '3rd Week', '4th Week'],
+        };
+
+      case 'Monthly':
+        return {
+          labels: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+          ],
+        };
+
       default:
-        return [] as any;
+        return {
+          transactions: [] as any,
+          labels: [],
+        };
     }
   });
 
   chartType = signal<keyof ChartTypeRegistry>('bar');
 
   chartData = computed<ChartData>(() => {
-    if (!this.groupedTransactions().length) {
+    const { transactions, labels } = this.groupedTransactions();
+
+    if (!transactions.length) {
       return {
-        labels: [],
+        labels,
         datasets: [],
       };
     }
 
-    const totalIncome = new Array(7).fill(0);
-    const totalExpenses = new Array(7).fill(0);
+    const totalIncome = new Array(labels.length).fill(0);
+    const totalExpenses = new Array(labels.length).fill(0);
 
-    this.groupedTransactions().forEach((t: any) => {
-      totalIncome[t.dayOfWeek - 1] = t.totalIncome;
-      totalExpenses[t.dayOfWeek - 1] = Math.abs(t.totalExpenses);
+    transactions?.forEach((t: any) => {
+      const index = t.dayOfWeek ? t.dayOfWeek - 1 : t.weekOfMonth - 1;
+
+      totalIncome[index] = t.totalIncome;
+      totalExpenses[index] = Math.abs(t.totalExpenses);
     });
 
     return {
-      labels: this.labels,
+      labels,
       datasets: [
         {
           label: 'Income',
@@ -69,15 +107,6 @@ export class BarChartComponent {
       ],
     };
   });
-
-  get labels() {
-    switch (this.selectedBtnText()) {
-      case 'Daily':
-        return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      default:
-        return [];
-    }
-  }
 
   chartOptions = signal<ChartOptions>({
     responsive: true,
@@ -97,6 +126,9 @@ export class BarChartComponent {
         },
         ticks: {
           color: '#093030',
+          autoSkip: false,
+          maxRotation: 0,
+          minRotation: 0,
         },
       },
       y: {
@@ -114,9 +146,7 @@ export class BarChartComponent {
           callback: (value) => {
             const numValue = Number(value);
 
-            if (numValue === 0) {
-              return '';
-            }
+            if (numValue === 0) return '';
 
             if (numValue >= 1000) {
               return numValue / 1000 + 'k';

@@ -14,6 +14,11 @@ export const selectDailyTransactions = createSelector(
   (state: TransactionsState) => state.dailyTransactions
 );
 
+export const selectWeeklyTransactions = createSelector(
+  selectTransactionsState,
+  (state: TransactionsState) => state.weeklyTransactions
+);
+
 export const selectSavingsTransactions = (savingId: string) =>
   createSelector(selectTransactionsState, (state: TransactionsState) => {
     return state.savingsTransactions.filter(
