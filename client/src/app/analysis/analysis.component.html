@@ -29,8 +29,8 @@
     />
 
     <div class="flex justify-around mt-8">
-      <app-income-counter />
-      <app-expenses-counter />
+      <app-income-counter [totalIncome]="totalIncome" />
+      <app-expenses-counter [totalExpenses]="totalExpenses" />
     </div>
   </div>
 </app-main-layout>

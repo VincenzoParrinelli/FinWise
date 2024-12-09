@@ -150,4 +150,18 @@ export class AnalysisComponent implements OnInit {
       totalExpenses,
     };
   });
+
+  get totalIncome() {
+    return this.totalIncomeAndExpenses()?.totalIncome.reduce(
+      (prevVal, currVal) => prevVal + currVal,
+      0
+    );
+  }
+
+  get totalExpenses() {
+    return this.totalIncomeAndExpenses()?.totalExpenses.reduce(
+      (prevVal, currVal) => prevVal + currVal,
+      0
+    );
+  }
 }
