@@ -53,6 +53,12 @@ export class AnalysisComponent implements OnInit {
           TransactionActions.getGroupedTransactions({ group: 'Weekly' })
         );
         break;
+
+      case 'Monthly':
+        this.store.dispatch(
+          TransactionActions.getGroupedTransactions({ group: 'Monthly' })
+        );
+        break;
     }
   }
 }

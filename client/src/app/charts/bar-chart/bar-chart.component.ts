@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { selectLoading } from '../../store/app/app.selectors';
 import {
   selectDailyTransactions,
+  selectMonthlyTransactions,
   selectWeeklyTransactions,
 } from '../../store/transactions/transactions.selectors';
 
@@ -33,18 +34,19 @@ export class BarChartComponent {
     switch (this.selectedBtnText()) {
       case 'Daily':
         return {
-          transactions: this.store.selectSignal(selectDailyTransactions)(),
+          data: this.store.selectSignal(selectDailyTransactions)(),
           labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         };
 
       case 'Weekly':
         return {
-          transactions: this.store.selectSignal(selectWeeklyTransactions)(),
+          data: this.store.selectSignal(selectWeeklyTransactions)(),
           labels: ['1st Week', '2nd Week', '3rd Week', '4th Week'],
         };
 
       case 'Monthly':
         return {
+          data: this.store.selectSignal(selectMonthlyTransactions)(),
           labels: [
             'Jan',
             'Feb',
@@ -63,7 +65,7 @@ export class BarChartComponent {
 
       default:
         return {
-          transactions: [] as any,
+          data: [] as any[],
           labels: [],
         };
     }
@@ -72,9 +74,9 @@ export class BarChartComponent {
   chartType = signal<keyof ChartTypeRegistry>('bar');
 
   chartData = computed<ChartData>(() => {
-    const { transactions, labels } = this.groupedTransactions();
+    const { data, labels } = this.groupedTransactions();
 
-    if (!transactions.length) {
+    if (!data?.length) {
       return {
         labels,
         datasets: [],
@@ -84,8 +86,8 @@ export class BarChartComponent {
     const totalIncome = new Array(labels.length).fill(0);
     const totalExpenses = new Array(labels.length).fill(0);
 
-    transactions?.forEach((t: any) => {
-      const index = t.dayOfWeek ? t.dayOfWeek - 1 : t.weekOfMonth - 1;
+    data?.forEach((t: any) => {
+      const index = (t.dayOfWeek || t.month || t.weekOfMonth) - 1;
 
       totalIncome[index] = t.totalIncome;
       totalExpenses[index] = Math.abs(t.totalExpenses);

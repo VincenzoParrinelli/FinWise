@@ -10,6 +10,9 @@ export const getGroupedTransactions = async (
 
     case "Weekly":
       return getWeeklyTransactions(userId);
+
+    case "Monthly":
+      return getMonthlyTransactions(userId);
   }
 };
 
@@ -110,4 +113,55 @@ const getWeeklyTransactions = async (userId: string): Promise<any[]> => {
   ]);
 
   return weeklyTransactions;
+};
+
+const getMonthlyTransactions = async (userId: string): Promise<any[]> => {
+  const startOfYear = new Date();
+  startOfYear.setMonth(0, 1);
+  startOfYear.setHours(0, 0, 0, 0);
+
+  const endOfYear = new Date();
+  endOfYear.setMonth(11, 31);
+  endOfYear.setHours(23, 59, 59, 999);
+
+  const monthlyTransactions = await Transaction.aggregate([
+    {
+      $match: {
+        userId,
+        date: {
+          $gte: startOfYear,
+          $lte: endOfYear,
+        },
+      },
+    },
+    {
+      $addFields: {
+        month: { $month: "$date" },
+      },
+    },
+    {
+      $group: {
+        _id: "$month",
+        totalIncome: {
+          $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
+        },
+        totalExpenses: {
+          $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
+        },
+      },
+    },
+    {
+      $project: {
+        month: "$_id",
+        totalIncome: 1,
+        totalExpenses: 1,
+        _id: 0,
+      },
+    },
+    {
+      $sort: { month: 1 },
+    },
+  ]);
+
+  return monthlyTransactions;
 };
