@@ -4,8 +4,9 @@ import { Store } from '@ngrx/store';
 import { selectLoading } from '../../store/app/app.selectors';
 import {
   selectDailyTransactions,
-  selectMonthlyTransactions,
   selectWeeklyTransactions,
+  selectMonthlyTransactions,
+  selectYearlyTransactions,
 } from '../../store/transactions/transactions.selectors';
 
 import { BaseChartDirective } from 'ng2-charts';
@@ -50,6 +51,12 @@ export class BarChartComponent {
           labels: this.last7monthsLabels,
         };
 
+      case 'Yearly':
+        return {
+          data: this.store.selectSignal(selectYearlyTransactions)(),
+          labels: this.last7YearsLabels,
+        };
+
       default:
         return {
           data: [] as any[],
@@ -75,6 +82,19 @@ export class BarChartComponent {
     return labels;
   }
 
+  get last7YearsLabels() {
+    const labels = [];
+    const currDate = new Date();
+    const currYear = currDate.getFullYear();
+
+    for (let i = 6; i >= 0; i--) {
+      const year = currYear - i;
+      labels.push(year.toString());
+    }
+
+    return labels;
+  }
+
   chartType = signal<keyof ChartTypeRegistry>('bar');
 
   chartData = computed<ChartData>(() => {
@@ -91,7 +111,20 @@ export class BarChartComponent {
     const totalExpenses = new Array(labels.length).fill(0);
 
     data?.forEach((t: any) => {
-      const index = (t.dayOfWeek || t.month - 5 || t.weekOfMonth) - 1;
+      const currYear = new Date().getFullYear();
+      let index: number;
+
+      if (t.dayOfWeek) {
+        index = t.dayOfWeek - 1;
+      } else if (t.month) {
+        index = t.month - 6;
+      } else if (t.weekOfMonth) {
+        index = t.weekOfMonth - 1;
+      } else if (t.year) {
+        index = currYear - t.year + 5;
+      } else {
+        index = -1;
+      }
 
       totalIncome[index] = t.totalIncome;
       totalExpenses[index] = Math.abs(t.totalExpenses);

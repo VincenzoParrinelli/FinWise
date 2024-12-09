@@ -71,6 +71,12 @@ export const transactionsReducer = createReducer(
             monthlyTransactions: groupedTransactions,
           };
 
+        case 'Yearly':
+          return {
+            ...state,
+            yearlyTransactions: groupedTransactions,
+          };
+
         default:
           return {
             ...state,

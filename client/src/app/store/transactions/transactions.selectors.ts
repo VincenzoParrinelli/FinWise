@@ -24,6 +24,11 @@ export const selectMonthlyTransactions = createSelector(
   (state: TransactionsState) => state.monthlyTransactions
 );
 
+export const selectYearlyTransactions = createSelector(
+  selectTransactionsState,
+  (state: TransactionsState) => state.yearlyTransactions
+);
+
 export const selectSavingsTransactions = (savingId: string) =>
   createSelector(selectTransactionsState, (state: TransactionsState) => {
     return state.savingsTransactions.filter(

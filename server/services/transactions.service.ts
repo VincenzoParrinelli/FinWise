@@ -13,6 +13,9 @@ export const getGroupedTransactions = async (
 
     case "Monthly":
       return getMonthlyTransactions(userId);
+
+    case "Yearly":
+      return getYearlyTransactions(userId);
   }
 };
 
@@ -166,4 +169,56 @@ const getMonthlyTransactions = async (userId: string): Promise<any[]> => {
   ]);
 
   return monthlyTransactions;
+};
+
+const getYearlyTransactions = async (userId: string): Promise<any[]> => {
+  const currDate = new Date();
+  const endOfYear = new Date(currDate);
+  endOfYear.setMonth(11, 31);
+  endOfYear.setHours(23, 59, 59, 999);
+
+  const startOflast7Years = new Date(currDate);
+  startOflast7Years.setFullYear(currDate.getFullYear() - 7, 0, 1);
+  startOflast7Years.setHours(0, 0, 0, 0);
+
+  const yearlyTransactions = await Transaction.aggregate([
+    {
+      $match: {
+        userId,
+        date: {
+          $gte: startOflast7Years,
+          $lte: endOfYear,
+        },
+      },
+    },
+    {
+      $addFields: {
+        year: { $year: "$date" },
+      },
+    },
+    {
+      $group: {
+        _id: "$year",
+        totalIncome: {
+          $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
+        },
+        totalExpenses: {
+          $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
+        },
+      },
+    },
+    {
+      $project: {
+        year: "$_id",
+        totalIncome: 1,
+        totalExpenses: 1,
+        _id: 0,
+      },
+    },
+    {
+      $sort: { year: 1 },
+    },
+  ]);
+
+  return yearlyTransactions;
 };
