@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
-import Transaction, { ITransaction } from "../models/transactionModel";
-import Saving from "../models/savingModel";
 
-import * as transactionsService from "../services/transactions.service";
+import * as transactionService from "../services/transactionService";
 
 export const getTransactions = async (
   req: Request,
@@ -14,52 +12,14 @@ export const getTransactions = async (
   const pageSize = parseInt(req.query.pageSize as string) || 10;
 
   try {
-    let totals = [];
+    const transactions = await transactionService.getTransactions(
+      userId,
+      savingId,
+      page,
+      pageSize
+    );
 
-    if (!savingId) {
-      totals = await Transaction.aggregate([
-        { $match: { userId } },
-        {
-          $group: {
-            _id: null,
-            totalBalance: { $sum: "$amount" },
-            totalIncome: {
-              $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
-            },
-            totalExpenses: {
-              $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
-            },
-            totalTransactionsInDb: { $sum: 1 },
-          },
-        },
-        {
-          $project: { _id: 0 },
-        },
-      ]);
-    } else {
-      totals = await Transaction.aggregate([
-        { $match: { savingId } },
-        {
-          $group: {
-            _id: null,
-            totalSavingsTransactionsInDb: { $sum: 1 },
-          },
-        },
-        {
-          $project: { _id: 0 },
-        },
-      ]);
-    }
-
-    const transactions = await Transaction.find(
-      savingId ? { savingId } : { userId }
-    )
-      .sort({ date: -1 })
-      .skip((page - 1) * pageSize)
-      .limit(10)
-      .lean();
-
-    res.status(200).json({ transactions, ...totals[0] });
+    res.status(200).json(transactions);
   } catch (err) {
     res.status(500).json({ message: (err as Error).message });
   }
@@ -73,8 +33,10 @@ export const getGroupedTransactions = async (
   const { group } = req.params;
 
   try {
-    const groupedTransactions =
-      await transactionsService.getGroupedTransactions(group, userId);
+    const groupedTransactions = await transactionService.getGroupedTransactions(
+      userId,
+      group
+    );
 
     res.status(200).json(groupedTransactions);
   } catch (err) {
@@ -96,19 +58,11 @@ export const createTransaction = async (
       return;
     }
 
-    if (savingId) {
-      await Saving.updateOne(
-        { userId },
-        { $inc: { savedAmount: transaction.amount } }
-      );
-    }
-
-    const newTransaction: ITransaction = new Transaction({
-      ...transaction,
-      userId: savingId ? undefined : userId,
-      savingId: savingId || undefined,
-    });
-    newTransaction.save();
+    const newTransaction = transactionService.createTransaction(
+      userId,
+      savingId,
+      transaction
+    );
 
     res.status(201).json(newTransaction);
   } catch (err) {
@@ -123,7 +77,7 @@ export const editTransaction = async (
   const { updatedTransaction, id } = req.body;
 
   try {
-    await Transaction.updateOne({ _id: id }, { $set: updatedTransaction });
+    await transactionService.editTransaction(id, updatedTransaction);
 
     res.status(200).end();
   } catch (err) {
@@ -138,7 +92,7 @@ export const deleteTransaction = async (
   const transactionId = req.params.id.toString();
 
   try {
-    await Transaction.deleteOne({ _id: transactionId });
+    await transactionService.deleteTransaction(transactionId);
 
     res.status(200).end();
   } catch (err) {

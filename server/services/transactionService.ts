@@ -1,8 +1,66 @@
-import Transaction from "../models/transactionModel";
+import Transaction, { ITransaction } from "../models/transactionModel";
+import Saving from "../models/savingModel";
+
+export const getTransactions = async (
+  userId: string,
+  savingId: string | undefined,
+  page: number,
+  pageSize: number
+): Promise<{
+  totals: any;
+  transactions: ITransaction[];
+}> => {
+  let totals = [];
+
+  if (!savingId) {
+    totals = await Transaction.aggregate([
+      { $match: { userId } },
+      {
+        $group: {
+          _id: null,
+          totalBalance: { $sum: "$amount" },
+          totalIncome: {
+            $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
+          },
+          totalExpenses: {
+            $sum: { $cond: [{ $lt: ["$amount", 0] }, "$amount", 0] },
+          },
+          totalTransactionsInDb: { $sum: 1 },
+        },
+      },
+      {
+        $project: { _id: 0 },
+      },
+    ]);
+  } else {
+    totals = await Transaction.aggregate([
+      { $match: { savingId } },
+      {
+        $group: {
+          _id: null,
+          totalSavingsTransactionsInDb: { $sum: 1 },
+        },
+      },
+      {
+        $project: { _id: 0 },
+      },
+    ]);
+  }
+
+  const transactions = await Transaction.find(
+    savingId ? { savingId } : { userId }
+  )
+    .sort({ date: -1 })
+    .skip((page - 1) * pageSize)
+    .limit(10)
+    .lean();
+
+  return { transactions, ...totals[0] };
+};
 
 export const getGroupedTransactions = async (
-  group: string,
-  userId: string
+  userId: string,
+  group: string
 ): Promise<any> => {
   switch (group) {
     case "Daily":
@@ -17,6 +75,41 @@ export const getGroupedTransactions = async (
     case "Yearly":
       return getYearlyTransactions(userId);
   }
+};
+
+export const createTransaction = async (
+  userId: string,
+  savingId: string | undefined,
+  transaction: ITransaction
+): Promise<ITransaction> => {
+  if (savingId) {
+    await Saving.updateOne(
+      { userId },
+      { $inc: { savedAmount: transaction.amount } }
+    );
+  }
+
+  const newTransaction = new Transaction({
+    ...transaction,
+    userId: savingId ? undefined : userId,
+    savingId: savingId || undefined,
+  });
+
+  await newTransaction.save();
+  return newTransaction;
+};
+
+export const editTransaction = async (
+  id: string,
+  updatedTransaction: Partial<ITransaction>
+): Promise<void> => {
+  await Transaction.updateOne({ _id: id }, { $set: updatedTransaction });
+};
+
+export const deleteTransaction = async (
+  transactionId: string
+): Promise<void> => {
+  await Transaction.deleteOne({ _id: transactionId });
 };
 
 const getDailyTransactions = async (userId: string): Promise<any[]> => {

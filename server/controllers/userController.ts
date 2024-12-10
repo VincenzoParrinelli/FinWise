@@ -1,41 +1,16 @@
 import { Request, Response } from "express";
-import User, { IUser } from "../models/userModel";
-import { isEmail, isDate, isStrongPassword, isMobilePhone } from "validator";
 import bcrypt from "bcrypt";
-import { generateAccessToken, generateRefreshToken } from "../utils/authUtils";
+
+import * as userService from "../services/userService";
 
 export const createUser = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   const userData = req.body;
-  const { email, password, phone, dateOfBirth } = req.body;
 
   try {
-    if (
-      !isEmail(email) ||
-      !isStrongPassword(password) ||
-      !isMobilePhone(phone) ||
-      !isDate(dateOfBirth, { format: "DD/MM/YYYY" })
-    ) {
-      res.status(400).json({ message: "Invalid Data" });
-      return;
-    }
-
-    const userAlreadyExistent = await User.findOne({ email }).lean();
-
-    if (userAlreadyExistent) {
-      res.status(409).json({ message: "User already exists" });
-      return;
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser: IUser = new User({ ...userData, password: hashedPassword });
-    newUser.save();
-
-    generateAccessToken(userData, res);
-    generateRefreshToken(userData, res);
+    const newUser = await userService.createUser(userData, res);
 
     res.status(201).json(newUser);
   } catch (err) {
@@ -47,23 +22,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   try {
-    const userData = await User.findOne({ email }).lean();
-
-    if (!userData) {
-      res.status(404).send({ message: "User not found" });
-      return;
-    }
-
-    if (!(await bcrypt.compare(password, userData.password))) {
-      res.status(401).send({ message: "Invalid password" });
-      return;
-    }
-
-    generateAccessToken(userData, res);
-    generateRefreshToken(userData, res);
-
-    // Exclude password from userData in response
-    const { password: _, ...userWithoutPassword } = userData;
+    const userWithoutPassword = await userService.loginUser(
+      email,
+      password,
+      res
+    );
 
     res.status(200).json(userWithoutPassword);
   } catch (err) {
@@ -83,12 +46,8 @@ export const updateUser = async (
     return;
   }
 
-  Object.keys(updatedData).forEach((key) => {
-    if (updatedData[key] === "") delete updatedData[key];
-  });
-
   try {
-    await User.updateOne({ _id: userId }, { $set: updatedData });
+    await userService.updateUser(userId, updatedData);
 
     res.status(200).end();
   } catch (err) {
@@ -109,12 +68,7 @@ export const editPassword = async (
       return;
     }
 
-    const newHashedPassword = await bcrypt.hash(newPassword, 10);
-
-    await User.updateOne(
-      { _id: user._id.toString() },
-      { $set: { password: newHashedPassword } }
-    );
+    await userService.editPassword(user._id.toString(), newPassword);
 
     res.status(200).end();
   } catch (err) {

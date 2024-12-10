@@ -12,7 +12,6 @@ const router: Router = Router();
 
 router.use(authMiddleware);
 
-// TODO: refactor everything using MVCS pattern
 router.get("/", getTransactions);
 router.get("/grouped/:group", getGroupedTransactions);
 router.post("/create", createTransaction);
