@@ -1,10 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
 import * as savingService from "../services/savingService";
 
+import { HttpError } from "../utils/httpError";
+
 export const getSavings = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const userId = res.locals.user._id.toString();
   const page = parseInt(req.query.page as string) || 1;
@@ -15,35 +18,35 @@ export const getSavings = async (
 
     res.status(200).json(savings);
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const createSaving = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const saving = req.body;
   const date = new Date(req.body.date);
   const userId = res.locals.user._id.toString();
 
   try {
-    if (!(date instanceof Date) || isNaN(date.getTime())) {
-      res.status(400).json({ message: "Invalid Data" });
-      return;
-    }
+    if (!(date instanceof Date) || isNaN(date.getTime()))
+      throw new HttpError("Invalid Data", 400);
 
     const newSaving = savingService.createSaving(saving, userId);
 
     res.status(201).json(newSaving);
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const editSaving = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const { updatedSaving, id } = req.body;
 
@@ -52,13 +55,14 @@ export const editSaving = async (
 
     res.status(200).end();
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const deleteSaving = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const savingId = req.params.id.toString();
 
@@ -67,6 +71,6 @@ export const deleteSaving = async (
 
     res.status(200).end();
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };

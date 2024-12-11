@@ -1,6 +1,8 @@
 import Saving, { ISaving } from "../models/savingModel";
 import Transaction from "../models/transactionModel";
 
+import { HttpError } from "../utils/httpError";
+
 export const getSavings = async (
   userId: string,
   page: number,
@@ -51,11 +53,7 @@ export const editSaving = async (
 export const deleteSaving = async (savingId: string): Promise<void> => {
   const result = await Saving.deleteOne({ _id: savingId });
 
-  if (!result.deletedCount) {
-    const error = new Error("Saving not found");
-    (error as any).status = 401;
-    throw error;
-  }
+  if (!result.deletedCount) throw new HttpError("Saving not found", 401);
 
   await Transaction.deleteMany({ savingId });
 };

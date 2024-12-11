@@ -3,7 +3,9 @@ import { isEmail, isDate, isStrongPassword, isMobilePhone } from "validator";
 import bcrypt from "bcrypt";
 
 import User, { IUser } from "../models/userModel";
+
 import { generateAccessToken, generateRefreshToken } from "../utils/authUtils";
+import { HttpError } from "../utils/httpError";
 
 export const createUser = async (
   userData: any,
@@ -16,19 +18,12 @@ export const createUser = async (
     !isStrongPassword(password) ||
     !isMobilePhone(phone) ||
     !isDate(dateOfBirth, { format: "DD/MM/YYYY" })
-  ) {
-    const error = new Error("Invalid Data");
-    (error as any).status = 400;
-    throw error;
-  }
+  )
+    throw new HttpError("Invalid Data", 400);
 
   const userAlreadyExistent = await User.findOne({ email }).lean();
 
-  if (userAlreadyExistent) {
-    const error = new Error("User already exists");
-    (error as any).status = 409;
-    throw error;
-  }
+  if (userAlreadyExistent) throw new HttpError("User already exists", 409);
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -48,17 +43,10 @@ export const loginUser = async (
 ): Promise<Omit<IUser, "password">> => {
   const userData = await User.findOne({ email }).lean();
 
-  if (!userData) {
-    const error = new Error("User not found");
-    (error as any).status = 404;
-    throw error;
-  }
+  if (!userData) throw new HttpError("User not found", 404);
 
-  if (!(await bcrypt.compare(password, userData.password))) {
-    const error = new Error("Invalid password");
-    (error as any).status = 401;
-    throw error;
-  }
+  if (!(await bcrypt.compare(password, userData.password)))
+    throw new HttpError("Invalid password", 401);
 
   generateAccessToken(userData, res);
   generateRefreshToken(userData, res);

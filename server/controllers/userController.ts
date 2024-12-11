@@ -1,11 +1,12 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 
 import * as userService from "../services/userService";
 
 export const createUser = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const userData = req.body;
 
@@ -14,11 +15,15 @@ export const createUser = async (
 
     res.status(201).json(newUser);
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
-export const loginUser = async (req: Request, res: Response): Promise<void> => {
+export const loginUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const { email, password } = req.body;
 
   try {
@@ -30,13 +35,14 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     res.status(200).json(userWithoutPassword);
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const updateUser = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const updatedData = req.body;
   const userId = res.locals.user._id.toString();
@@ -51,13 +57,14 @@ export const updateUser = async (
 
     res.status(200).end();
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const editPassword = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const user = res.locals.user;
   const { currPassword, newPassword } = req.body;
@@ -72,7 +79,7 @@ export const editPassword = async (
 
     res.status(200).end();
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 

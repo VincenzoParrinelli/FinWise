@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
 import * as transactionService from "../services/transactionService";
 
 export const getTransactions = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const userId = res.locals.user._id.toString();
   const savingId = req.query.savingId as string;
@@ -21,13 +22,14 @@ export const getTransactions = async (
 
     res.status(200).json(transactions);
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const getGroupedTransactions = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const userId = res.locals.user._id.toString();
   const { group } = req.params;
@@ -40,13 +42,14 @@ export const getGroupedTransactions = async (
 
     res.status(200).json(groupedTransactions);
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const createTransaction = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const { transaction, savingId } = req.body;
   const date = new Date(transaction.date);
@@ -66,13 +69,14 @@ export const createTransaction = async (
 
     res.status(201).json(newTransaction);
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const editTransaction = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const { updatedTransaction, id } = req.body;
 
@@ -81,13 +85,14 @@ export const editTransaction = async (
 
     res.status(200).end();
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };
 
 export const deleteTransaction = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   const transactionId = req.params.id.toString();
 
@@ -96,6 +101,6 @@ export const deleteTransaction = async (
 
     res.status(200).end();
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+    next(err);
   }
 };

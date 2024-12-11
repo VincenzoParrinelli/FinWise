@@ -8,6 +8,8 @@ import transactionRoutes from "./routes/transactionRoutes";
 import savingRoutes from "./routes/savingRoutes";
 import cookieParser from "cookie-parser";
 
+import { errorMiddleware } from "./middlewares/errorMiddleware";
+
 dotenv.config();
 
 const app: Express = express();
@@ -22,6 +24,8 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/savings", savingRoutes);
+
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
