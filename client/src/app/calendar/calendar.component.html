@@ -1,0 +1,12 @@
+<app-main-layout screenMode="full">
+  <span ngProjectAs="header-content">Calendar</span>
+
+  <div
+    ngProjectAs="bottom-content"
+    class="mt-6 w-80 flex flex-col items-center overflow-x-hidden h-screen"
+  >
+    <div class="w-72">
+      <full-calendar class="h-96" [options]="calendarOptions" />
+    </div>
+  </div>
+</app-main-layout>

@@ -1,0 +1,49 @@
+.fc-theme-standard td,
+.fc-theme-standard th {
+    border: none;
+
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border: none;
+}
+
+.fc .fc-cell-shaded,
+.fc .fc-day-disabled {
+    visibility: hidden;
+}
+
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    min-height: 0;
+}
+
+.fc .fc-daygrid-day-top {
+    display: flex;
+    justify-content: center;
+    font-size: .9rem;
+    font-weight: 300;
+}
+
+th[role="columnheader"] {
+    color: $color-vivid-blue;
+    font-size: .9rem;
+    font-weight: normal;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: transparent;
+}
+
+.fc .fc-scroller-liquid-absolute {
+    overflow: hidden !important;
+}
+
+.fc .fc-daygrid-day-number {
+    padding: 4px 10px;
+    margin: 5px 0;
+    border-radius: 50%;
+}
+
+.fc .fc-scrollgrid-sync-table {
+    height: 0rem !important;
+}

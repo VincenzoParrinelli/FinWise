@@ -133,4 +133,9 @@ export const routes: Routes = [
       ),
     // canActivate: [AuthGuard],
   },
+  {
+    path: 'calendar',
+    loadComponent: () =>
+      import('./calendar/calendar.component').then((m) => m.CalendarComponent),
+  },
 ];

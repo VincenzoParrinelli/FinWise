@@ -83,7 +83,10 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/flatpickr/dist/flatpickr.min.css"
+            ],
             "scripts": []
           }
         }

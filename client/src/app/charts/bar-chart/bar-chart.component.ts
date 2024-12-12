@@ -2,12 +2,6 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { selectLoading } from '../../store/app/app.selectors';
-import {
-  selectDailyTransactions,
-  selectWeeklyTransactions,
-  selectMonthlyTransactions,
-  selectYearlyTransactions,
-} from '../../store/transactions/transactions.selectors';
 
 import { BaseChartDirective } from 'ng2-charts';
 import {
