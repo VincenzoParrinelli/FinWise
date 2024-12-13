@@ -3,20 +3,26 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   signal,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 
 import { DateService } from '../services/date.service';
 
-import { FullCalendarModule } from '@fullcalendar/angular';
+import {
+  FullCalendarComponent,
+  FullCalendarModule,
+} from '@fullcalendar/angular';
 import { Calendar, CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
+import { ArrowDownComponent } from '../svg/arrow-down/arrow-down.component';
 
 @Component({
   selector: 'app-calendar',
@@ -26,6 +32,7 @@ import { MainLayoutComponent } from '../shared/layouts/main/main.component';
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent implements AfterViewInit {
+  private viewContainerRef = inject(ViewContainerRef);
   private dateService = inject(DateService);
   private cdr = inject(ChangeDetectorRef);
   private calendarApi: Calendar | undefined;
@@ -38,12 +45,61 @@ export class CalendarComponent implements AfterViewInit {
   allMonths = this.dateService.allMonths;
   yearsRange = this.dateService.yearsRange();
 
-  @ViewChild('calendar') private calendar: any;
+  @ViewChild('calendar') private calendar!: FullCalendarComponent;
   @ViewChild('yearsDropdown')
   private yearsDropdown!: ElementRef<HTMLDivElement>;
 
   ngAfterViewInit() {
     if (this.calendar) this.calendarApi = this.calendar.getApi();
+    this.updateMonthAndYearSelectors();
+  }
+
+  private updateMonthAndYearSelectors(): void {
+    const monthSelector = this.getSelectorBtn('.fc-monthSelector-button')!;
+    const yearSelector = this.getSelectorBtn('.fc-yearSelector-button')!;
+
+    this.updateSelectorBtn(monthSelector, this.selectedMonth());
+
+    this.updateSelectorBtn(yearSelector, this.selectedYear());
+  }
+
+  private getSelectorBtn(selector: string): HTMLDivElement | null {
+    return this.calendar['element'].nativeElement.querySelector(selector);
+  }
+
+  private updateSelectorBtn(
+    selectorBtn: HTMLDivElement,
+    selectedValue: string
+  ): void {
+    const container = document.createElement('div');
+    container.className = 'flex items-center gap-2';
+
+    const span = document.createElement('span');
+    span.textContent = selectedValue;
+    container.appendChild(span);
+
+    const svgRef = this.viewContainerRef.createComponent(ArrowDownComponent);
+    container.appendChild(svgRef.location.nativeElement);
+
+    selectorBtn.appendChild(container);
+  }
+
+  private updateCustomBtnMonth(): void {
+    const customBtnRef = this.getSelectorBtn('.fc-monthSelector-button');
+
+    if (!customBtnRef) return;
+
+    const span = customBtnRef.querySelector('span')!;
+    span.textContent = this.selectedMonth();
+  }
+
+  private updateCustomBtnYear(): void {
+    const customBtnRef = this.getSelectorBtn('.fc-yearSelector-button');
+
+    if (!customBtnRef) return;
+
+    const span = customBtnRef.querySelector('span')!;
+    span.textContent = this.selectedYear();
   }
 
   scrollToBottom() {
@@ -59,6 +115,7 @@ export class CalendarComponent implements AfterViewInit {
     const selectedDate = new Date(this.dateService.currYearNumber, i, 1);
 
     this.selectedMonth.set(month);
+    this.updateCustomBtnMonth();
     this.calendarApi?.gotoDate(selectedDate);
   }
 
@@ -72,6 +129,7 @@ export class CalendarComponent implements AfterViewInit {
     );
 
     this.selectedYear.set(year.toString());
+    this.updateCustomBtnYear();
     this.calendarApi?.gotoDate(selectedDate);
   }
 
@@ -100,29 +158,27 @@ export class CalendarComponent implements AfterViewInit {
     },
 
     headerToolbar: {
-      left: 'monthsSelector',
+      left: 'monthSelector',
       center: '',
-      right: 'yearsSelector',
+      right: 'yearSelector',
     },
     customButtons: {
-      monthsSelector: {
-        text: this.selectedMonth(),
+      monthSelector: {
+        text: '',
         click: () => {
           this.toggleYearDropdown.set(false);
           this.toggleMonthDropdown.set(!this.toggleMonthDropdown());
         },
       },
-      yearsSelector: {
-        text: this.selectedYear(),
+      yearSelector: {
+        text: '',
         click: () => {
           this.toggleMonthDropdown.set(false);
           this.toggleYearDropdown.set(!this.toggleYearDropdown());
 
           this.cdr.detectChanges();
 
-          if (this.toggleYearDropdown()) {
-            this.scrollToBottom();
-          }
+          if (this.toggleYearDropdown()) this.scrollToBottom();
         },
       },
     },
