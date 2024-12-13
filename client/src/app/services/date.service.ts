@@ -46,14 +46,12 @@ export class DateService {
     return this.currDate.getFullYear().toString();
   }
 
-  yearsRange(range: number): number[] {
-    const currYear = this.currDate.getFullYear();
-    const startYear = currYear - range;
-    const endYear = currYear + range;
+  yearsRange(): number[] {
+    const currentCenturyStart = Math.floor(1900 / 100) * 100;
 
     const yearsRange = Array.from(
-      { length: endYear - startYear + 1 },
-      (_, i) => startYear + i
+      { length: currentCenturyStart + 200 - 1900 + 1 },
+      (_, i) => currentCenturyStart + i
     );
 
     return yearsRange;

@@ -27,6 +27,7 @@
       @if (toggleYearDropdown()) {
         <div
           class="bg-light-green absolute flex flex-col rounded-t-xl rounded-b-xl top-48 right-10 w-28 z-10 overflow-y-auto max-h-72"
+          #yearsDropdown
         >
           <ul class="text-sm text-main-layout my-2 text-left">
             @for (year of yearsRange; track $index) {

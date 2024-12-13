@@ -1,7 +1,9 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   computed,
+  ElementRef,
   inject,
   signal,
   ViewChild,
@@ -10,7 +12,7 @@ import {
 import { DateService } from '../services/date.service';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { Calendar, CalendarApi, CalendarOptions } from '@fullcalendar/core';
+import { Calendar, CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
@@ -24,20 +26,31 @@ import { MainLayoutComponent } from '../shared/layouts/main/main.component';
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent implements AfterViewInit {
-  dateService = inject(DateService);
-  allMonths = this.dateService.allMonths;
-  yearsRange = this.dateService.yearsRange(100);
-  prevClickedAnchor: HTMLElement | null = null;
+  private dateService = inject(DateService);
+  private cdr = inject(ChangeDetectorRef);
+  private calendarApi: Calendar | undefined;
+  private prevClickedAnchor: HTMLElement | null = null;
+  private selectedMonth = signal<string>(this.dateService.currMonthName);
+  private selectedYear = signal<string>(this.dateService.currYearString);
+
   toggleMonthDropdown = signal<boolean>(false);
   toggleYearDropdown = signal<boolean>(false);
-  selectedMonth = signal<string>(this.dateService.currMonthName);
-  selectedYear = signal<string>(this.dateService.currYearString);
+  allMonths = this.dateService.allMonths;
+  yearsRange = this.dateService.yearsRange();
 
-  @ViewChild('calendar') calendar: any;
-  calendarApi: Calendar | undefined;
+  @ViewChild('calendar') private calendar: any;
+  @ViewChild('yearsDropdown')
+  private yearsDropdown!: ElementRef<HTMLDivElement>;
 
   ngAfterViewInit() {
     if (this.calendar) this.calendarApi = this.calendar.getApi();
+  }
+
+  scrollToBottom() {
+    if (this.yearsDropdown) {
+      const dropdownElement = this.yearsDropdown.nativeElement;
+      dropdownElement.scrollTop = dropdownElement.scrollHeight - 2300;
+    }
   }
 
   setMonth(month: string, i: number) {
@@ -104,6 +117,12 @@ export class CalendarComponent implements AfterViewInit {
         click: () => {
           this.toggleMonthDropdown.set(false);
           this.toggleYearDropdown.set(!this.toggleYearDropdown());
+
+          this.cdr.detectChanges();
+
+          if (this.toggleYearDropdown()) {
+            this.scrollToBottom();
+          }
         },
       },
     },
