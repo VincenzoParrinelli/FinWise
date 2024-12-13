@@ -21,8 +21,14 @@
 .fc .fc-daygrid-day-top {
     display: flex;
     justify-content: center;
+    align-items: center;
     font-size: .9rem;
     font-weight: 300;
+    text-align: center;
+}
+
+.fc .fc-daygrid-day-number {
+    width: 2rem;
 }
 
 th[role="columnheader"] {
@@ -40,7 +46,6 @@ th[role="columnheader"] {
 }
 
 .fc .fc-daygrid-day-number {
-    padding: 4px 10px;
     margin: 5px 0;
     border-radius: 50%;
 }
