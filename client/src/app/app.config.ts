@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 
 import { routes } from './app.routes';
-import { RouterService } from './router.service';
+import { RouterService } from './services/router.service';
 
 import { AuthInterceptor } from './auth.interceptor';
 

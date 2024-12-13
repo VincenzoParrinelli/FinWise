@@ -9,7 +9,7 @@ import { UserState } from '../store/user/user.model';
 import { selectUserName } from '../store/user/user.selectors';
 import * as UserActions from '../store/user/user.actions';
 
-import { RouterService } from '../router.service';
+import { RouterService } from '../services/router.service';
 
 import { EditProfileComponent } from '../svg/edit-profile/edit-profile.component';
 import { SecurityComponent } from '../svg/security/security.component';

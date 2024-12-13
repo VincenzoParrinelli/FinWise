@@ -10,7 +10,7 @@ import {
 import { MainLayoutComponent } from '../../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../../shared/custom-btn/custom-btn.component';
 
-import { CategoryService } from '../../category.service';
+import { CategoryService } from '../../services/category.service';
 
 import { Store } from '@ngrx/store';
 import { selectLoading } from '../../store/app/app.selectors';

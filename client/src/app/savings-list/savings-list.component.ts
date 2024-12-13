@@ -7,8 +7,8 @@ import { selectSavings } from '../store/savings/savings.selectors';
 
 import { SpinnerComponent } from '../shared/spinner/spinner.component';
 
-import { RouterService } from '../router.service';
-import { CategoryService } from '../category.service';
+import { RouterService } from '../services/router.service';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'app-savings-list',

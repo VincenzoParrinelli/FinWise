@@ -7,8 +7,8 @@ import {
   WIDTH_TOKEN,
 } from '../injection-tokens/svgs-injection-tokens';
 
-import { CategoryService } from '../../category.service';
-import { RouterService } from '../../router.service';
+import { CategoryService } from '../../services/category.service';
+import { RouterService } from '../../services/router.service';
 
 import { Store } from '@ngrx/store';
 import { selectLoading } from '../../store/app/app.selectors';

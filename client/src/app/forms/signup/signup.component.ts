@@ -16,7 +16,7 @@ import { CustomBtnComponent } from '../../shared/custom-btn/custom-btn.component
 import { EyeOpenComponent } from '../../svg/eye-open/eye-open.component';
 import { EyeClosedComponent } from '../../svg/eye-closed/eye-closed.component';
 
-import { RouterService } from '../../router.service';
+import { RouterService } from '../../services/router.service';
 
 import { Store } from '@ngrx/store';
 import { UserState } from '../../store/user/user.model';

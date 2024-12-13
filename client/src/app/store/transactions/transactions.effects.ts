@@ -11,7 +11,7 @@ import * as UserActions from '../user/user.actions';
 import { environment } from '../../../environments/environment.development';
 import { catchError, EMPTY, map, mergeMap, of, tap } from 'rxjs';
 
-import { RouterService } from '../../router.service';
+import { RouterService } from '../../services/router.service';
 
 export class TransactionsEffects {
   private actions$ = inject(Actions);

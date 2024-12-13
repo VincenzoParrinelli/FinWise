@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, EMPTY, map, mergeMap, of, tap } from 'rxjs';
-import { RouterService } from '../../router.service';
+import { RouterService } from '../../services/router.service';
 
 import { User } from './user.model';
 import { Store } from '@ngrx/store';

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
-import { RouterService } from '../../router.service';
+import { RouterService } from '../../services/router.service';
 
 import { HomeSvgComponent } from '../../svg/nav/home/home.component';
 import { AnalysisSvgComponent } from '../../svg/nav/analysis/analysis.component';

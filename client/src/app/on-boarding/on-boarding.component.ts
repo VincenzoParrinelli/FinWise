@@ -3,7 +3,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CircleComponent } from '../svg/circle/circle.component';
 
-import { RouterService } from '../router.service';
+import { RouterService } from '../services/router.service';
 
 @Component({
   selector: 'app-on-boarding',

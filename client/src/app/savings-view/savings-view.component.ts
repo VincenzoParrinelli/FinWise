@@ -23,8 +23,8 @@ import {
 } from '../store/transactions/transactions.selectors';
 import * as TransactionsActions from '../store/transactions/transactions.actions';
 
-import { CategoryService } from '../category.service';
-import { RouterService } from '../router.service';
+import { CategoryService } from '../services/category.service';
+import { RouterService } from '../services/router.service';
 
 @Component({
   selector: 'app-savings-view',

@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 
-import { Category } from './category.model';
+import { Category } from '../category.model';
 
-import { CarComponent } from './svg/categories/car/car.component';
-import { EntertainmentComponent } from './svg/categories/entertainment/entertainment.component';
-import { GiftComponent } from './svg/categories/gift/gift.component';
-import { GroceriesComponent } from './svg/categories/groceries/groceries.component';
-import { MedicineComponent } from './svg/categories/medicine/medicine.component';
-import { NewHomeComponent } from './svg/categories/new-home/new-home.component';
-import { RentComponent } from './svg/categories/rent/rent.component';
-import { SavingComponent } from './svg/categories/saving/saving.component';
-import { SilverwareComponent } from './svg/categories/silverware/silverware.component';
-import { TransportComponent } from './svg/categories/transport/transport.component';
-import { TravelComponent } from './svg/categories/travel/travel.component';
-import { WeddingComponent } from './svg/categories/wedding/wedding.component';
-import { SalaryComponent } from './svg/categories/salary/salary.component';
+import { CarComponent } from '../svg/categories/car/car.component';
+import { EntertainmentComponent } from '../svg/categories/entertainment/entertainment.component';
+import { GiftComponent } from '../svg/categories/gift/gift.component';
+import { GroceriesComponent } from '../svg/categories/groceries/groceries.component';
+import { MedicineComponent } from '../svg/categories/medicine/medicine.component';
+import { NewHomeComponent } from '../svg/categories/new-home/new-home.component';
+import { RentComponent } from '../svg/categories/rent/rent.component';
+import { SavingComponent } from '../svg/categories/saving/saving.component';
+import { SilverwareComponent } from '../svg/categories/silverware/silverware.component';
+import { TransportComponent } from '../svg/categories/transport/transport.component';
+import { TravelComponent } from '../svg/categories/travel/travel.component';
+import { WeddingComponent } from '../svg/categories/wedding/wedding.component';
+import { SalaryComponent } from '../svg/categories/salary/salary.component';
 
 @Injectable({
   providedIn: 'root',

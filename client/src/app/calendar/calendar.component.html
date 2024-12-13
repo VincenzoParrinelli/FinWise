@@ -6,7 +6,39 @@
     class="mt-6 w-80 flex flex-col items-center overflow-x-hidden h-screen"
   >
     <div class="w-72">
-      <full-calendar class="h-96" [options]="calendarOptions" />
+      <full-calendar #calendar class="h-96" [options]="calendarOptions()" />
+
+      @if (toggleMonthDropdown()) {
+        <div
+          class="bg-light-green absolute flex flex-col rounded-t-xl rounded-b-xl top-48 w-28 z-10 overflow-y-auto max-h-72"
+        >
+          <ul class="text-sm text-main-layout my-2 text-left">
+            @for (month of allMonths; track $index) {
+              <li (click)="setMonth(month, $index)">
+                <p class="text-lg ml-4" form="transactionsForm">
+                  {{ month }}
+                </p>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (toggleYearDropdown()) {
+        <div
+          class="bg-light-green absolute flex flex-col rounded-t-xl rounded-b-xl top-48 right-10 w-28 z-10 overflow-y-auto max-h-72"
+        >
+          <ul class="text-sm text-main-layout my-2 text-left">
+            @for (year of yearsRange; track $index) {
+              <li (click)="setYear(year)">
+                <p class="text-lg ml-4" form="transactionsForm">
+                  {{ year }}
+                </p>
+              </li>
+            }
+          </ul>
+        </div>
+      }
     </div>
   </div>
 </app-main-layout>

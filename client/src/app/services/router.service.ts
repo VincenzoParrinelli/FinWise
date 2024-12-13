@@ -2,8 +2,8 @@ import { DestroyRef, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
-import { Transaction } from './store/transactions/transactions.model';
-import { Saving } from './store/savings/savings.model';
+import { Transaction } from '../store/transactions/transactions.model';
+import { Saving } from '../store/savings/savings.model';
 
 export class RouterService {
   router = inject(Router);

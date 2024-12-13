@@ -1,7 +1,16 @@
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
+
+import { DateService } from '../services/date.service';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions } from '@fullcalendar/core';
+import { Calendar, CalendarApi, CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
@@ -14,10 +23,46 @@ import { MainLayoutComponent } from '../shared/layouts/main/main.component';
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
-export class CalendarComponent {
+export class CalendarComponent implements AfterViewInit {
+  dateService = inject(DateService);
+  allMonths = this.dateService.allMonths;
+  yearsRange = this.dateService.yearsRange(100);
   prevClickedAnchor: HTMLElement | null = null;
+  toggleMonthDropdown = signal<boolean>(false);
+  toggleYearDropdown = signal<boolean>(false);
+  selectedMonth = signal<string>(this.dateService.currMonthName);
+  selectedYear = signal<string>(this.dateService.currYearString);
 
-  calendarOptions: CalendarOptions = {
+  @ViewChild('calendar') calendar: any;
+  calendarApi: Calendar | undefined;
+
+  ngAfterViewInit() {
+    if (this.calendar) this.calendarApi = this.calendar.getApi();
+  }
+
+  setMonth(month: string, i: number) {
+    this.toggleMonthDropdown.set(false);
+
+    const selectedDate = new Date(this.dateService.currYearNumber, i, 1);
+
+    this.selectedMonth.set(month);
+    this.calendarApi?.gotoDate(selectedDate);
+  }
+
+  setYear(year: number) {
+    this.toggleYearDropdown.set(false);
+
+    const selectedDate = new Date(
+      year,
+      this.dateService.getMonthIndex(this.selectedMonth()),
+      1
+    );
+
+    this.selectedYear.set(year.toString());
+    this.calendarApi?.gotoDate(selectedDate);
+  }
+
+  calendarOptions = computed<CalendarOptions>(() => ({
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
     selectable: true,
@@ -42,14 +87,25 @@ export class CalendarComponent {
     },
 
     headerToolbar: {
-      left: '',
+      left: 'monthsSelector',
       center: '',
-      right: '',
+      right: 'yearsSelector',
     },
     customButtons: {
-      monthsBtn: {
-        text: '',
+      monthsSelector: {
+        text: this.selectedMonth(),
+        click: () => {
+          this.toggleYearDropdown.set(false);
+          this.toggleMonthDropdown.set(!this.toggleMonthDropdown());
+        },
+      },
+      yearsSelector: {
+        text: this.selectedYear(),
+        click: () => {
+          this.toggleMonthDropdown.set(false);
+          this.toggleYearDropdown.set(!this.toggleYearDropdown());
+        },
       },
     },
-  };
+  }));
 }

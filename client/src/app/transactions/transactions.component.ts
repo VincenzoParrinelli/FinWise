@@ -18,7 +18,7 @@ import { TransactionsListComponent } from '../shared/transactions-list/transacti
 
 import { PlusComponent } from '../svg/plus/plus.component';
 
-import { RouterService } from '../router.service';
+import { RouterService } from '../services/router.service';
 
 @Component({
   selector: 'app-transactions',

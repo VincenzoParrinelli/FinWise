@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterService } from '../router.service';
+import { RouterService } from '../services/router.service';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 

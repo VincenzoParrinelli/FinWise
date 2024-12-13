@@ -19,8 +19,8 @@ import { selectLoading } from '../../store/app/app.selectors';
 
 import { SpinnerComponent } from '../spinner/spinner.component';
 
-import { RouterService } from '../../router.service';
-import { CategoryService } from '../../category.service';
+import { RouterService } from '../../services/router.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-transactions-list',

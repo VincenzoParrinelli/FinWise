@@ -4,7 +4,7 @@ import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 
 import { VectorComponent } from '../svg/vector/vector.component';
 
-import { RouterService } from '../router.service';
+import { RouterService } from '../services/router.service';
 
 @Component({
   selector: 'app-launch',

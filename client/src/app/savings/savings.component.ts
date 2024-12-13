@@ -14,8 +14,8 @@ import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { TotalCountersComponent } from '../shared/total-counters/total-counters.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 
-import { CategoryService } from '../category.service';
-import { RouterService } from '../router.service';
+import { CategoryService } from '../services/category.service';
+import { RouterService } from '../services/router.service';
 
 @Component({
   selector: 'app-savings',

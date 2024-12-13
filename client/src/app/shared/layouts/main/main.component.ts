@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
 
-import { RouterService } from '../../../router.service';
+import { RouterService } from '../../../services/router.service';
 
 import { BackArrowComponent } from '../../../svg/back-arrow/back-arrow.component';
 import { BellComponent } from '../../../svg/bell/bell.component';
