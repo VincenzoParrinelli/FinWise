@@ -33,21 +33,10 @@ import { CategoryService } from '../../services/category.service';
 export class TransactionsListComponent {
   private store = inject(Store);
   private activatedRoute = inject(ActivatedRoute);
+
   routerService = inject(RouterService);
   categories = inject(CategoryService).getAllCategories;
-  savingId = input<string>('');
-  filterDate = input<Date | null>(null);
-  transactions: Signal<Transaction[]> = computed(() => {
-    if (this.savingId()) {
-      return this.store.selectSignal(
-        selectSavingsTransactions(this.savingId()!)
-      )();
-    } else if (this.filterDate()) {
-      return this.store.selectSignal(selectFilteredByDateTransactions)();
-    } else {
-      return this.store.selectSignal(selectTransactions)();
-    }
-  });
+  transactions = input<Transaction[]>([]);
   filteredTransactions = signal<Transaction[]>([]);
   loading = this.store.selectSignal(selectLoading);
 

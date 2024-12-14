@@ -45,7 +45,7 @@
       [class.mb-32]="savingsTransactions().length"
       (scroll)="onScroll($event)"
     >
-      <app-transactions-list [savingId]="saving._id!" />
+      <app-transactions-list [transactions]="savingsTransactions()" />
     </div>
 
     <div

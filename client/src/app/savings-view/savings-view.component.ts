@@ -46,6 +46,7 @@ export class SavingsViewComponent implements OnInit {
   private injector = inject(Injector);
   private page = 1;
   private pageSize = 10;
+
   categoryService = inject(CategoryService);
   routerService = inject(RouterService);
   categories = this.categoryService.getAllCategories;

@@ -35,8 +35,11 @@ import { RouterService } from '../services/router.service';
   styleUrl: './transactions.component.scss',
 })
 export class TransactionsComponent {
-  routerService = inject(RouterService);
   private store = inject(Store);
+  private page = 2;
+  private pageSize = 10;
+
+  routerService = inject(RouterService);
   transactionsTotals = this.store.selectSignal(selectTransactionsTotals);
   transactions = this.store.selectSignal(selectTransactions);
   transactionsTotalDocuments = this.store.selectSignal(
@@ -45,8 +48,6 @@ export class TransactionsComponent {
   userId = this.store.selectSignal(selectUserId);
   isIncomeSelected = signal<boolean>(false);
   isExpensesSelected = signal<boolean>(false);
-  private page = 2;
-  private pageSize = 10;
 
   showIncomesOnly(): void {
     this.isIncomeSelected.set(!this.isIncomeSelected());
