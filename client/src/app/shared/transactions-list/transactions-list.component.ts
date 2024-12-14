@@ -45,7 +45,6 @@ export class TransactionsListComponent {
     } else if (this.filterDate()) {
       return this.store.selectSignal(selectFilteredByDateTransactions)();
     } else {
-      console.log(this.store.selectSignal(selectTransactions)());
       return this.store.selectSignal(selectTransactions)();
     }
   });

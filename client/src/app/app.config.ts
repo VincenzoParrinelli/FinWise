@@ -27,6 +27,12 @@ import { UserEffects } from './store/user/user.effects';
 import { TransactionsEffects } from './store/transactions/transactions.effects';
 import { SavingsEffects } from './store/savings/saving.effects';
 
+const loadInitialState = () => {
+  const savedState = localStorage.getItem('appState');
+
+  return savedState ? JSON.parse(savedState) : undefined;
+};
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -42,7 +48,7 @@ export const appConfig: ApplicationConfig = {
         transactions: transactionsReducer,
         savings: savingsReducer,
       },
-      { metaReducers }
+      { metaReducers, initialState: loadInitialState() }
     ),
     provideEffects([UserEffects, TransactionsEffects, SavingsEffects]),
   ],

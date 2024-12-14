@@ -21,8 +21,11 @@ export const resetStateOnLogoutMetaReducer = (
       action.type === resetAllAppSlices.type ||
       action.type === logoutUserSuccess.type
     ) {
+      localStorage.removeItem('appState');
+
       return { ...initialState };
     }
+
     return reducer(state, action);
   };
 };
