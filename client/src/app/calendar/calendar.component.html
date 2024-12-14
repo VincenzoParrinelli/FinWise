@@ -60,7 +60,9 @@
     </div>
 
     @if (spendsBtnSelected()) {
-      <app-transactions-list />
+      <div class="w-full">
+        <app-transactions-list [transactions]="filteredByDateTransactions()" />
+      </div>
     }
   </div>
 </app-main-layout>

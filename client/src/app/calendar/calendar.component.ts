@@ -13,6 +13,7 @@ import {
 
 import { Store } from '@ngrx/store';
 import { TransactionsState } from '../store/transactions/transactions.model';
+import { selectFilteredByDateTransactions } from '../store/transactions/transactions.selectors';
 import * as TransactionsActions from '../store/transactions/transactions.actions';
 
 import { DateService } from '../services/date.service';
@@ -55,6 +56,10 @@ export class CalendarComponent implements AfterViewInit {
   toggleMonthDropdown = signal<boolean>(false);
   toggleYearDropdown = signal<boolean>(false);
   spendsBtnSelected = signal<boolean>(true);
+  selectedDate = signal<Date | null>(null);
+  filteredByDateTransactions = this.store.selectSignal(
+    selectFilteredByDateTransactions
+  );
   allMonths = this.dateService.allMonths;
   yearsRange = this.dateService.yearsRange();
 
@@ -162,16 +167,18 @@ export class CalendarComponent implements AfterViewInit {
 
       const anchorTag = info.dayEl.querySelector('a');
 
-      if (anchorTag) {
-        anchorTag.style.backgroundColor = '#00D09E';
-        anchorTag.style.color = '#000';
+      if (!anchorTag) return;
 
-        this.prevClickedDay = anchorTag;
+      anchorTag.style.backgroundColor = '#00D09E';
+      anchorTag.style.color = '#000';
 
-        this.store.dispatch(
-          TransactionsActions.getTransactionsByDate({ date: info.date })
-        );
-      }
+      this.prevClickedDay = anchorTag;
+
+      this.selectedDate.set(info.date);
+
+      this.store.dispatch(
+        TransactionsActions.getTransactionsByDate({ date: info.date })
+      );
     },
 
     headerToolbar: {

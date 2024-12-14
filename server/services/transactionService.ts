@@ -64,13 +64,23 @@ export const getTransactionsByDate = async (
   page: number,
   pageSize: number
 ): Promise<ITransaction[]> => {
-  const filteredByDateTransactions = await Transaction.find({ userId, date })
+  const startOfTheDay = new Date(date);
+  startOfTheDay.setHours(0, 0, 0, 0);
+
+  const endOfTheDay = new Date(date);
+  endOfTheDay.setHours(23, 59, 59, 999);
+
+  const filteredByDateTransactions = await Transaction.find({
+    userId,
+    date: {
+      $gte: startOfTheDay,
+      $lte: endOfTheDay,
+    },
+  })
     .sort({ date: -1 })
     .skip((page - 1) * pageSize)
     .limit(10)
     .lean();
-
-  console.log(date);
 
   return filteredByDateTransactions;
 };
