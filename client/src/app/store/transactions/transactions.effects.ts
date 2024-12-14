@@ -75,6 +75,31 @@ export class TransactionsEffects {
     )
   );
 
+  getPaginatedTransactionsByDate = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TransactionsActions.getTransactionsByDate),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ date }) =>
+        this.http
+          .get<Transaction[]>(`${this.apiUrl}/transactions/${date}`)
+          .pipe(
+            map((filteredByDateTransactions) =>
+              TransactionsActions.getTransactionsByDateSuccess({
+                filteredByDateTransactions,
+              })
+            ),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return EMPTY;
+            })
+          )
+      )
+    )
+  );
+
   getGroupedTransactions = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionsActions.getGroupedTransactions),

@@ -11,6 +11,10 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+import { TransactionsState } from '../store/transactions/transactions.model';
+import * as TransactionsActions from '../store/transactions/transactions.actions';
+
 import { DateService } from '../services/date.service';
 
 import {
@@ -22,26 +26,35 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
+import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
+import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
 import { ArrowDownComponent } from '../svg/arrow-down/arrow-down.component';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [MainLayoutComponent, FullCalendarModule],
+  imports: [
+    MainLayoutComponent,
+    FullCalendarModule,
+    CustomBtnComponent,
+    TransactionsListComponent,
+  ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent implements AfterViewInit {
   private viewContainerRef = inject(ViewContainerRef);
   private dateService = inject(DateService);
+  private store = inject(Store<TransactionsState>);
   private cdr = inject(ChangeDetectorRef);
   private calendarApi: Calendar | undefined;
-  private prevClickedAnchor: HTMLElement | null = null;
+  private prevClickedDay: HTMLElement | null = null;
   private selectedMonth = signal<string>(this.dateService.currMonthName);
   private selectedYear = signal<string>(this.dateService.currYearString);
 
   toggleMonthDropdown = signal<boolean>(false);
   toggleYearDropdown = signal<boolean>(false);
+  spendsBtnSelected = signal<boolean>(true);
   allMonths = this.dateService.allMonths;
   yearsRange = this.dateService.yearsRange();
 
@@ -142,9 +155,9 @@ export class CalendarComponent implements AfterViewInit {
     fixedWeekCount: false,
 
     dateClick: (info) => {
-      if (this.prevClickedAnchor) {
-        this.prevClickedAnchor.style.backgroundColor = '';
-        this.prevClickedAnchor.style.color = '';
+      if (this.prevClickedDay) {
+        this.prevClickedDay.style.backgroundColor = '';
+        this.prevClickedDay.style.color = '';
       }
 
       const anchorTag = info.dayEl.querySelector('a');
@@ -153,7 +166,11 @@ export class CalendarComponent implements AfterViewInit {
         anchorTag.style.backgroundColor = '#00D09E';
         anchorTag.style.color = '#000';
 
-        this.prevClickedAnchor = anchorTag;
+        this.prevClickedDay = anchorTag;
+
+        this.store.dispatch(
+          TransactionsActions.getTransactionsByDate({ date: info.date })
+        );
       }
     },
 

@@ -12,8 +12,9 @@ import { CurrencyPipe, DatePipe, NgComponentOutlet } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Transaction } from '../../store/transactions/transactions.model';
 import {
-  selectSavingsTransactions,
   selectTransactions,
+  selectSavingsTransactions,
+  selectFilteredByDateTransactions,
 } from '../../store/transactions/transactions.selectors';
 import { selectLoading } from '../../store/app/app.selectors';
 
@@ -30,16 +31,24 @@ import { CategoryService } from '../../services/category.service';
   styleUrl: './transactions-list.component.scss',
 })
 export class TransactionsListComponent {
-  savingId = input<string>();
   private store = inject(Store);
-  routerService = inject(RouterService);
   private activatedRoute = inject(ActivatedRoute);
+  routerService = inject(RouterService);
   categories = inject(CategoryService).getAllCategories;
-  transactions: Signal<Transaction[]> = computed(() =>
-    this.savingId()
-      ? this.store.selectSignal(selectSavingsTransactions(this.savingId()!))()
-      : this.store.selectSignal(selectTransactions)()
-  );
+  savingId = input<string>('');
+  filterDate = input<Date | null>(null);
+  transactions: Signal<Transaction[]> = computed(() => {
+    if (this.savingId()) {
+      return this.store.selectSignal(
+        selectSavingsTransactions(this.savingId()!)
+      )();
+    } else if (this.filterDate()) {
+      return this.store.selectSignal(selectFilteredByDateTransactions)();
+    } else {
+      console.log(this.store.selectSignal(selectTransactions)());
+      return this.store.selectSignal(selectTransactions)();
+    }
+  });
   filteredTransactions = signal<Transaction[]>([]);
   loading = this.store.selectSignal(selectLoading);
 

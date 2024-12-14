@@ -11,6 +11,7 @@ export const initialTransactionsState: TransactionsState = {
   totalSavingsTransactionsInDb: 0,
   transactions: [],
   savingsTransactions: [],
+  filteredByDateTransactions: [],
   dailyTransactions: [],
   weeklyTransactions: [],
   monthlyTransactions: [],
@@ -48,6 +49,13 @@ export const transactionsReducer = createReducer(
         ),
       };
     }
+  ),
+  on(
+    TransactionsActions.getTransactionsByDateSuccess,
+    (state, { filteredByDateTransactions }) => ({
+      ...state,
+      filteredByDateTransactions,
+    })
   ),
   on(
     TransactionsActions.getGroupedTransactionsSuccess,

@@ -58,6 +58,23 @@ export const getTransactions = async (
   return { transactions, ...totals[0] };
 };
 
+export const getTransactionsByDate = async (
+  userId: string,
+  date: Date,
+  page: number,
+  pageSize: number
+): Promise<ITransaction[]> => {
+  const filteredByDateTransactions = await Transaction.find({ userId, date })
+    .sort({ date: -1 })
+    .skip((page - 1) * pageSize)
+    .limit(10)
+    .lean();
+
+  console.log(date);
+
+  return filteredByDateTransactions;
+};
+
 export const getGroupedTransactions = async (
   userId: string,
   group: string

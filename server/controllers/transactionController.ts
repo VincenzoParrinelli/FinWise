@@ -26,6 +26,36 @@ export const getTransactions = async (
   }
 };
 
+export const getTransactionsByDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = res.locals.user._id.toString();
+  const date = new Date(req.params.date);
+  const page = parseInt(req.query.page as string) || 1;
+  const pageSize = parseInt(req.query.pageSize as string) || 10;
+
+  try {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+      res.status(400).json({ message: "Invalid Data" });
+      return;
+    }
+
+    const filteredByDateTransactions =
+      await transactionService.getTransactionsByDate(
+        userId,
+        date,
+        page,
+        pageSize
+      );
+
+    res.status(200).json(filteredByDateTransactions);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getGroupedTransactions = async (
   req: Request,
   res: Response,
