@@ -11,17 +11,22 @@ import {
   ScriptableScaleContext,
 } from 'chart.js';
 
+import { RouterService } from '../../services/router.service';
+
 import { SpinnerComponent } from '../../shared/spinner/spinner.component';
+import { CalendarComponent } from '../../svg/calendar/calendar.component';
 
 @Component({
   selector: 'app-bar-chart',
   standalone: true,
-  imports: [BaseChartDirective, SpinnerComponent],
+  imports: [BaseChartDirective, SpinnerComponent, CalendarComponent],
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss',
 })
 export class BarChartComponent {
   private store = inject(Store);
+  routerService = inject(RouterService);
+
   loading = this.store.selectSignal(selectLoading);
   chartLabels = input<any[]>([]);
   totalIncome = input<any[]>([]);
@@ -53,7 +58,7 @@ export class BarChartComponent {
     layout: {
       padding: {
         top: 40,
-        bottom: 45,
+        bottom: 55,
         left: 20,
         right: 35,
       },

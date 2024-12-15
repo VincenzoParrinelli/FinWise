@@ -6,10 +6,7 @@ import { Transaction } from '../store/transactions/transactions.model';
 import { Saving } from '../store/savings/savings.model';
 
 export class RouterService {
-  router = inject(Router);
   private location = inject(Location);
-  showNaw = signal<boolean>(true);
-  showBackArrow = signal<boolean>(false);
   private destroyRef = inject(DestroyRef);
   private hideNavRoutes: string[] = ['/launch', '/login', '/signup'];
   private hideBackArrowRoutes: string[] = [
@@ -18,6 +15,10 @@ export class RouterService {
     '/signup',
     '/home',
   ];
+
+  router = inject(Router);
+  showNaw = signal<boolean>(true);
+  showBackArrow = signal<boolean>(false);
 
   navigateBack() {
     this.location.back();
@@ -99,6 +100,10 @@ export class RouterService {
 
   navigateToPasswordEdit() {
     this.router.navigate(['/settings/edit/password']);
+  }
+
+  navigateToCalendar() {
+    this.router.navigate(['/calendar']);
   }
 
   subscribeEvents() {

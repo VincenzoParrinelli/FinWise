@@ -1,7 +1,11 @@
 @if (!loading()) {
-  <div class="flex flex-col bg-light-green rounded-3xl w-full h-60">
-    <div class="text-main-layout">
+  <div class="flex flex-col bg-light-green u-border-radius-4xl w-full h-60">
+    <div
+      class="flex justify-around items-center text-main-layout translate-y-4"
+    >
       <span class="font-semibold"> Income & Expenses </span>
+
+      <app-svg-calendar (click)="routerService.navigateToCalendar()" />
     </div>
     <canvas
       baseChart

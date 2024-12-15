@@ -11,11 +11,6 @@ import { CurrencyPipe, DatePipe, NgComponentOutlet } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { Transaction } from '../../store/transactions/transactions.model';
-import {
-  selectTransactions,
-  selectSavingsTransactions,
-  selectFilteredByDateTransactions,
-} from '../../store/transactions/transactions.selectors';
 import { selectLoading } from '../../store/app/app.selectors';
 
 import { SpinnerComponent } from '../spinner/spinner.component';

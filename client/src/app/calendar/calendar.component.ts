@@ -169,8 +169,8 @@ export class CalendarComponent implements AfterViewInit {
 
       if (!anchorTag) return;
 
-      anchorTag.style.backgroundColor = '#00D09E';
-      anchorTag.style.color = '#000';
+      anchorTag.style.backgroundColor = '#0068FF';
+      anchorTag.style.color = '#eee';
 
       this.prevClickedDay = anchorTag;
 
