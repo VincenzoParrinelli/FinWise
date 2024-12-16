@@ -91,7 +91,7 @@ export const createTransaction = async (
       return;
     }
 
-    const newTransaction = transactionService.createTransaction(
+    const newTransaction = await transactionService.createTransaction(
       userId,
       savingId,
       transaction
