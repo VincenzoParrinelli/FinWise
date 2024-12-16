@@ -74,7 +74,7 @@ export class TransactionsComponent {
     if (
       element.scrollHeight - element.scrollTop <=
         element.clientHeight + threshold &&
-      this.transactions().length < this.transactionsTotalDocuments()
+      this.transactions().length + 1 < this.transactionsTotalDocuments()
     ) {
       this.store.dispatch(
         TransactionActions.getTransactionsWithTotals({
