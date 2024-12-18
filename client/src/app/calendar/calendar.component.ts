@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
-  effect,
   ElementRef,
   inject,
   signal,
@@ -26,6 +25,8 @@ import { Calendar, CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+import { HalfPieChartComponent } from '../charts/half-pie-chart/half-pie-chart.component';
+
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
@@ -39,6 +40,7 @@ import { ArrowDownComponent } from '../svg/arrow-down/arrow-down.component';
     FullCalendarModule,
     CustomBtnComponent,
     TransactionsListComponent,
+    HalfPieChartComponent,
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',

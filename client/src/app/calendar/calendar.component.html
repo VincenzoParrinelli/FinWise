@@ -63,6 +63,8 @@
       <div class="w-full">
         <app-transactions-list [transactions]="filteredByDateTransactions()" />
       </div>
+    } @else {
+      <app-half-pie-chart [transactions]="filteredByDateTransactions()" />
     }
   </div>
 </app-main-layout>
