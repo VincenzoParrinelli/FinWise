@@ -56,6 +56,23 @@ export const getTransactionsByDate = async (
   }
 };
 
+export const getTransactionsBySearch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = res.locals.user._id.toString();
+
+  try {
+    const searchedTransactions =
+      await transactionService.getTransactionsBySearch(userId, req.query);
+
+    res.status(200).json(searchedTransactions);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getGroupedTransactions = async (
   req: Request,
   res: Response,

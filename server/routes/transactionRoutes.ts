@@ -3,6 +3,7 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 import {
   getTransactions,
   getTransactionsByDate,
+  getTransactionsBySearch,
   getGroupedTransactions,
   createTransaction,
   deleteTransaction,
@@ -14,6 +15,7 @@ const router: Router = Router();
 router.use(authMiddleware);
 
 router.get("/", getTransactions);
+router.get("/search", getTransactionsBySearch);
 router.get("/:date", getTransactionsByDate);
 router.get("/grouped/:group", getGroupedTransactions);
 router.post("/create", createTransaction);

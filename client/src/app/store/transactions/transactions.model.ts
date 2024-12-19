@@ -7,6 +7,7 @@ export interface TransactionsState {
   transactions: Transaction[];
   savingsTransactions: Transaction[];
   filteredByDateTransactions: Transaction[];
+  searchedTransactions: Transaction[];
   dailyTransactions: [];
   weeklyTransactions: [];
   monthlyTransactions: [];

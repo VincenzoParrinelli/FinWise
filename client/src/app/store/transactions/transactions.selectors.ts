@@ -14,6 +14,11 @@ export const selectFilteredByDateTransactions = createSelector(
   (state: TransactionsState) => state.filteredByDateTransactions
 );
 
+export const selectSearchedTransactions = createSelector(
+  selectTransactionsState,
+  (state: TransactionsState) => state.searchedTransactions
+);
+
 export const selectDailyTransactions = createSelector(
   selectTransactionsState,
   (state: TransactionsState) => state.dailyTransactions

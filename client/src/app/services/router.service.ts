@@ -106,6 +106,10 @@ export class RouterService {
     this.router.navigate(['/calendar']);
   }
 
+  navigateToSearch() {
+    this.router.navigate(['/search']);
+  }
+
   subscribeEvents() {
     const subscription = this.router.events.subscribe((event) => {
       if (!event) return;

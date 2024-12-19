@@ -5,7 +5,10 @@
     >
       <span class="font-semibold"> Income & Expenses </span>
 
-      <app-svg-calendar (click)="routerService.navigateToCalendar()" />
+      <div class="flex gap-1">
+        <app-svg-search (click)="routerService.navigateToSearch()" />
+        <app-svg-calendar (click)="routerService.navigateToCalendar()" />
+      </div>
     </div>
     <canvas
       baseChart

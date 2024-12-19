@@ -15,11 +15,17 @@ import { RouterService } from '../../services/router.service';
 
 import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 import { CalendarComponent } from '../../svg/calendar/calendar.component';
+import { SearchComponent } from '../../svg/search/search.component';
 
 @Component({
   selector: 'app-bar-chart',
   standalone: true,
-  imports: [BaseChartDirective, SpinnerComponent, CalendarComponent],
+  imports: [
+    BaseChartDirective,
+    SpinnerComponent,
+    CalendarComponent,
+    SearchComponent,
+  ],
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss',
 })

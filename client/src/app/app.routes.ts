@@ -138,4 +138,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./calendar/calendar.component').then((m) => m.CalendarComponent),
   },
+  {
+    path: 'search',
+    loadComponent: () =>
+      import('./forms/search/search.component').then((m) => m.SearchComponent),
+  },
 ];

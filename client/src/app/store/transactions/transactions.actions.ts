@@ -5,6 +5,7 @@ import {
   TransactionsState,
   UpdatedTransactionFormData,
 } from './transactions.model';
+import { Category } from '../../category.model';
 
 export const getTransactionsWithTotals = createAction(
   '[Transaction] Get Transactions With Totals',
@@ -24,6 +25,21 @@ export const getTransactionsByDate = createAction(
 export const getTransactionsByDateSuccess = createAction(
   '[Transaction] Get Transactions By Date Success',
   props<{ filteredByDateTransactions: Transaction[] }>()
+);
+
+export const getTransactionsBySearch = createAction(
+  '[Transaction] Get Transactions By Search',
+  props<{
+    search: string;
+    categories?: Category[];
+    date?: Date;
+    categoryRadio?: 'income' | 'expense';
+  }>()
+);
+
+export const getTransactionsBySearchSuccess = createAction(
+  '[Transaction] Get Transactions By Search Success',
+  props<{ searchedTransactions: Transaction[] }>()
 );
 
 export const getGroupedTransactions = createAction(

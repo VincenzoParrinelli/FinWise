@@ -29,17 +29,18 @@ import * as TransactionsActions from '../../store/transactions/transactions.acti
   styleUrl: './transactions-form.component.scss',
 })
 export class TransactionsFormComponent {
-  categoryService = inject(CategoryService);
-  private formIsSubmitted = signal<boolean>(false);
   private store = inject(Store<TransactionsState>);
   private router = inject(Router);
+  private formIsSubmitted = signal<boolean>(false);
+  private updatedTransaction = signal({});
+
+  categoryService = inject(CategoryService);
   loading = this.store.selectSignal<boolean>(selectLoading);
   toggleCategoryDropdown = signal<boolean>(false);
   selectedTransaction =
     this.router.getCurrentNavigation()?.extras?.state?.['transaction'];
   selectedSaving =
     this.router.getCurrentNavigation()?.extras?.state?.['saving'];
-  updatedTransaction = signal({});
 
   ngOnInit() {
     this.formatAmountOnLeave();

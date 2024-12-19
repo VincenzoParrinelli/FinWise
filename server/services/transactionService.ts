@@ -85,6 +85,59 @@ export const getTransactionsByDate = async (
   return filteredByDateTransactions;
 };
 
+// TODO: Add pagination
+export const getTransactionsBySearch = async (
+  userId: string,
+  query: any
+): Promise<ITransaction[]> => {
+  const { search, categories, date, categoryRadio } = query;
+
+  const matchConditions = {
+    userId,
+  } as any;
+
+  if (search) {
+    matchConditions.transactionTitle = {
+      $regex: search,
+      $options: "i",
+    };
+  }
+
+  if (date) {
+    const startOfTheDay = new Date(date);
+    startOfTheDay.setHours(0, 0, 0, 0);
+
+    const endOfTheDay = new Date(date);
+    endOfTheDay.setHours(23, 59, 59, 999);
+
+    matchConditions.date = {
+      $gte: startOfTheDay,
+      $lte: endOfTheDay,
+    };
+  }
+
+  if (categoryRadio) {
+    if (categoryRadio === "income" && !categories.length) {
+      matchConditions.category = "Salary";
+    } else if (categoryRadio === "expense") {
+      matchConditions.category = { $ne: "Salary" };
+    }
+  }
+
+  if (categories) {
+    const categoryArray = categories.split(",");
+    matchConditions.category = { $in: categoryArray };
+  }
+
+  const searchedTransactions = await Transaction.aggregate([
+    {
+      $match: matchConditions,
+    },
+  ]);
+
+  return searchedTransactions;
+};
+
 export const getGroupedTransactions = async (
   userId: string,
   group: string

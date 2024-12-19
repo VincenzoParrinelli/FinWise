@@ -1,0 +1,129 @@
+<app-main-layout screenMode="full">
+  <span ngProjectAs="header-content">Search</span>
+
+  <div
+    ngProjectAs="top-content"
+    class="w-full text-base flex items-center justify-center mt-3"
+    [formGroup]="searchForm"
+  >
+    <div class="flex flex-col text-left w-72">
+      <input
+        id="search"
+        type="text"
+        class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+        placeholder="Search..."
+        formControlName="search"
+      />
+    </div>
+  </div>
+
+  <div
+    ngProjectAs="bottom-content"
+    class="flex flex-col items-center h-screen w-80"
+  >
+    <form
+      [formGroup]="searchForm"
+      (ngSubmit)="onSubmit()"
+      id="searchForm"
+      class="w-72 mt-8 mb-4"
+    >
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="categories"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+        >
+          <span>Categories</span>
+        </label>
+
+        <div
+          id="categories"
+          class="rounded-full bg-light-green p-1 px-6 text-main-layout z-10"
+          form="searchForm"
+          (click)="toggleCategoryDropdown.set(!toggleCategoryDropdown())"
+          (mouseleave)="toggleCategoryDropdown.set(false)"
+        >
+          @if (!categoryFormValue?.length) {
+            <span class="opacity-50">Select Categories</span>
+          } @else {
+            <span>
+              {{ categoryFormValue }}
+            </span>
+          }
+        </div>
+
+        @if (toggleCategoryDropdown()) {
+          <div
+            class="bg-light-green flex flex-col rounded-t-2xl rounded-b-2xl -translate-y-7"
+          >
+            <ul class="py-2 text-sm text-main-layout mt-4">
+              @for (category of categories; track category.id) {
+                @if (category.name !== "Salary") {
+                  <li
+                    (click)="setCategories(category.name)"
+                    class="rounded-3xl"
+                    [class.bg-caribbean-green]="
+                      categoryFormValue?.includes(category.name)
+                    "
+                  >
+                    <p class="text-lg py-1 px-6" form="transactionsForm">
+                      {{ category.name }}
+                    </p>
+                  </li>
+                }
+              }
+            </ul>
+          </div>
+        }
+      </div>
+
+      <div class="flex flex-col text-left mb-4">
+        <label
+          for="date"
+          class="text-light-green text-sm font-league-spartan translate-x-3 mb-1"
+        >
+          <span>Date</span>
+        </label>
+        <input
+          id="date"
+          type="date"
+          formControlName="date"
+          class="rounded-full bg-light-green outline-none p-1 px-6 text-main-layout"
+        />
+      </div>
+
+      <div class="flex mb-4 mt-16 font-light gap-12">
+        <div
+          class="flex gap-3 items-center"
+          (click)="setCategoryRadio('income')"
+        >
+          <app-svg-radio-btn
+            [fill]="categoryRadioValue === 'income' ? '#00D09E' : ''"
+          />
+          <label>Income</label>
+        </div>
+
+        <div
+          class="flex gap-3 items-center"
+          (click)="setCategoryRadio('expense')"
+        >
+          <app-svg-radio-btn
+            [fill]="categoryRadioValue === 'expense' ? '#00D09E' : ''"
+          />
+          <label>Expense</label>
+        </div>
+      </div>
+    </form>
+
+    <app-custom-btn
+      form="searchForm"
+      type="submit"
+      width="half"
+      text="Search"
+      [loading]="loading()"
+    />
+
+    <div class="w-full">
+      <app-transactions-list [transactions]="searchedTransactions()" />
+    </div>
+  </div>
+</app-main-layout>

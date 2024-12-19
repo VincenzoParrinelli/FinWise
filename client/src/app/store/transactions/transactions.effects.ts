@@ -100,6 +100,42 @@ export class TransactionsEffects {
     )
   );
 
+  getTransactionsBySearch = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TransactionsActions.getTransactionsBySearch),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(({ search, categories, date, categoryRadio }) => {
+        let params = new HttpParams();
+
+        if (search) params = params.set('search', search);
+
+        if (categories?.length)
+          params = params.set('categories', categories.join(','));
+
+        if (date) params = params.set('date', new Date(date).toISOString());
+
+        if (categoryRadio) params = params.set('categoryRadio', categoryRadio);
+
+        return this.http
+          .get<any>(`${this.apiUrl}/transactions/search`, { params })
+          .pipe(
+            map((searchedTransactions) =>
+              TransactionsActions.getTransactionsBySearchSuccess({
+                searchedTransactions,
+              })
+            ),
+            tap(() =>
+              this.store.dispatch(AppActions.setLoading({ loading: false }))
+            ),
+            catchError((error) => {
+              this.store.dispatch(AppActions.setLoading({ loading: false }));
+              return EMPTY;
+            })
+          );
+      })
+    )
+  );
+
   getGroupedTransactions = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionsActions.getGroupedTransactions),
