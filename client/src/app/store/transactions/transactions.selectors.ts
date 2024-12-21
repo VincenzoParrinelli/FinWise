@@ -66,3 +66,8 @@ export const selectTotalSavingsTransactionsInDb = createSelector(
   selectTransactionsState,
   (state: TransactionsState) => state.totalSavingsTransactionsInDb
 );
+
+export const selectTotalSearchedTransactionsInDb = createSelector(
+  selectTransactionsState,
+  (state: TransactionsState) => state.totalSearchedTransactionsInDb
+);

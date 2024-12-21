@@ -3,7 +3,10 @@ import { Component, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TransactionsState } from '../../store/transactions/transactions.model';
 import { selectLoading } from '../../store/app/app.selectors';
-import { selectSearchedTransactions } from '../../store/transactions/transactions.selectors';
+import {
+  selectSearchedTransactions,
+  selectTotalSearchedTransactionsInDb,
+} from '../../store/transactions/transactions.selectors';
 import * as TransactionActions from '../../store/transactions/transactions.actions';
 
 import { CategoryService } from '../../services/category.service';
@@ -36,10 +39,15 @@ import { TransactionsListComponent } from '../../shared/transactions-list/transa
 export class SearchComponent {
   private formIsSubmitted = signal<boolean>(false);
   private store = inject(Store<TransactionsState>);
+  private page = 1;
+  private pageSize = 10;
 
   categories = inject(CategoryService).getAllCategories;
   toggleCategoryDropdown = signal<boolean>(false);
   searchedTransactions = this.store.selectSignal(selectSearchedTransactions);
+  totalSearchedTransactionsInDb = this.store.selectSignal(
+    selectTotalSearchedTransactionsInDb
+  );
   loading = this.store.selectSignal<boolean>(selectLoading);
 
   searchForm = new FormGroup({
@@ -48,7 +56,7 @@ export class SearchComponent {
     }),
     categories: new FormControl<string[]>([]),
     date: new FormControl(''),
-    categoryRadio: new FormControl('income'),
+    categoryRadio: new FormControl(''),
   });
 
   get categoryFormValue() {
@@ -81,6 +89,30 @@ export class SearchComponent {
     }
   }
 
+  onScroll(event: any): void {
+    const element = event.target;
+    const threshold = 10;
+    const cleanedSearchQuery = this.removeEmptyFormFields(
+      this.searchForm.value
+    );
+
+    if (
+      element.scrollHeight - element.scrollTop <=
+        element.clientHeight + threshold &&
+      this.searchedTransactions().length < this.totalSearchedTransactionsInDb()
+    ) {
+      this.store.dispatch(
+        TransactionActions.getTransactionsBySearch({
+          ...cleanedSearchQuery,
+          page: this.page,
+          pageSize: this.pageSize,
+        })
+      );
+
+      this.page++;
+    }
+  }
+
   onSubmit(): void {
     this.formIsSubmitted.set(true);
 
@@ -89,13 +121,21 @@ export class SearchComponent {
       return;
     }
 
+    this.page = 1;
+
     const cleanedSearchQuery = this.removeEmptyFormFields(
       this.searchForm.value
     );
 
     this.store.dispatch(
-      TransactionActions.getTransactionsBySearch({ ...cleanedSearchQuery })
+      TransactionActions.getTransactionsBySearch({
+        ...cleanedSearchQuery,
+        page: this.page,
+        pageSize: this.pageSize,
+      })
     );
+
+    this.page++;
   }
 
   private removeEmptyFormFields(formValues: any): any {

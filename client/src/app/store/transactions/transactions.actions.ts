@@ -34,12 +34,14 @@ export const getTransactionsBySearch = createAction(
     categories?: Category[];
     date?: Date;
     categoryRadio?: 'income' | 'expense';
+    page: number;
+    pageSize: number;
   }>()
 );
 
 export const getTransactionsBySearchSuccess = createAction(
   '[Transaction] Get Transactions By Search Success',
-  props<{ searchedTransactions: Transaction[] }>()
+  props<{ searchedTransactions: any }>()
 );
 
 export const getGroupedTransactions = createAction(

@@ -9,6 +9,7 @@ export const initialTransactionsState: TransactionsState = {
   totalExpenses: 0,
   totalTransactionsInDb: 0,
   totalSavingsTransactionsInDb: 0,
+  totalSearchedTransactionsInDb: 0,
   transactions: [],
   savingsTransactions: [],
   filteredByDateTransactions: [],
@@ -58,11 +59,28 @@ export const transactionsReducer = createReducer(
       filteredByDateTransactions,
     })
   ),
+  on(TransactionsActions.getTransactionsBySearch, (state, { page }) => {
+    if (page === 1)
+      return {
+        ...state,
+        searchedTransactions: [],
+        totalSearchedTransactionsInDb: 0,
+      };
+
+    return {
+      ...state,
+    };
+  }),
   on(
     TransactionsActions.getTransactionsBySearchSuccess,
     (state, { searchedTransactions }) => ({
       ...state,
-      searchedTransactions,
+      searchedTransactions: removeDuplicatesAndSortByDate(
+        state.searchedTransactions,
+        searchedTransactions.searchedTransactions
+      ),
+      totalSearchedTransactionsInDb:
+        searchedTransactions.totalSearchedTransactionsInDb,
     })
   ),
   on(

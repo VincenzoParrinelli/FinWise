@@ -4,6 +4,7 @@ export interface TransactionsState {
   totalExpenses: number;
   totalTransactionsInDb: number;
   totalSavingsTransactionsInDb: number;
+  totalSearchedTransactionsInDb: number;
   transactions: Transaction[];
   savingsTransactions: Transaction[];
   filteredByDateTransactions: Transaction[];

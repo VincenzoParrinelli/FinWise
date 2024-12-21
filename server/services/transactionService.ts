@@ -1,5 +1,6 @@
 import Transaction, { ITransaction } from "../models/transactionModel";
 import Saving from "../models/savingModel";
+import { FilterQuery } from "mongoose";
 
 export const getTransactions = async (
   userId: string,
@@ -85,16 +86,15 @@ export const getTransactionsByDate = async (
   return filteredByDateTransactions;
 };
 
-// TODO: Add pagination
 export const getTransactionsBySearch = async (
   userId: string,
   query: any
 ): Promise<ITransaction[]> => {
-  const { search, categories, date, categoryRadio } = query;
+  const { search, categories, date, categoryRadio, page, pageSize } = query;
 
   const matchConditions = {
     userId,
-  } as any;
+  } as FilterQuery<any>;
 
   if (search) {
     matchConditions.transactionTitle = {
@@ -129,13 +129,26 @@ export const getTransactionsBySearch = async (
     matchConditions.category = { $in: categoryArray };
   }
 
-  const searchedTransactions = await Transaction.aggregate([
+  const totalSearchedTransactionsInDb = await Transaction.aggregate([
+    { $match: matchConditions },
     {
-      $match: matchConditions,
+      $group: {
+        _id: null,
+        totalSearchedTransactionsInDb: { $sum: 1 },
+      },
+    },
+    {
+      $project: { _id: 0 },
     },
   ]);
 
-  return searchedTransactions;
+  const searchedTransactions = await Transaction.find(matchConditions)
+    .sort({ date: -1, _id: -1 })
+    .skip((page - 1) * pageSize)
+    .limit(10)
+    .lean();
+
+  return { searchedTransactions, ...totalSearchedTransactionsInDb[0] };
 };
 
 export const getGroupedTransactions = async (
