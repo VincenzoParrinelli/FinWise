@@ -39,7 +39,10 @@ export class TransactionsListComponent {
     this.activatedRoute.queryParams.subscribe((params) => {
       const filter = params['filter'];
 
-      if (!filter) return;
+      if (!filter) {
+        this.filteredTransactions.set([]);
+        return;
+      }
 
       const filtered = this.transactions().filter((transaction) => {
         return (

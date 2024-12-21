@@ -8,7 +8,6 @@ import {
   selectTransactionsTotalDocuments,
 } from '../store/transactions/transactions.selectors';
 
-import { selectUserId } from '../store/user/user.selectors';
 import * as TransactionActions from '../store/transactions/transactions.actions';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
@@ -38,14 +37,13 @@ export class TransactionsComponent {
   private store = inject(Store);
   private page = 2;
   private pageSize = 10;
+  private transactionsTotalDocuments = this.store.selectSignal(
+    selectTransactionsTotalDocuments
+  );
 
   routerService = inject(RouterService);
   transactionsTotals = this.store.selectSignal(selectTransactionsTotals);
   transactions = this.store.selectSignal(selectTransactions);
-  transactionsTotalDocuments = this.store.selectSignal(
-    selectTransactionsTotalDocuments
-  );
-  userId = this.store.selectSignal(selectUserId);
   isIncomeSelected = signal<boolean>(false);
   isExpensesSelected = signal<boolean>(false);
 
