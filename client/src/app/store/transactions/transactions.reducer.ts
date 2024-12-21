@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
 import { Transaction, TransactionsState } from './transactions.model';
-import { removeDuplicatesAndSortByDate } from '../../utils/utils';
 import * as TransactionsActions from './transactions.actions';
 
 export const initialTransactionsState: TransactionsState = {
@@ -31,10 +30,10 @@ export const transactionsReducer = createReducer(
           ...state,
           totalSavingsTransactionsInDb:
             transactionsWithTotals.totalSavingsTransactionsInDb || 0,
-          savingsTransactions: removeDuplicatesAndSortByDate(
-            state.savingsTransactions,
-            transactionsWithTotals.transactions
-          ),
+          savingsTransactions: [
+            ...state.savingsTransactions,
+            ...transactionsWithTotals.transactions,
+          ],
         };
       }
 
@@ -45,10 +44,10 @@ export const transactionsReducer = createReducer(
         totalExpenses: transactionsWithTotals.totalExpenses || 0,
         totalTransactionsInDb:
           transactionsWithTotals.totalTransactionsInDb || 0,
-        transactions: removeDuplicatesAndSortByDate(
-          state.transactions,
-          transactionsWithTotals.transactions
-        ),
+        transactions: [
+          ...state.transactions,
+          ...transactionsWithTotals.transactions,
+        ],
       };
     }
   ),
@@ -75,10 +74,11 @@ export const transactionsReducer = createReducer(
     TransactionsActions.getTransactionsBySearchSuccess,
     (state, { searchedTransactions }) => ({
       ...state,
-      searchedTransactions: removeDuplicatesAndSortByDate(
-        state.searchedTransactions,
-        searchedTransactions.searchedTransactions
-      ),
+      searchedTransactions: [
+        ...state.searchedTransactions,
+        ...searchedTransactions.searchedTransactions,
+      ],
+
       totalSearchedTransactionsInDb:
         searchedTransactions.totalSearchedTransactionsInDb,
     })
