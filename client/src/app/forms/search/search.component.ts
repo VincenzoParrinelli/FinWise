@@ -89,14 +89,16 @@ export class SearchComponent {
       return;
     }
 
-    const cleanedSearchQuery = this.cleanFormValues(this.searchForm.value);
+    const cleanedSearchQuery = this.removeEmptyFormFields(
+      this.searchForm.value
+    );
 
     this.store.dispatch(
       TransactionActions.getTransactionsBySearch({ ...cleanedSearchQuery })
     );
   }
 
-  private cleanFormValues(formValues: any): any {
+  private removeEmptyFormFields(formValues: any): any {
     const cleanedValues: any = {};
 
     for (const key in formValues) {

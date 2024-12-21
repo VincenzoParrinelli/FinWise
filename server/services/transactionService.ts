@@ -117,7 +117,7 @@ export const getTransactionsBySearch = async (
   }
 
   if (categoryRadio) {
-    if (categoryRadio === "income" && !categories.length) {
+    if (categoryRadio === "income" && !categories?.length) {
       matchConditions.category = "Salary";
     } else if (categoryRadio === "expense") {
       matchConditions.category = { $ne: "Salary" };
