@@ -51,7 +51,7 @@ export const getTransactions = async (
   const transactions = await Transaction.find(
     savingId ? { savingId } : { userId }
   )
-    .sort({ date: -1 })
+    .sort({ date: -1, _id: -1 })
     .skip((page - 1) * pageSize)
     .limit(10)
     .lean();
@@ -78,7 +78,7 @@ export const getTransactionsByDate = async (
       $lte: endOfTheDay,
     },
   })
-    .sort({ date: -1 })
+    .sort({ date: -1, _id: -1 })
     .skip((page - 1) * pageSize)
     .limit(10)
     .lean();
