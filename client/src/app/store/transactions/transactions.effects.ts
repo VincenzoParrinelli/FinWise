@@ -75,7 +75,30 @@ export class TransactionsEffects {
     )
   );
 
-  getPaginatedTransactionsByDate = createEffect(() =>
+  getRandomTransaction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TransactionsActions.getRandomGroupedTransaction),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(() =>
+        this.http.get<Transaction>(`${this.apiUrl}/transactions/random`).pipe(
+          map((randomGroupedTransaction) =>
+            TransactionsActions.getRandomGroupedTransactionSuccess({
+              randomGroupedTransaction,
+            })
+          ),
+          tap(() =>
+            this.store.dispatch(AppActions.setLoading({ loading: false }))
+          ),
+          catchError((error) => {
+            this.store.dispatch(AppActions.setLoading({ loading: false }));
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+
+  getPaginatedTransactionsByDate$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionsActions.getTransactionsByDate),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
@@ -100,7 +123,7 @@ export class TransactionsEffects {
     )
   );
 
-  getTransactionsBySearch = createEffect(() =>
+  getTransactionsBySearch$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionsActions.getTransactionsBySearch),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
@@ -141,7 +164,7 @@ export class TransactionsEffects {
     )
   );
 
-  getGroupedTransactions = createEffect(() =>
+  getGroupedTransactions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionsActions.getGroupedTransactions),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),

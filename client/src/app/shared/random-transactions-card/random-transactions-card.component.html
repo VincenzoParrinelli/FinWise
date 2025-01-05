@@ -1,28 +1,51 @@
 <div
-  class="flex items-center justify-between rounded-3xl py-1.5 bg-caribbean-green text-main-layout"
+  class="flex items-center rounded-3xl py-1.5 bg-caribbean-green text-main-layout"
 >
   <app-progress-circle [randomSaving]="randomSaving()" />
 
   <div class="border-l-2 h-24"></div>
 
-  <div class="flex flex-col justify-between p-4 leading-4">
+  <div class="flex flex-col justify-between p-2.5 leading-4">
     <div class="flex items-center">
-      <app-money strokeColor="stroke-main-layout" />
-
-      <div class="flex flex-col items-start ml-3">
+      @for (category of categories; track $index) {
+        @if (randomGroupedTransaction()?.category === category.name) {
+          <ng-container
+            *ngComponentOutlet="
+              category.svgComponent;
+              injector: injectSvgProps()
+            "
+          >
+          </ng-container>
+        }
+      }
+      <div class="flex flex-col items-start">
         <span class="text-sm">Revenue last week</span>
         <span class="font-extrabold">$4.000.00</span>
       </div>
     </div>
 
-    <hr class="w-40 bg-white my-2.5" />
+    <hr class="w-40 bg-white my-1" />
 
     <div class="flex items-center">
-      <app-silverware />
-
-      <div class="flex flex-col items-start ml-3">
-        <span class="text-sm">Food Last Week</span>
-        <span class="font-extrabold text-ocean-blue">-$100.00</span>
+      @for (category of categories; track $index) {
+        @if (randomGroupedTransaction()?.category === category.name) {
+          <ng-container
+            *ngComponentOutlet="
+              category.svgComponent;
+              injector: injectSvgProps()
+            "
+          >
+          </ng-container>
+        }
+      }
+      <div class="flex flex-col items-start text-ellipsis">
+        <span class="text-sm text-left whitespace-nowrap"
+          >{{ randomGroupedTransaction()?.category }} Last Week</span
+        >
+        <span class="font-extrabold text-ocean-blue">{{
+          randomGroupedTransaction()?.amount
+            | currency: "EUR" : "symbol" : "1.0-2"
+        }}</span>
       </div>
     </div>
   </div>

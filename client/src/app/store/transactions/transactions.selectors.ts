@@ -9,6 +9,11 @@ export const selectTransactions = createSelector(
   (state: TransactionsState) => state.transactions
 );
 
+export const selectRandomGroupedTransaction = createSelector(
+  selectTransactionsState,
+  (state: TransactionsState) => state.randomGroupedTransaction
+);
+
 export const selectFilteredByDateTransactions = createSelector(
   selectTransactionsState,
   (state: TransactionsState) => state.filteredByDateTransactions

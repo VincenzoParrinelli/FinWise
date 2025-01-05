@@ -59,6 +59,43 @@ export const getTransactions = async (
   return { transactions, ...totals[0] };
 };
 
+export const getRandomGroupedTransaction = async (
+  userId: string
+): Promise<ITransaction[]> => {
+  const startOfWeek = new Date();
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 1);
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const startOfLastWeek = new Date(startOfWeek);
+  startOfLastWeek.setDate(startOfWeek.getDate() - 14);
+
+  const endOfWeek = new Date(startOfLastWeek);
+  endOfWeek.setDate(startOfLastWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+
+  const randomGroupedTransaction = await Transaction.aggregate([
+    {
+      $match: { userId, date: { $gte: startOfLastWeek, $lte: endOfWeek } },
+    },
+    {
+      $group: {
+        _id: "$category",
+        amount: { $sum: "$amount" },
+      },
+    },
+    { $sample: { size: 1 } },
+    {
+      $project: {
+        category: "$_id",
+        amount: 1,
+        _id: 0,
+      },
+    },
+  ]);
+
+  return randomGroupedTransaction[0];
+};
+
 export const getTransactionsByDate = async (
   userId: string,
   date: Date,

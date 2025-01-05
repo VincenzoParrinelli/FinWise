@@ -10,6 +10,7 @@ export const initialTransactionsState: TransactionsState = {
   totalSavingsTransactionsInDb: 0,
   totalSearchedTransactionsInDb: 0,
   transactions: [],
+  randomGroupedTransaction: null,
   savingsTransactions: [],
   filteredByDateTransactions: [],
   searchedTransactions: [],
@@ -50,6 +51,13 @@ export const transactionsReducer = createReducer(
         ],
       };
     }
+  ),
+  on(
+    TransactionsActions.getRandomGroupedTransactionSuccess,
+    (state, { randomGroupedTransaction }) => ({
+      ...state,
+      randomGroupedTransaction,
+    })
   ),
   on(
     TransactionsActions.getTransactionsByDateSuccess,

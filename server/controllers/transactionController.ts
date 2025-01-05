@@ -26,6 +26,23 @@ export const getTransactions = async (
   }
 };
 
+export const getRandomGroupedTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = res.locals.user._id.toString();
+
+  try {
+    const randomGroupedTransaction =
+      await transactionService.getRandomGroupedTransaction(userId);
+
+    res.status(200).json(randomGroupedTransaction);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getTransactionsByDate = async (
   req: Request,
   res: Response,

@@ -6,6 +6,7 @@ export interface TransactionsState {
   totalSavingsTransactionsInDb: number;
   totalSearchedTransactionsInDb: number;
   transactions: Transaction[];
+  randomGroupedTransaction: Transaction | null;
   savingsTransactions: Transaction[];
   filteredByDateTransactions: Transaction[];
   searchedTransactions: Transaction[];
