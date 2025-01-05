@@ -1,6 +1,7 @@
 export interface SavingsState {
   totalDocuments: number;
   savings: Saving[];
+  randomSaving: Saving | null;
 }
 
 export interface Saving {

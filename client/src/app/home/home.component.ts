@@ -5,13 +5,12 @@ import { Store } from '@ngrx/store';
 import { selectUserState } from '../store/user/user.selectors';
 import { selectTransactions } from '../store/transactions/transactions.selectors';
 
+import { BellComponent } from '../svg/bell/bell.component';
+
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
 import { TotalCountersComponent } from '../shared/total-counters/total-counters.component';
-import { BellComponent } from '../svg/bell/bell.component';
-import { MoneyComponent } from '../svg/money/money.component';
-import { SilverwareComponent } from '../svg/silverware/silverware.component';
-import { CarComponent } from '../svg/car/car.component';
+import { RandomTransactionsCardComponent } from '../shared/random-transactions-card/random-transactions-card.component';
 
 @Component({
   selector: 'app-home',
@@ -19,11 +18,9 @@ import { CarComponent } from '../svg/car/car.component';
   imports: [
     MainLayoutComponent,
     BellComponent,
-    MoneyComponent,
-    SilverwareComponent,
-    CarComponent,
     TransactionsListComponent,
     TotalCountersComponent,
+    RandomTransactionsCardComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

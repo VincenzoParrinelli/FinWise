@@ -16,6 +16,13 @@ export const getSavingsSuccess = createAction(
   props<{ savingsWithTotals: SavingsState }>()
 );
 
+export const getRandomSaving = createAction('[Saving] Get Random Saving');
+
+export const getRandomSavingSuccess = createAction(
+  '[Saving] Get Random Saving Success',
+  props<{ randomSaving: Saving }>()
+);
+
 export const createSaving = createAction(
   '[Saving] Create Saving',
   props<{ saving: NewSavingFormData }>()

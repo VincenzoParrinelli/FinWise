@@ -73,6 +73,27 @@ export class SavingsEffects {
     )
   );
 
+  getRandomSaving$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SavingsActions.getRandomSaving),
+      tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
+      mergeMap(() =>
+        this.http.get<Saving>(`${this.apiUrl}/savings/random`).pipe(
+          map((randomSaving) =>
+            SavingsActions.getRandomSavingSuccess({ randomSaving })
+          ),
+          tap(() =>
+            this.store.dispatch(AppActions.setLoading({ loading: false }))
+          ),
+          catchError((error) => {
+            this.store.dispatch(AppActions.setLoading({ loading: false }));
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+
   createSaving$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SavingsActions.createSaving),

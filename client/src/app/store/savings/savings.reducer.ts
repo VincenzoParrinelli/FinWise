@@ -5,6 +5,7 @@ import * as SavingsActions from './savings.actions';
 export const initialSavingsState: SavingsState = {
   totalDocuments: 0,
   savings: [],
+  randomSaving: null,
 };
 
 export const savingsReducer = createReducer(
@@ -21,6 +22,10 @@ export const savingsReducer = createReducer(
     savings: [...state.savings, saving].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     ),
+  })),
+  on(SavingsActions.getRandomSavingSuccess, (state, { randomSaving }) => ({
+    ...state,
+    randomSaving,
   })),
   on(
     SavingsActions.updateSavingSuccess,

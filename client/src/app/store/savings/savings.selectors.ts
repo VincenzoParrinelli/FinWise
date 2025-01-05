@@ -9,6 +9,11 @@ export const selectSavings = createSelector(
   (state: SavingsState) => state.savings
 );
 
+export const selectRandomSaving = createSelector(
+  selectSavingsState,
+  (state: SavingsState) => state.randomSaving
+);
+
 export const selectSavingsTotalDocuments = createSelector(
   selectSavingsState,
   (state: SavingsState) => state.totalDocuments

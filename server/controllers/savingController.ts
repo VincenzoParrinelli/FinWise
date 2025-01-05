@@ -22,6 +22,22 @@ export const getSavings = async (
   }
 };
 
+export const getRandomSaving = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = res.locals.user._id.toString();
+
+  try {
+    const randomSaving = await savingService.getRandomSaving(userId);
+
+    res.status(200).json(randomSaving);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createSaving = async (
   req: Request,
   res: Response,

@@ -30,6 +30,17 @@ export const getSavings = async (
   return { savings, ...totals[0] };
 };
 
+export const getRandomSaving = async (
+  userId: string
+): Promise<ISaving[] | null> => {
+  const randomSaving = await Saving.aggregate([
+    { $match: { userId } },
+    { $sample: { size: 1 } },
+  ]);
+
+  return randomSaving.length ? randomSaving[0] : null;
+};
+
 export const createSaving = async (
   saving: ISaving,
   userId: string

@@ -1,0 +1,29 @@
+<div
+  class="flex items-center justify-between rounded-3xl py-1.5 bg-caribbean-green text-main-layout"
+>
+  <app-progress-circle [randomSaving]="randomSaving()" />
+
+  <div class="border-l-2 h-24"></div>
+
+  <div class="flex flex-col justify-between p-4 leading-4">
+    <div class="flex items-center">
+      <app-money strokeColor="stroke-main-layout" />
+
+      <div class="flex flex-col items-start ml-3">
+        <span class="text-sm">Revenue last week</span>
+        <span class="font-extrabold">$4.000.00</span>
+      </div>
+    </div>
+
+    <hr class="w-40 bg-white my-2.5" />
+
+    <div class="flex items-center">
+      <app-silverware />
+
+      <div class="flex flex-col items-start ml-3">
+        <span class="text-sm">Food Last Week</span>
+        <span class="font-extrabold text-ocean-blue">-$100.00</span>
+      </div>
+    </div>
+  </div>
+</div>
