@@ -126,17 +126,16 @@ export class AnalysisComponent implements OnInit {
     const totalExpenses = new Array(this.chartLabels.length).fill(0);
 
     this.groupedTransactions()?.forEach((t: any) => {
-      const currYear = new Date().getFullYear();
       let index: number;
 
       if (t.dayOfWeek) {
         index = t.dayOfWeek - 1;
       } else if (t.month) {
-        index = t.month - 6;
+        index = t.month - 7;
       } else if (t.weekOfMonth) {
         index = t.weekOfMonth - 1;
       } else if (t.year) {
-        index = currYear - t.year + 5;
+        index = this.chartLabels().indexOf(t.year.toString());
       } else {
         index = -1;
       }

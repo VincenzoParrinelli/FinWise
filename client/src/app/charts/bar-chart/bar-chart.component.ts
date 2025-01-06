@@ -31,14 +31,21 @@ import { SearchComponent } from '../../svg/search/search.component';
 })
 export class BarChartComponent {
   private store = inject(Store);
-  routerService = inject(RouterService);
 
+  routerService = inject(RouterService);
   loading = this.store.selectSignal(selectLoading);
   chartLabels = input<any[]>([]);
   totalIncome = input<any[]>([]);
   totalExpenses = input<any[]>([]);
 
   chartType = signal<keyof ChartTypeRegistry>('bar');
+
+  get maxIncomeOrExpense() {
+    return Math.max(
+      ...this.totalIncome().filter((income) => income),
+      ...this.totalExpenses().filter((expense) => expense)
+    );
+  }
 
   chartData = computed<ChartData>(() => {
     return {
@@ -58,68 +65,74 @@ export class BarChartComponent {
     };
   });
 
-  chartOptions = signal<ChartOptions>({
-    responsive: true,
-    maintainAspectRatio: false,
-    layout: {
-      padding: {
-        top: 40,
-        bottom: 55,
-        left: 20,
-        right: 35,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: '#093030',
-          autoSkip: false,
-          maxRotation: 0,
-          minRotation: 0,
+  chartOptions = computed<ChartOptions>(() => {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          top: 40,
+          bottom: 55,
+          left: 20,
+          right: 35,
         },
       },
-      y: {
-        grid: {
-          color: (context: ScriptableScaleContext) => {
-            return context.tick.value === 0 ? '#0E3E3E' : '#6DB6FE';
+      scales: {
+        x: {
+          grid: {
+            display: false,
           },
-          tickBorderDash: (context: ScriptableScaleContext) => {
-            return context.tick.value === 0 ? [] : [2, 2];
-          },
-        },
-        ticks: {
-          color: '#0068FF',
-
-          callback: (value) => {
-            const numValue = Number(value);
-
-            if (numValue === 0) return '';
-
-            if (numValue >= 1000) {
-              return numValue / 1000 + 'k';
-            }
-
-            return numValue;
+          ticks: {
+            color: '#093030',
+            autoSkip: false,
+            maxRotation: 0,
+            minRotation: 0,
           },
         },
-        border: {
-          display: false,
-          dash: (context: ScriptableScaleContext) => {
-            return context.tick.value === 0 ? [] : [2, 2];
+        y: {
+          type: this.maxIncomeOrExpense > 100 ? 'logarithmic' : 'linear',
+
+          suggestedMin: 1,
+          suggestedMax: this.maxIncomeOrExpense,
+
+          grid: {
+            color: (context: ScriptableScaleContext) => {
+              return context.tick.value === 0 ? '#0E3E3E' : '#6DB6FE';
+            },
+            tickBorderDash: (context: ScriptableScaleContext) => {
+              return context.tick.value === 0 ? [] : [2, 2];
+            },
+          },
+          ticks: {
+            color: '#0068FF',
+
+            callback: (value) => {
+              const numValue = Number(value);
+
+              if (numValue === 0) return '';
+
+              if (numValue >= 1000000) return numValue / 1000000 + 'm';
+
+              if (numValue >= 1000) return numValue / 1000 + 'k';
+
+              return numValue;
+            },
+          },
+          border: {
+            display: false,
+            dash: (context: ScriptableScaleContext) => {
+              return context.tick.value === 0 ? [] : [2, 2];
+            },
           },
         },
-        beginAtZero: true,
       },
-    },
-    datasets: {
-      bar: {
-        borderRadius: 50,
-        categoryPercentage: 0.5,
-        barPercentage: 0.4,
+      datasets: {
+        bar: {
+          borderRadius: 50,
+          categoryPercentage: 0.5,
+          barPercentage: 0.4,
+        },
       },
-    },
+    };
   });
 }
