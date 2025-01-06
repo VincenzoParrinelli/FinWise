@@ -17,13 +17,13 @@ export const getTransactionsWithTotalsSuccess = createAction(
   props<{ transactionsWithTotals: TransactionsState; savingId?: string }>()
 );
 
-export const getRandomGroupedTransaction = createAction(
-  '[Transaction] Get Random Grouped Transaction'
+export const getRandomGroupedTransactions = createAction(
+  '[Transaction] Get Random Grouped Transactions'
 );
 
-export const getRandomGroupedTransactionSuccess = createAction(
+export const getRandomGroupedTransactionsSuccess = createAction(
   '[Transaction] Get Random Grouped Transaction Success',
-  props<{ randomGroupedTransaction: Transaction }>()
+  props<{ randomGroupedTransactions: Transaction[] }>()
 );
 
 export const getTransactionsByDate = createAction(

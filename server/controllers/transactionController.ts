@@ -26,7 +26,7 @@ export const getTransactions = async (
   }
 };
 
-export const getRandomGroupedTransaction = async (
+export const getRandomGroupedTransactions = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -34,10 +34,10 @@ export const getRandomGroupedTransaction = async (
   const userId = res.locals.user._id.toString();
 
   try {
-    const randomGroupedTransaction =
-      await transactionService.getRandomGroupedTransaction(userId);
+    const randomGroupedTransactions =
+      await transactionService.getRandomGroupedTransactions(userId);
 
-    res.status(200).json(randomGroupedTransaction);
+    res.status(200).json(randomGroupedTransactions);
   } catch (err) {
     next(err);
   }

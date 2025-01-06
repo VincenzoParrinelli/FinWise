@@ -75,15 +75,15 @@ export class TransactionsEffects {
     )
   );
 
-  getRandomTransaction$ = createEffect(() =>
+  getRandomGroupedTransactions$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TransactionsActions.getRandomGroupedTransaction),
+      ofType(TransactionsActions.getRandomGroupedTransactions),
       tap(() => this.store.dispatch(AppActions.setLoading({ loading: true }))),
       mergeMap(() =>
-        this.http.get<Transaction>(`${this.apiUrl}/transactions/random`).pipe(
-          map((randomGroupedTransaction) =>
-            TransactionsActions.getRandomGroupedTransactionSuccess({
-              randomGroupedTransaction,
+        this.http.get<Transaction[]>(`${this.apiUrl}/transactions/random`).pipe(
+          map((randomGroupedTransactions) =>
+            TransactionsActions.getRandomGroupedTransactionsSuccess({
+              randomGroupedTransactions,
             })
           ),
           tap(() =>

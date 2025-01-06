@@ -6,47 +6,76 @@
   <div class="border-l-2 h-24"></div>
 
   <div class="flex flex-col justify-between p-2.5 leading-4">
-    <div class="flex items-center">
-      @for (category of categories; track $index) {
-        @if (randomGroupedTransaction()?.category === category.name) {
-          <ng-container
-            *ngComponentOutlet="
-              category.svgComponent;
-              injector: injectSvgProps()
-            "
-          >
-          </ng-container>
+    @if (firstGroupedTransaction) {
+      <div class="flex items-center h-12">
+        @for (category of categories; track $index) {
+          @if (firstGroupedTransaction.category === category.name) {
+            <ng-container
+              *ngComponentOutlet="
+                category.svgComponent;
+                injector: injectSvgProps()
+              "
+            >
+            </ng-container>
+          }
         }
-      }
-      <div class="flex flex-col items-start">
-        <span class="text-sm">Revenue last week</span>
-        <span class="font-extrabold">$4.000.00</span>
+        <div class="flex flex-col items-start text-ellipsis">
+          <span class="text-sm text-left whitespace-nowrap"
+            >{{ firstGroupedTransaction.category }} Last Week</span
+          >
+          <span
+            class="font-extrabold"
+            [class.text-ocean-blue]="
+              isCategorySalary(firstGroupedTransaction.category)
+            "
+            >{{
+              firstGroupedTransaction.amount
+                | currency: "EUR" : "symbol" : "1.0-2"
+            }}</span
+          >
+        </div>
       </div>
-    </div>
+    } @else {
+      <div class="flex justify-center items-center h-12">
+        <span class="text-sm">No transaction found</span>
+      </div>
+    }
 
     <hr class="w-40 bg-white my-1" />
 
-    <div class="flex items-center">
-      @for (category of categories; track $index) {
-        @if (randomGroupedTransaction()?.category === category.name) {
-          <ng-container
-            *ngComponentOutlet="
-              category.svgComponent;
-              injector: injectSvgProps()
-            "
-          >
-          </ng-container>
+    @if (secondGroupedTransaction) {
+      <div class="flex items-center h-12">
+        @for (category of categories; track $index) {
+          @if (secondGroupedTransaction.category === category.name) {
+            <ng-container
+              *ngComponentOutlet="
+                category.svgComponent;
+                injector: injectSvgProps()
+              "
+            >
+            </ng-container>
+          }
         }
-      }
-      <div class="flex flex-col items-start text-ellipsis">
-        <span class="text-sm text-left whitespace-nowrap"
-          >{{ randomGroupedTransaction()?.category }} Last Week</span
-        >
-        <span class="font-extrabold text-ocean-blue">{{
-          randomGroupedTransaction()?.amount
-            | currency: "EUR" : "symbol" : "1.0-2"
-        }}</span>
+        <div class="flex flex-col items-start text-ellipsis">
+          <span class="text-sm text-left whitespace-nowrap"
+            >{{ secondGroupedTransaction.category }} Last Week</span
+          >
+          <span
+            class="font-extrabold"
+            [class.text-ocean-blue]="
+              isCategorySalary(secondGroupedTransaction.category)
+            "
+            >{{
+              secondGroupedTransaction.amount
+                | currency: "EUR" : "symbol" : "1.0-2"
+            }}</span
+          >
+        </div>
       </div>
-    </div>
+    } @else {
+      <div class="flex justify-center items-center h-12">
+        <span class="text-sm">No transaction found</span>
+      </div>
+    }
   </div>
 </div>
