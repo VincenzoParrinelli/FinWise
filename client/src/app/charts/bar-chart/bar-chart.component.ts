@@ -90,7 +90,7 @@ export class BarChartComponent {
           },
         },
         y: {
-          type: this.maxIncomeOrExpense > 100 ? 'logarithmic' : 'linear',
+          type: this.maxIncomeOrExpense > 1000 ? 'logarithmic' : 'linear',
 
           suggestedMin: 1,
           suggestedMax: this.maxIncomeOrExpense,

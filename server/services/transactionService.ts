@@ -258,7 +258,7 @@ const getDailyTransactions = async (userId: string): Promise<any[]> => {
         userId,
         date: {
           $gte: startOfWeek,
-          $lt: endOfWeek,
+          $lte: endOfWeek,
         },
       },
     },
