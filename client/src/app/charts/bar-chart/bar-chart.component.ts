@@ -47,6 +47,10 @@ export class BarChartComponent {
     );
   }
 
+  isFirstValue(context: ScriptableScaleContext) {
+    return context.tick.value === 0 || context.tick.value === 1;
+  }
+
   chartData = computed<ChartData>(() => {
     return {
       labels: this.chartLabels(),
@@ -97,10 +101,10 @@ export class BarChartComponent {
 
           grid: {
             color: (context: ScriptableScaleContext) => {
-              return context.tick.value === 0 ? '#0E3E3E' : '#6DB6FE';
+              return this.isFirstValue(context) ? '#0E3E3E' : '#6DB6FE';
             },
             tickBorderDash: (context: ScriptableScaleContext) => {
-              return context.tick.value === 0 ? [] : [2, 2];
+              return this.isFirstValue(context) ? [] : [2, 2];
             },
           },
           ticks: {
@@ -109,7 +113,7 @@ export class BarChartComponent {
             callback: (value) => {
               const numValue = Number(value);
 
-              if (numValue === 0) return '';
+              if (numValue === 0 || numValue === 1) return '';
 
               if (numValue >= 1000000) return numValue / 1000000 + 'm';
 
@@ -121,7 +125,7 @@ export class BarChartComponent {
           border: {
             display: false,
             dash: (context: ScriptableScaleContext) => {
-              return context.tick.value === 0 ? [] : [2, 2];
+              return this.isFirstValue(context) ? [] : [2, 2];
             },
           },
         },
