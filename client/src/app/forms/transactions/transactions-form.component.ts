@@ -137,7 +137,10 @@ export class TransactionsFormComponent {
 
     if (!amountControl?.value) return;
 
-    amountControl.setValue(amountControl.value.replace(/[-]/g, ''));
+    amountControl.setValue(amountControl.value.replace(/[^0-9.\s]/g, ''));
+
+    if (!amountControl.value) return;
+
     const fixedValue = parseFloat(amountControl.value).toFixed(2);
 
     if (categoryControl?.value === 'Salary' || this.selectedSaving) {
