@@ -344,14 +344,12 @@ const getWeeklyTransactions = async (userId: string): Promise<any[]> => {
 
 const getMonthlyTransactions = async (userId: string): Promise<any[]> => {
   const currDate = new Date();
-  const endOfMonth = new Date(currDate);
-  endOfMonth.setDate(1);
-  endOfMonth.setHours(23, 59, 59, 999);
 
-  const startOfLast7Months = new Date(currDate);
-  startOfLast7Months.setMonth(currDate.getMonth() - 7);
-  startOfLast7Months.setDate(1);
-  startOfLast7Months.setHours(0, 0, 0, 0);
+  const startOfLast7Months = new Date(
+    currDate.getFullYear(),
+    currDate.getMonth() - 7
+  );
+  const endOfMonth = new Date(currDate.getFullYear(), currDate.getMonth() + 1);
 
   const monthlyTransactions = await Transaction.aggregate([
     {
@@ -366,11 +364,12 @@ const getMonthlyTransactions = async (userId: string): Promise<any[]> => {
     {
       $addFields: {
         month: { $month: "$date" },
+        year: { $year: "$date" },
       },
     },
     {
       $group: {
-        _id: "$month",
+        _id: { month: "$month", year: "$year" },
         totalIncome: {
           $sum: { $cond: [{ $gt: ["$amount", 0] }, "$amount", 0] },
         },
@@ -381,14 +380,15 @@ const getMonthlyTransactions = async (userId: string): Promise<any[]> => {
     },
     {
       $project: {
-        month: "$_id",
+        month: "$_id.month",
+        year: "$_id.year",
         totalIncome: 1,
         totalExpenses: 1,
         _id: 0,
       },
     },
     {
-      $sort: { month: 1 },
+      $sort: { year: 1, month: 1 },
     },
   ]);
 

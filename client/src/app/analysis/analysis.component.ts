@@ -131,7 +131,7 @@ export class AnalysisComponent implements OnInit {
       if (t.dayOfWeek) {
         index = t.dayOfWeek - 1;
       } else if (t.month) {
-        index = t.month - 7;
+        index = Math.abs(t.month - 7);
       } else if (t.weekOfMonth) {
         index = t.weekOfMonth - 1;
       } else if (t.year) {
