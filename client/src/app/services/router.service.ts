@@ -1,10 +1,13 @@
 import { DestroyRef, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+
+import { BehaviorSubject } from 'rxjs';
 
 import { Transaction } from '../store/transactions/transactions.model';
 import { Saving } from '../store/savings/savings.model';
 
+// TODO: use a single method when navigating to routes
 export class RouterService {
   private location = inject(Location);
   private destroyRef = inject(DestroyRef);
@@ -15,10 +18,16 @@ export class RouterService {
     '/signup',
     '/home',
   ];
+  private currUrlSubject = new BehaviorSubject<string>('');
 
+  currUrl$ = this.currUrlSubject.asObservable();
   router = inject(Router);
   showNaw = signal<boolean>(true);
   showBackArrow = signal<boolean>(false);
+
+  navigateTo(route: string) {
+    this.router.navigate([route]);
+  }
 
   navigateBack() {
     this.location.back();
@@ -111,8 +120,10 @@ export class RouterService {
   }
 
   subscribeEvents() {
-    const subscription = this.router.events.subscribe((event) => {
+    const eventsSubscription = this.router.events.subscribe((event) => {
       if (!event) return;
+
+      if (event instanceof NavigationEnd) this.currUrlSubject.next(event.url);
 
       this.showNaw.set(!this.hideNavRoutes.includes(this.router.url));
       this.showBackArrow.set(
@@ -120,6 +131,6 @@ export class RouterService {
       );
     });
 
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    this.destroyRef.onDestroy(() => eventsSubscription.unsubscribe());
   }
 }

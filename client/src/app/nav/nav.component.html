@@ -2,49 +2,38 @@
   <nav class="w-full p-8 bg-cyprus absolute -bottom-7 u-nav-border-radius z-50">
     <div class="flex justify-evenly w-full items-center -translate-y-3">
       <app-svg-home
-        [strokeColor]="
-          selectedSvg() === 0 ? 'stroke-fence-green' : 'stroke-light-green'
-        "
+        [strokeColor]="getSvgStrokeColor(0)"
         class="px-3.5 rounded-2xl"
-        [class.bg-caribbean-green]="selectedSvg() === 0"
-        (click)="selectedSvg.set(0)"
-        (click)="routerService.navigateToHome()"
+        [class.bg-caribbean-green]="isSvgSelected(0)"
+        (click)="onSvgClick(0, 'home')"
       />
+
       <app-svg-analysis
-        [strokeColor]="
-          selectedSvg() === 1 ? 'stroke-fence-green' : 'stroke-light-green'
-        "
+        [strokeColor]="getSvgStrokeColor(1)"
         class="px-3.5 rounded-2xl"
-        [class.bg-caribbean-green]="selectedSvg() === 1"
-        (click)="selectedSvg.set(1)"
-        (click)="routerService.navigateToAnalysis()"
+        [class.bg-caribbean-green]="isSvgSelected(1)"
+        (click)="onSvgClick(1, 'analysis')"
       />
+
       <app-svg-transaction
-        [strokeColor]="
-          selectedSvg() === 2 ? 'stroke-fence-green' : 'stroke-light-green'
-        "
+        [strokeColor]="getSvgStrokeColor(2)"
         class="px-3.5 rounded-2xl"
-        [class.bg-caribbean-green]="selectedSvg() === 2"
-        (click)="selectedSvg.set(2)"
-        (click)="routerService.navigateToTransactions()"
+        [class.bg-caribbean-green]="isSvgSelected(2)"
+        (click)="onSvgClick(2, 'transactions')"
       />
+
       <app-svg-category
-        [strokeColor]="
-          selectedSvg() === 3 ? 'stroke-fence-green' : 'stroke-light-green'
-        "
+        [strokeColor]="getSvgStrokeColor(3)"
         class="px-3.5 rounded-2xl"
-        [class.bg-caribbean-green]="selectedSvg() === 3"
-        (click)="selectedSvg.set(3)"
-        (click)="routerService.navigateToSavings()"
+        [class.bg-caribbean-green]="isSvgSelected(3)"
+        (click)="onSvgClick(3, 'savings')"
       />
+
       <app-svg-profile
-        [strokeColor]="
-          selectedSvg() === 4 ? 'stroke-fence-green' : 'stroke-light-green'
-        "
+        [strokeColor]="getSvgStrokeColor(4)"
         class="px-3.5 rounded-2xl"
-        [class.bg-caribbean-green]="selectedSvg() === 4"
-        (click)="selectedSvg.set(4)"
-        (click)="routerService.navigateToSettings()"
+        [class.bg-caribbean-green]="isSvgSelected(4)"
+        (click)="onSvgClick(4, 'settings')"
       />
     </div>
   </nav>
