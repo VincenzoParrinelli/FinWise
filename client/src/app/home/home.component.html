@@ -14,11 +14,15 @@
 
   <div
     ngProjectAs="bottom-content"
-    [class.mb-24]="transactions().length"
+    [class.mb-24]="firstFiveTransactions.length"
     class="mt-6 mx-6 w-80 overflow-x-hidden max-h-screen"
   >
     <app-random-transactions-card />
 
-    <app-transactions-list />
+    <app-transactions-list [transactions]="firstFiveTransactions" />
+
+    <p class="-translate-y-20" (click)="routerService.navigateToTransactions()">
+      Show more
+    </p>
   </div>
 </app-main-layout>

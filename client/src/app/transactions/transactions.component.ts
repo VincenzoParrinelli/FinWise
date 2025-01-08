@@ -36,7 +36,7 @@ import { RouterService } from '../services/router.service';
 export class TransactionsComponent {
   private store = inject(Store);
   private page = 2;
-  private pageSize = 10;
+  private pageSize = 5;
   private transactionsTotalDocuments = this.store.selectSignal(
     selectTransactionsTotalDocuments
   );

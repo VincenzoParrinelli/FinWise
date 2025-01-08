@@ -53,7 +53,7 @@ export const getTransactions = async (
   )
     .sort({ date: -1, _id: -1 })
     .skip((page - 1) * pageSize)
-    .limit(10)
+    .limit(pageSize)
     .lean();
 
   return { transactions, ...totals[0] };

@@ -10,7 +10,7 @@ export const getTransactions = async (
   const userId = res.locals.user._id.toString();
   const savingId = req.query.savingId as string;
   const page = parseInt(req.query.page as string) || 1;
-  const pageSize = parseInt(req.query.pageSize as string) || 10;
+  const pageSize = parseInt(req.query.pageSize as string) || 5;
 
   try {
     const transactions = await transactionService.getTransactions(
