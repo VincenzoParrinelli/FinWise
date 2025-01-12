@@ -39,6 +39,7 @@ export class TransactionsViewComponent {
   private store = inject(Store<TransactionsState>);
   private router = inject(Router);
   private injector = inject(Injector);
+
   categoryService = inject(CategoryService);
   routerService = inject(RouterService);
   categories = this.categoryService.getAllCategories;

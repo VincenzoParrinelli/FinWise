@@ -61,6 +61,8 @@ export class SavingsViewComponent implements OnInit {
   );
 
   ngOnInit() {
+    if (this.savingsTransactions().length) return;
+
     this.store.dispatch(
       TransactionsActions.getTransactionsWithTotals({
         page: this.page,
