@@ -17,17 +17,20 @@
         </span>
       </div>
 
-      @for (category of categories; track $index) {
-        @if (saving.category === category.name) {
-          <ng-container
-            *ngComponentOutlet="
-              category.svgComponent;
-              injector: injectSvgProps()
-            "
-          >
-          </ng-container>
-        }
-      }
+      <div
+        class="flex flex-col bg-light-blue u-border-radius-3.5xl px-1.5 py-3"
+      >
+        <app-progress-circle
+          [classNames]="'-translate-y-2'"
+          [width]="65"
+          [height]="65"
+          [radius]="38"
+          [stroke]="'#F1FFF3'"
+          [randomSaving]="saving"
+        />
+
+        <span class="text-sm leading-4">{{ saving.category }}</span>
+      </div>
     </div>
 
     <div class="flex justify-center mt-14">

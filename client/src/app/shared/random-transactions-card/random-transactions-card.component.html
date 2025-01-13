@@ -1,7 +1,20 @@
 <div
   class="flex items-center rounded-3xl py-1.5 bg-caribbean-green text-main-layout"
 >
-  <app-progress-circle [randomSaving]="randomSaving()" />
+  @if (randomSaving()) {
+    <div class="flex flex-col">
+      <app-progress-circle [randomSaving]="randomSaving()" />
+
+      <span class="text-sm font-semibold leading-4 -translate-y-2">
+        Saving On <br />{{ randomSaving()!.savingTitle }}
+      </span>
+    </div>
+  } @else {
+    <span
+      class="flex flex-col justify-between items-center w-24 mx-3 text-sm leading-4"
+      >No saving found</span
+    >
+  }
 
   <div class="border-l-2 h-24"></div>
 

@@ -1,15 +1,12 @@
-import { Component, inject, Injector, OnInit, signal } from '@angular/core';
-import { CurrencyPipe, NgComponentOutlet } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { MainLayoutComponent } from '../shared/layouts/main/main.component';
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 import { TransactionsListComponent } from '../shared/transactions-list/transactions-list.component';
 import { DialogComponent } from '../shared/dialog/dialog.component';
-import {
-  HEIGHT_TOKEN,
-  WIDTH_TOKEN,
-} from '../shared/injection-tokens/svgs-injection-tokens';
+import { ProgressCircleComponent } from '../shared/progress-circle/progress-circle.component';
 
 import { Store } from '@ngrx/store';
 import { selectLoading } from '../store/app/app.selectors';
@@ -31,11 +28,11 @@ import { RouterService } from '../services/router.service';
   standalone: true,
   imports: [
     MainLayoutComponent,
-    NgComponentOutlet,
     CurrencyPipe,
     CustomBtnComponent,
     TransactionsListComponent,
     DialogComponent,
+    ProgressCircleComponent,
   ],
   templateUrl: './savings-view.component.html',
   styleUrl: './savings-view.component.scss',
@@ -43,7 +40,6 @@ import { RouterService } from '../services/router.service';
 export class SavingsViewComponent implements OnInit {
   private store = inject(Store<SavingsState | TransactionsState>);
   private router = inject(Router);
-  private injector = inject(Injector);
   private page = 1;
   private pageSize = 10;
 
@@ -71,16 +67,6 @@ export class SavingsViewComponent implements OnInit {
       })
     );
     this.page++;
-  }
-
-  injectSvgProps(): Injector {
-    return Injector.create({
-      providers: [
-        { provide: WIDTH_TOKEN, useValue: '120' },
-        { provide: HEIGHT_TOKEN, useValue: '120' },
-      ],
-      parent: this.injector,
-    });
   }
 
   openDialog(): void {
