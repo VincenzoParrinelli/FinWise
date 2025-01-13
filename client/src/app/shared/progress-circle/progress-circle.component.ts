@@ -30,6 +30,7 @@ export class ProgressCircleComponent {
   width = input<number>(50);
   height = input<number>(50);
   stroke = input<string>('#052224');
+  showPercentage = input<boolean>(false);
   categories = inject(CategoryService).getAllCategories;
 
   injectSvgProps(): Injector {

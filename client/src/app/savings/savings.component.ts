@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { selectUserId } from '../store/user/user.selectors';
@@ -29,17 +29,35 @@ import { RouterService } from '../services/router.service';
   templateUrl: './savings.component.html',
   styleUrl: './savings.component.scss',
 })
-export class SavingsComponent {
+export class SavingsComponent implements OnInit {
+  private store = inject(Store);
+  private page = 1;
+  private pageSize = 10;
+
   categoryService = inject(CategoryService);
   routerService = inject(RouterService);
-  private store = inject(Store);
-  private page = 2;
-  private pageSize = 10;
   userId = this.store.selectSignal(selectUserId);
   savings = this.store.selectSignal(selectSavings);
   savingsTotalUserDocuments = this.store.selectSignal(
     selectSavingsTotalDocuments
   );
+
+  ngOnInit() {
+    if (this.savings().length) return;
+
+    this.dispatchGetSavings();
+  }
+
+  private dispatchGetSavings() {
+    this.store.dispatch(
+      SavingsActions.getSavings({
+        page: this.page,
+        pageSize: this.pageSize,
+      })
+    );
+
+    this.page++;
+  }
 
   onScroll(event: any): void {
     const element = event.target;
@@ -50,14 +68,7 @@ export class SavingsComponent {
         element.clientHeight + threshold &&
       this.savings().length < this.savingsTotalUserDocuments()
     ) {
-      this.store.dispatch(
-        SavingsActions.getSavings({
-          page: this.page,
-          pageSize: this.pageSize,
-        })
-      );
-
-      this.page++;
+      this.dispatchGetSavings();
     }
   }
 }

@@ -28,11 +28,20 @@
 
   @for (category of categories; track $index) {
     @if (randomSaving()!.category === category.name) {
-      <div class="absolute translate-y-7">
-        <ng-container
-          *ngComponentOutlet="category.svgComponent; injector: injectSvgProps()"
-        >
-        </ng-container>
+      <div class="absolute flex translate-y-7">
+        @if (!showPercentage()) {
+          <ng-container
+            *ngComponentOutlet="
+              category.svgComponent;
+              injector: injectSvgProps()
+            "
+          >
+          </ng-container>
+        } @else {
+          <span class="translate-y-3 font-semibold"
+            >{{ progressPercentage }}%</span
+          >
+        }
       </div>
     }
   }

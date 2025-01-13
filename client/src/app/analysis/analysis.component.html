@@ -8,6 +8,7 @@
   <div
     ngProjectAs="bottom-content"
     class="mt-6 w-80 overflow-x-hidden h-screen"
+    (scroll)="onScroll($event)"
   >
     <div class="grid grid-cols-4 rounded-3xl bg-cyprus py-1 px-1 mb-8">
       @for (text of btnsTexts(); track $index) {
@@ -28,9 +29,34 @@
       [totalExpenses]="totalIncomeAndExpenses().totalExpenses"
     />
 
-    <div class="flex justify-around mt-8">
+    <div class="flex justify-around my-8">
       <app-income-counter [totalIncome]="totalIncome" />
       <app-expenses-counter [totalExpenses]="totalExpenses" />
+    </div>
+
+    <span class="flex mb-2">My Targets</span>
+
+    <div class="grid grid-cols-2 justify-items-center gap-4 mb-24">
+      @for (saving of savings(); track $index) {
+        <div
+          class="flex flex-col bg-light-blue u-border-radius-3.5xl px-1.5 py-3"
+          (click)="routerService.navigateToSavingsView(saving)"
+        >
+          <app-progress-circle
+            [randomSaving]="saving"
+            [classNames]="'-translate-y-2'"
+            [width]="65"
+            [height]="65"
+            [radius]="38"
+            [stroke]="'#F1FFF3'"
+            [showPercentage]="true"
+          />
+
+          <span class="text-sm self-center leading-4 truncate w-28"
+            >{{ saving.savingTitle }}
+          </span>
+        </div>
+      }
     </div>
   </div>
 </app-main-layout>

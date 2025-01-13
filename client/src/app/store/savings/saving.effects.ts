@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import { Saving, SavingsState } from './savings.model';
 import * as AppActions from '../app/app.actions';
 import * as SavingsActions from './savings.actions';
-import * as UserActions from '../user/user.actions';
 
 import { environment } from '../../../environments/environment.development';
 import { catchError, EMPTY, map, mergeMap, of, tap } from 'rxjs';
@@ -19,28 +18,6 @@ export class SavingsEffects {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
   private routerService = inject(RouterService);
-
-  getSavingsOnLogin$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.loginUserSuccess),
-      mergeMap(() =>
-        this.http.get<SavingsState>(`${this.apiUrl}/savings`).pipe(
-          map((savingsWithTotals) =>
-            SavingsActions.getSavingsSuccess({
-              savingsWithTotals,
-            })
-          ),
-          tap(() =>
-            this.store.dispatch(AppActions.setLoading({ loading: false }))
-          ),
-          catchError((error) => {
-            this.store.dispatch(AppActions.setLoading({ loading: false }));
-            return EMPTY;
-          })
-        )
-      )
-    )
-  );
 
   getPaginatedSavings$ = createEffect(() =>
     this.actions$.pipe(

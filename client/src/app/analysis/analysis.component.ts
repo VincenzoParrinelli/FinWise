@@ -2,12 +2,17 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import * as TransactionActions from '../store/transactions/transactions.actions';
+import * as SavingsActions from '../store/savings/savings.actions';
 import {
   selectDailyTransactions,
   selectMonthlyTransactions,
   selectWeeklyTransactions,
   selectYearlyTransactions,
 } from '../store/transactions/transactions.selectors';
+import {
+  selectSavings,
+  selectSavingsTotalDocuments,
+} from '../store/savings/savings.selectors';
 
 import { BarChartComponent } from '../charts/bar-chart/bar-chart.component';
 
@@ -16,6 +21,9 @@ import { TotalCountersComponent } from '../shared/total-counters/total-counters.
 import { CustomBtnComponent } from '../shared/custom-btn/custom-btn.component';
 import { IncomeCounterComponent } from '../shared/income-counter/income-counter.component';
 import { ExpensesCounterComponent } from '../shared/expenses-counter/expenses-counter.component';
+import { ProgressCircleComponent } from '../shared/progress-circle/progress-circle.component';
+
+import { RouterService } from '../services/router.service';
 
 @Component({
   selector: 'app-analysis',
@@ -27,17 +35,30 @@ import { ExpensesCounterComponent } from '../shared/expenses-counter/expenses-co
     BarChartComponent,
     IncomeCounterComponent,
     ExpensesCounterComponent,
+    ProgressCircleComponent,
   ],
   templateUrl: './analysis.component.html',
   styleUrl: './analysis.component.scss',
 })
 export class AnalysisComponent implements OnInit {
   private store = inject(Store);
+  private page = 1;
+  private pageSize = 10;
+
+  routerService = inject(RouterService);
   btnsTexts = signal(['Daily', 'Weekly', 'Monthly', 'Yearly']);
   selectedBtnText = signal<'Daily' | 'Weekly' | 'Monthly' | 'Yearly'>('Daily');
+  savings = this.store.selectSignal(selectSavings);
+  savingsTotalUserDocuments = this.store.selectSignal(
+    selectSavingsTotalDocuments
+  );
 
   ngOnInit() {
     this.dispatchGroupedTransactions('Daily');
+
+    if (this.savings().length) return;
+
+    this.dispatchGetSavings();
   }
 
   selectedBtnToggle(selectedBtnText: any): void {
@@ -46,6 +67,17 @@ export class AnalysisComponent implements OnInit {
     this.selectedBtnText.set(selectedBtnText);
 
     this.dispatchGroupedTransactions(this.selectedBtnText());
+  }
+
+  private dispatchGetSavings() {
+    this.store.dispatch(
+      SavingsActions.getSavings({
+        page: this.page,
+        pageSize: this.pageSize,
+      })
+    );
+
+    this.page++;
   }
 
   private dispatchGroupedTransactions(
@@ -162,5 +194,18 @@ export class AnalysisComponent implements OnInit {
       (prevVal, currVal) => prevVal + currVal,
       0
     );
+  }
+
+  onScroll(event: any): void {
+    const element = event.target;
+    const threshold = 10;
+
+    if (
+      element.scrollHeight - element.scrollTop <=
+        element.clientHeight + threshold &&
+      this.savings().length < this.savingsTotalUserDocuments()
+    ) {
+      this.dispatchGetSavings();
+    }
   }
 }
