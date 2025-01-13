@@ -51,7 +51,7 @@ export const createSaving = async (
     if (!(date instanceof Date) || isNaN(date.getTime()))
       throw new HttpError("Invalid Data", 400);
 
-    const newSaving = savingService.createSaving(saving, userId);
+    const newSaving = await savingService.createSaving(saving, userId);
 
     res.status(201).json(newSaving);
   } catch (err) {
